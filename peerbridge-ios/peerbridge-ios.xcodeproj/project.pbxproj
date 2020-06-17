@@ -3,19 +3,38 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		68F02BDF3F166BADC3BBF9BA /* Pods_peerbridge_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */; };
 		BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EA249A2540001CDE09 /* AppDelegate.swift */; };
 		BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */; };
 		BE24B6EF249A2540001CDE09 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EE249A2540001CDE09 /* ContentView.swift */; };
 		BE24B6F1249A2541001CDE09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F0249A2541001CDE09 /* Assets.xcassets */; };
 		BE24B6F4249A2541001CDE09 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */; };
 		BE24B6F7249A2541001CDE09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */; };
+		BE4E41AF249A588700841C04 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41AE249A588700841C04 /* Message.swift */; };
+		BE4E41B1249A599500841C04 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B0249A599500841C04 /* Transaction.swift */; };
+		BE4E41B3249A69E300841C04 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B2249A69E300841C04 /* Requests.swift */; };
+		BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABEB249A271B00BE2FBE /* Encryption.swift */; };
+		BEF1ABF5249A290300BE2FBE /* EncryptionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */; };
+		BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Keychain.swift */; };
+		BEF1ABFF249A308600BE2FBE /* KeychainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXContainerItemProxy section */
+		BEF1ABF7249A290300BE2FBE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = BE24B6DF249A2540001CDE09 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = BE24B6E6249A2540001CDE09;
+			remoteInfo = "peerbridge-ios";
+		};
+/* End PBXContainerItemProxy section */
+
 /* Begin PBXFileReference section */
+		42DDF24887B44FB8EAB17C1E /* Pods-peerbridge-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios.release.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios.release.xcconfig"; sourceTree = "<group>"; };
 		BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "peerbridge-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE24B6EA249A2540001CDE09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -24,10 +43,29 @@
 		BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BE24B6F6249A2541001CDE09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE24B6F8249A2541001CDE09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE4E41AE249A588700841C04 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		BE4E41B0249A599500841C04 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		BE4E41B2249A69E300841C04 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		BEF1ABEB249A271B00BE2FBE /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
+		BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "peerbridge-ios-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionTest.swift; sourceTree = "<group>"; };
+		BEF1ABF6249A290300BE2FBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BEF1ABFC249A298300BE2FBE /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTest.swift; sourceTree = "<group>"; };
+		DCBF91E11F39C3C0DBE967E2 /* Pods-peerbridge-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios.debug.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios.debug.xcconfig"; sourceTree = "<group>"; };
+		E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_peerbridge_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		BE24B6E4249A2540001CDE09 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				68F02BDF3F166BADC3BBF9BA /* Pods_peerbridge_ios.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF1ABEF249A290300BE2FBE /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -37,11 +75,31 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		3915AC145EE76DDB42510EB1 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		8AFF78EACD0F9E68AC75E6F9 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				DCBF91E11F39C3C0DBE967E2 /* Pods-peerbridge-ios.debug.xcconfig */,
+				42DDF24887B44FB8EAB17C1E /* Pods-peerbridge-ios.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		BE24B6DE249A2540001CDE09 = {
 			isa = PBXGroup;
 			children = (
 				BE24B6E9249A2540001CDE09 /* peerbridge-ios */,
+				BEF1ABF3249A290300BE2FBE /* peerbridge-ios-tests */,
 				BE24B6E8249A2540001CDE09 /* Products */,
+				8AFF78EACD0F9E68AC75E6F9 /* Pods */,
+				3915AC145EE76DDB42510EB1 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -49,6 +107,7 @@
 			isa = PBXGroup;
 			children = (
 				BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */,
+				BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -56,6 +115,11 @@
 		BE24B6E9249A2540001CDE09 /* peerbridge-ios */ = {
 			isa = PBXGroup;
 			children = (
+				BE4E41B2249A69E300841C04 /* Requests.swift */,
+				BE4E41B0249A599500841C04 /* Transaction.swift */,
+				BE4E41AE249A588700841C04 /* Message.swift */,
+				BEF1ABEB249A271B00BE2FBE /* Encryption.swift */,
+				BEF1ABFC249A298300BE2FBE /* Keychain.swift */,
 				BE24B6EA249A2540001CDE09 /* AppDelegate.swift */,
 				BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */,
 				BE24B6EE249A2540001CDE09 /* ContentView.swift */,
@@ -75,6 +139,16 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		BEF1ABF3249A290300BE2FBE /* peerbridge-ios-tests */ = {
+			isa = PBXGroup;
+			children = (
+				BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */,
+				BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */,
+				BEF1ABF6249A290300BE2FBE /* Info.plist */,
+			);
+			path = "peerbridge-ios-tests";
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -82,9 +156,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = BE24B6FB249A2541001CDE09 /* Build configuration list for PBXNativeTarget "peerbridge-ios" */;
 			buildPhases = (
+				A26B94B15C7582949CDB4081 /* [CP] Check Pods Manifest.lock */,
 				BE24B6E3249A2540001CDE09 /* Sources */,
 				BE24B6E4249A2540001CDE09 /* Frameworks */,
 				BE24B6E5249A2540001CDE09 /* Resources */,
+				27310BDC5410B884A62B348A /* [CP] Embed Pods Frameworks */,
+				BEF1ABED249A276300BE2FBE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -94,6 +171,24 @@
 			productName = "peerbridge-ios";
 			productReference = BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */;
 			productType = "com.apple.product-type.application";
+		};
+		BEF1ABF1249A290300BE2FBE /* peerbridge-ios-tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = BEF1ABF9249A290300BE2FBE /* Build configuration list for PBXNativeTarget "peerbridge-ios-tests" */;
+			buildPhases = (
+				BEF1ABEE249A290300BE2FBE /* Sources */,
+				BEF1ABEF249A290300BE2FBE /* Frameworks */,
+				BEF1ABF0249A290300BE2FBE /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				BEF1ABF8249A290300BE2FBE /* PBXTargetDependency */,
+			);
+			name = "peerbridge-ios-tests";
+			productName = "peerbridge-ios-tests";
+			productReference = BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -107,6 +202,10 @@
 				TargetAttributes = {
 					BE24B6E6249A2540001CDE09 = {
 						CreatedOnToolsVersion = 11.4;
+					};
+					BEF1ABF1249A290300BE2FBE = {
+						CreatedOnToolsVersion = 11.4;
+						TestTargetID = BE24B6E6249A2540001CDE09;
 					};
 				};
 			};
@@ -124,6 +223,7 @@
 			projectRoot = "";
 			targets = (
 				BE24B6E6249A2540001CDE09 /* peerbridge-ios */,
+				BEF1ABF1249A290300BE2FBE /* peerbridge-ios-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -139,20 +239,108 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		BEF1ABF0249A290300BE2FBE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		27310BDC5410B884A62B348A /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A26B94B15C7582949CDB4081 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-peerbridge-ios-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		BEF1ABED249A276300BE2FBE /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed\"\nfi\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		BE24B6E3249A2540001CDE09 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE4E41B1249A599500841C04 /* Transaction.swift in Sources */,
 				BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */,
 				BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */,
+				BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */,
 				BE24B6EF249A2540001CDE09 /* ContentView.swift in Sources */,
+				BE4E41B3249A69E300841C04 /* Requests.swift in Sources */,
+				BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */,
+				BE4E41AF249A588700841C04 /* Message.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		BEF1ABEE249A290300BE2FBE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BEF1ABF5249A290300BE2FBE /* EncryptionTest.swift in Sources */,
+				BEF1ABFF249A308600BE2FBE /* KeychainTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		BEF1ABF8249A290300BE2FBE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = BE24B6E6249A2540001CDE09 /* peerbridge-ios */;
+			targetProxy = BEF1ABF7249A290300BE2FBE /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */ = {
@@ -282,6 +470,7 @@
 		};
 		BE24B6FC249A2541001CDE09 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = DCBF91E11F39C3C0DBE967E2 /* Pods-peerbridge-ios.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -302,6 +491,7 @@
 		};
 		BE24B6FD249A2541001CDE09 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 42DDF24887B44FB8EAB17C1E /* Pods-peerbridge-ios.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
@@ -317,6 +507,46 @@
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		BEF1ABFA249A290300BE2FBE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S36925NV4E;
+				INFOPLIST_FILE = "peerbridge-ios-tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.peerbridge.peerbridge-ios-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/peerbridge-ios.app/peerbridge-ios";
+			};
+			name = Debug;
+		};
+		BEF1ABFB249A290300BE2FBE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = S36925NV4E;
+				INFOPLIST_FILE = "peerbridge-ios-tests/Info.plist";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = "com.peerbridge.peerbridge-ios-tests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/peerbridge-ios.app/peerbridge-ios";
 			};
 			name = Release;
 		};
@@ -337,6 +567,15 @@
 			buildConfigurations = (
 				BE24B6FC249A2541001CDE09 /* Debug */,
 				BE24B6FD249A2541001CDE09 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		BEF1ABF9249A290300BE2FBE /* Build configuration list for PBXNativeTarget "peerbridge-ios-tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BEF1ABFA249A290300BE2FBE /* Debug */,
+				BEF1ABFB249A290300BE2FBE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

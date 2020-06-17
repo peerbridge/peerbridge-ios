@@ -1,0 +1,22 @@
+PODS:
+  - SwiftLint (0.39.2)
+  - SwiftyRSA (1.6.0):
+    - SwiftyRSA/ObjC (= 1.6.0)
+  - SwiftyRSA/ObjC (1.6.0)
+
+DEPENDENCIES:
+  - SwiftLint
+  - SwiftyRSA
+
+SPEC REPOS:
+  trunk:
+    - SwiftLint
+    - SwiftyRSA
+
+SPEC CHECKSUMS:
+  SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
+  SwiftyRSA: 3b9c9179744217951facc6a3e9ae8d8c97061ffa
+
+PODFILE CHECKSUM: a1e14b4b50e6986b8a21286d09e7fb691ff753e3
+
+COCOAPODS: 1.9.1
