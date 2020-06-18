@@ -17,6 +17,10 @@
 		BE4E41AF249A588700841C04 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41AE249A588700841C04 /* Message.swift */; };
 		BE4E41B1249A599500841C04 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B0249A599500841C04 /* Transaction.swift */; };
 		BE4E41B3249A69E300841C04 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B2249A69E300841C04 /* Requests.swift */; };
+		BEA6274D249B4B07005FFEE2 /* BlockchainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6274C249B4B07005FFEE2 /* BlockchainView.swift */; };
+		BEA6274F249B5024005FFEE2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6274E249B5024005FFEE2 /* Block.swift */; };
+		BEA62751249B53E8005FFEE2 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA62750249B53E8005FFEE2 /* Gradients.swift */; };
+		BEA62753249B55A8005FFEE2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA62752249B55A8005FFEE2 /* Colors.swift */; };
 		BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABEB249A271B00BE2FBE /* Encryption.swift */; };
 		BEF1ABF5249A290300BE2FBE /* EncryptionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */; };
 		BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Keychain.swift */; };
@@ -46,6 +50,10 @@
 		BE4E41AE249A588700841C04 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BE4E41B0249A599500841C04 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		BE4E41B2249A69E300841C04 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		BEA6274C249B4B07005FFEE2 /* BlockchainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BlockchainView.swift; sourceTree = "<group>"; };
+		BEA6274E249B5024005FFEE2 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
+		BEA62750249B53E8005FFEE2 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
+		BEA62752249B55A8005FFEE2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		BEF1ABEB249A271B00BE2FBE /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
 		BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "peerbridge-ios-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionTest.swift; sourceTree = "<group>"; };
@@ -115,6 +123,8 @@
 		BE24B6E9249A2540001CDE09 /* peerbridge-ios */ = {
 			isa = PBXGroup;
 			children = (
+				BEA62750249B53E8005FFEE2 /* Gradients.swift */,
+				BEA6274E249B5024005FFEE2 /* Block.swift */,
 				BE4E41B2249A69E300841C04 /* Requests.swift */,
 				BE4E41B0249A599500841C04 /* Transaction.swift */,
 				BE4E41AE249A588700841C04 /* Message.swift */,
@@ -123,10 +133,12 @@
 				BE24B6EA249A2540001CDE09 /* AppDelegate.swift */,
 				BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */,
 				BE24B6EE249A2540001CDE09 /* ContentView.swift */,
+				BEA6274C249B4B07005FFEE2 /* BlockchainView.swift */,
 				BE24B6F0249A2541001CDE09 /* Assets.xcassets */,
 				BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */,
 				BE24B6F8249A2541001CDE09 /* Info.plist */,
 				BE24B6F2249A2541001CDE09 /* Preview Content */,
+				BEA62752249B55A8005FFEE2 /* Colors.swift */,
 			);
 			path = "peerbridge-ios";
 			sourceTree = "<group>";
@@ -313,13 +325,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE4E41B1249A599500841C04 /* Transaction.swift in Sources */,
+				BEA62753249B55A8005FFEE2 /* Colors.swift in Sources */,
+				BEA62751249B53E8005FFEE2 /* Gradients.swift in Sources */,
 				BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */,
 				BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */,
 				BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */,
 				BE24B6EF249A2540001CDE09 /* ContentView.swift in Sources */,
 				BE4E41B3249A69E300841C04 /* Requests.swift in Sources */,
 				BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */,
+				BEA6274F249B5024005FFEE2 /* Block.swift in Sources */,
 				BE4E41AF249A588700841C04 /* Message.swift in Sources */,
+				BEA6274D249B4B07005FFEE2 /* BlockchainView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

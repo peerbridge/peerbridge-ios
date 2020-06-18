@@ -30,14 +30,18 @@ struct ContentView: View {
         let transaction = Transaction(
             sender: publicKey!,
             receiver: publicKey!,
-            data: try! JSONEncoder().encode(message)
+            data: try! JSONEncoder().encode(message),
+            timestamp: Date()
         )
         
         let url = URL(string: "\(remoteUrl)/blockchain/transactions/new")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
-        request.httpBody = try! JSONEncoder().encode(transaction)
+        let encoder = JSONEncoder()
+        encoder.dateEncodingStrategy = .iso8601
+        request.httpBody = try! encoder.encode(transaction)
+        print(request.httpBody?.prettyPrintedJSONString)
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             guard error == nil else {
                 print(error)
@@ -62,9 +66,12 @@ struct ContentView: View {
                 return
             }
             guard let data = data else { return }
-            let transactions = try! JSONDecoder().decode([Transaction].self, from: data)
+            print(data.prettyPrintedJSONString)
+            let decoder = JSONDecoder()
+            decoder.dateDecodingStrategy = .iso8601
+            let transactions = try! decoder.decode([Transaction].self, from: data)
             let messages = transactions.map {transaction -> String in
-                let message = try! JSONDecoder().decode(Message.self, from: transaction.data)
+                let message = try! decoder.decode(Message.self, from: transaction.data)
                 let privateKey = try! PrivateKey(pemEncoded: self.privateKey!)
                 let decryptedSessionKey = try! Encryption.decrypt(data: message.encryptedSessionKey, asymmetricallyWithPrivateKey: privateKey)
                 let decryptedMessage = try! Encryption.decrypt(data: message.encryptedMessage, symmetricallyWithKeyData: decryptedSessionKey)

@@ -4,6 +4,17 @@ import SwiftUI
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
+    
+    var rootView: some View {
+        TabView {
+            ContentView()
+            .tabItem {Text("Sender") }
+            .tag(0)
+            BlockchainView()
+            .tabItem {Text("Explorer") }
+            .tag(1)
+        }
+    }
 
     func scene(
         _ scene: UIScene,
@@ -14,7 +25,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
-            window.rootViewController = UIHostingController(rootView: contentView)
+            window.rootViewController = UIHostingController(rootView: rootView)
             self.window = window
             window.makeKeyAndVisible()
         }
