@@ -13,6 +13,9 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             BlockchainView()
             .tabItem {Text("Explorer") }
             .tag(1)
+            StartChatView()
+            .tabItem {Text("Start Chat") }
+            .tag(2)
         }
     }
 

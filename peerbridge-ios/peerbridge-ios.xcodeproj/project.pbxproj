@@ -14,6 +14,9 @@
 		BE24B6F1249A2541001CDE09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F0249A2541001CDE09 /* Assets.xcassets */; };
 		BE24B6F4249A2541001CDE09 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */; };
 		BE24B6F7249A2541001CDE09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */; };
+		BE3AF311249BC408008D05AA /* StartChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3AF310249BC408008D05AA /* StartChatView.swift */; };
+		BE3AF313249BC4BE008D05AA /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */; };
+		BE3AF315249BC9C7008D05AA /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3AF314249BC9C7008D05AA /* Endpoint.swift */; };
 		BE4E41AF249A588700841C04 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41AE249A588700841C04 /* Message.swift */; };
 		BE4E41B1249A599500841C04 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B0249A599500841C04 /* Transaction.swift */; };
 		BE4E41B3249A69E300841C04 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B2249A69E300841C04 /* Requests.swift */; };
@@ -47,6 +50,9 @@
 		BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BE24B6F6249A2541001CDE09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE24B6F8249A2541001CDE09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		BE3AF310249BC408008D05AA /* StartChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartChatView.swift; sourceTree = "<group>"; };
+		BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
+		BE3AF314249BC9C7008D05AA /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
 		BE4E41AE249A588700841C04 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BE4E41B0249A599500841C04 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		BE4E41B2249A69E300841C04 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
@@ -123,6 +129,7 @@
 		BE24B6E9249A2540001CDE09 /* peerbridge-ios */ = {
 			isa = PBXGroup;
 			children = (
+				BE3AF314249BC9C7008D05AA /* Endpoint.swift */,
 				BEA62750249B53E8005FFEE2 /* Gradients.swift */,
 				BEA6274E249B5024005FFEE2 /* Block.swift */,
 				BE4E41B2249A69E300841C04 /* Requests.swift */,
@@ -134,6 +141,8 @@
 				BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */,
 				BE24B6EE249A2540001CDE09 /* ContentView.swift */,
 				BEA6274C249B4B07005FFEE2 /* BlockchainView.swift */,
+				BE3AF310249BC408008D05AA /* StartChatView.swift */,
+				BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */,
 				BE24B6F0249A2541001CDE09 /* Assets.xcassets */,
 				BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */,
 				BE24B6F8249A2541001CDE09 /* Info.plist */,
@@ -173,7 +182,6 @@
 				BE24B6E4249A2540001CDE09 /* Frameworks */,
 				BE24B6E5249A2540001CDE09 /* Resources */,
 				27310BDC5410B884A62B348A /* [CP] Embed Pods Frameworks */,
-				BEF1ABED249A276300BE2FBE /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -300,23 +308,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		BEF1ABED249A276300BE2FBE /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-			);
-			outputFileListPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "if which swiftlint >/dev/null; then\n  swiftlint\nelse\n  echo \"warning: SwiftLint not installed\"\nfi\n";
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -331,11 +322,14 @@
 				BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */,
 				BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */,
 				BE24B6EF249A2540001CDE09 /* ContentView.swift in Sources */,
+				BE3AF313249BC4BE008D05AA /* QRCodeScannerView.swift in Sources */,
 				BE4E41B3249A69E300841C04 /* Requests.swift in Sources */,
 				BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */,
 				BEA6274F249B5024005FFEE2 /* Block.swift in Sources */,
 				BE4E41AF249A588700841C04 /* Message.swift in Sources */,
+				BE3AF311249BC408008D05AA /* StartChatView.swift in Sources */,
 				BEA6274D249B4B07005FFEE2 /* BlockchainView.swift in Sources */,
+				BE3AF315249BC9C7008D05AA /* Endpoint.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -18,7 +18,7 @@ extension Data {
 struct BlockchainView: View {
     @State var blocks = [Block]()
     @State var selectedBlock: Block?
-    @State var remoteUrl: String = "http://localhost:8080"
+    @State var remoteUrl: String = Endpoint.main
 
     var dateFormatter: RelativeDateTimeFormatter {
         let formatter = RelativeDateTimeFormatter()
@@ -127,6 +127,7 @@ struct BlockchainView: View {
                 error == nil,
                 let data = data
             else {return }
+            print(data.prettyPrintedJSONString)
             let decoder = JSONDecoder()
             decoder.dateDecodingStrategy = .iso8601
             // swiftlint:disable all

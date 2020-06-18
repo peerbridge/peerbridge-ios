@@ -7,7 +7,7 @@ struct ContentView: View {
     @State var publicKey: String?
     @State var privateKey: String?
     @State var sessionKey: Data?
-    @State var remoteUrl: String = "http://localhost:8080"
+    @State var remoteUrl: String = Endpoint.main
     @State var message: String = "Incroyable"
     @State var sendMessageResponseString: String?
     @State var decryptedMessagesFromBlockchain = [String]()
