@@ -43,6 +43,17 @@ public struct RSAKeyPair: Codable {
 }
 
 public final class Encryption {
+    public static func createRandomNonce() -> Data {
+        var nonce = Data(count: 256)
+        let result = nonce.withUnsafeMutableBytes { pointer in
+            SecRandomCopyBytes(kSecRandomDefault, 256, pointer.baseAddress!)
+        }
+        
+        guard result == errSecSuccess else { fatalError() }
+        
+        return nonce
+    }
+    
     public static func createRandomSymmetricKey() -> Data {
         return SymmetricKey(size: .bits256).data
     }

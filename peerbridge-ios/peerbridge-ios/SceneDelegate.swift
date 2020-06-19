@@ -7,15 +7,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     var rootView: some View {
         TabView {
-            ContentView()
-            .tabItem {Text("Sender") }
+            RecentsView()
+            .tabItem { Text("Recents") }
             .tag(0)
-            BlockchainView()
-            .tabItem {Text("Explorer") }
-            .tag(1)
             StartChatView()
             .tabItem {Text("Start Chat") }
-            .tag(2)
+            .tag(1)
         }
     }
 
@@ -24,8 +21,6 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         willConnectTo session: UISceneSession,
         options connectionOptions: UIScene.ConnectionOptions
     ) {
-        let contentView = ContentView()
-
         if let windowScene = scene as? UIWindowScene {
             let window = UIWindow(windowScene: windowScene)
             window.rootViewController = UIHostingController(rootView: rootView)

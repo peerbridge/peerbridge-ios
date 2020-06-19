@@ -2,6 +2,7 @@
 import SwiftUI
 import CoreImage.CIFilterBuiltins
 import SwiftyRSA
+import CryptoKit
 
 struct StartChatView: View {
     enum SheetType {
@@ -11,7 +12,7 @@ struct StartChatView: View {
     
     @State var isPresentingSheet = false
     @State var presentedSheet: SheetType?
-    @State var remoteUrl: String = Endpoint.main
+    @State var remoteUrl: String = Endpoints.main
     @State var message: String = "Incroyable"
     @State var receiverPublicKey: String?
     
@@ -73,11 +74,6 @@ struct StartChatView: View {
     
     var sendMessageSheet: some View {
         VStack {
-            Text("Blockchain URL")
-            .padding(.top, 32)
-            TextField("Remote", text: self.$remoteUrl)
-            .textFieldStyle(RoundedBorderTextFieldStyle())
-            .foregroundColor(Color.black)
             Text("Message")
             .padding(.top, 32)
             TextField("Remote", text: self.$message)
@@ -86,8 +82,14 @@ struct StartChatView: View {
             Button(action: {
                 guard let publicKey = self.receiverPublicKey else {return}
                 let sessionKey = Encryption.createRandomSymmetricKey()
+                
+                let message = Message(
+                    nonce: Encryption.createRandomNonce(),
+                    date: Date(),
+                    content: self.message
+                )
                 let encryptedMessage = try! Encryption.encrypt(
-                    data: self.message.data(using: .utf8)!,
+                    data: try! ISO8601Encoder().encode(message),
                     symmetricallyWithKeyData: sessionKey
                 )!
                 let receiverPublicKey = try! PublicKey(pemEncoded: publicKey)
@@ -95,14 +97,16 @@ struct StartChatView: View {
                     data: sessionKey,
                     asymmetricallyWithPublicKey: receiverPublicKey
                 )
-                let message = Message(
+                let envelope = Envelope(
+                    nonce: Encryption.createRandomNonce(),
                     encryptedSessionKey: encryptedSessionKey,
                     encryptedMessage: encryptedMessage
                 )
                 let transaction = Transaction(
+                    nonce: Encryption.createRandomNonce(),
                     sender: publicKey,
                     receiver: publicKey,
-                    data: try! JSONEncoder().encode(message),
+                    data: try! ISO8601Encoder().encode(envelope),
                     timestamp: Date()
                 )
                 
@@ -110,12 +114,11 @@ struct StartChatView: View {
                 var request = URLRequest(url: url)
                 request.setValue("application/json", forHTTPHeaderField: "Content-Type")
                 request.httpMethod = "POST"
-                let encoder = JSONEncoder()
-                encoder.dateEncodingStrategy = .iso8601
-                request.httpBody = try! encoder.encode(transaction)
+                request.httpBody = try! ISO8601Encoder().encode(transaction)
+                print(String(data: request.httpBody!, encoding: .utf8))
                 let task = URLSession.shared.dataTask(with: request) { data, response, error in
                     guard error == nil else {
-                        print(error)
+                        print(error!)
                         return
                     }
                     guard let data = data else { return }
