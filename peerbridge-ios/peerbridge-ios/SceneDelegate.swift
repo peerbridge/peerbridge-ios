@@ -6,14 +6,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     var window: UIWindow?
     
     var rootView: some View {
-        TabView {
-            RecentsView()
-            .tabItem { Text("Recents") }
-            .tag(0)
-            StartChatView()
-            .tabItem {Text("Start Chat") }
-            .tag(1)
-        }
+        RecentsView()
     }
 
     func scene(

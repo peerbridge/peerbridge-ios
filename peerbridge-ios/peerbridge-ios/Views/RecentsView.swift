@@ -10,49 +10,26 @@ struct Recent {
 
 struct RecentsView: View {
     @State var recents = [Recent]()
+    @State var transactionsByPartnerPublicKey = Dictionary<String, [Transaction]>()
+    
+    @State var isShowingSheet = false
+    @State var messages = [Message]()
+    @State var selectedPublicKey: String?
     
     var body: some View {
-        Color(hex: "#3867d6")
-        .edgesIgnoringSafeArea(.top)
-        .overlay(VStack {
-            top
-            ZStack(alignment: .bottom) {
-                center
-                navBar
-            }
-        })
-    }
-    
-    // TODO: Store and load own messages
-    func loadRecents() {
-        guard
-            let keyPairData = Keychain.load(dataBehindKey: "keyPair"),
-            let keyPair = try? ISO8601Decoder().decode(RSAKeyPair.self, from: keyPairData),
-            let ownPublicKeyString = try? keyPair.publicKey.pemString()
-        else { return }
-        
-        Transaction.loadReceived(byPublicKey: ownPublicKeyString) { transactions in
-            guard let transactions = transactions else { return }
-            
-            let transactionsBySenderPublicKey = Dictionary<String, [Transaction]>(
-                grouping: transactions, by: { transaction in return transaction.sender}
-            )
-            
-            self.recents = transactionsBySenderPublicKey
-                .compactMap { (partnerPublicKey, transactions) in
-                    guard
-                        let mostRecentTransaction = transactions
-                            .max(by: { (a, b) -> Bool in return a.timestamp < b.timestamp }),
-                        let envelope = try? ISO8601Decoder()
-                            .decode(Envelope.self, from: mostRecentTransaction.data),
-                        let message = envelope.decryptMessage()
-                    else {return nil}
-                    return Recent(
-                        publicKey: partnerPublicKey,
-                        message: message.content,
-                        date: message.date
-                    )
+        NavigationView {
+            Color(hex: "#3867d6")
+            .edgesIgnoringSafeArea(.top)
+            .overlay(VStack {
+                top
+                ZStack(alignment: .bottom) {
+                    center
+                    navBar
                 }
+            })
+        }
+        .sheet(isPresented: self.$isShowingSheet) {
+            ChatView(messages: self.$messages, receiverPublicKeyString: self.$selectedPublicKey)
         }
     }
     
@@ -82,30 +59,43 @@ struct RecentsView: View {
                 Spacer()
                 VStack(spacing: 24) {
                     ForEach(self.recents, id: \.publicKey) { recent in
-                        HStack(alignment: .center) {
-                            Circle()
-                                .frame(width: 48, height: 48)
-                                .foregroundColor(Color.gray.opacity(0.2))
+                        Button(action: {
+                            guard
+                                let keyPairData = Keychain.load(dataBehindKey: "keyPair"),
+                                let keyPair = try? ISO8601Decoder().decode(RSAKeyPair.self, from: keyPairData)
+                            else { return }
                             
-                            HStack(alignment: .firstTextBaseline) {
-                                VStack(alignment: .leading) {
-                                    Text("\(recent.publicKey)")
-                                    .fontWeight(.semibold)
-                                    .font(.system(size: 16))
-                                    .lineLimit(1)
-                                    Text("\(recent.message)")
-                                    .fontWeight(.regular)
-                                    .foregroundColor(Color.black.opacity(0.6))
+                            self.selectedPublicKey = recent.publicKey
+                            self.messages = self
+                                .transactionsByPartnerPublicKey[recent.publicKey]!
+                                .compactMap {$0.decryptMessage(withKeyPair: keyPair)}
+                            self.isShowingSheet = true
+                        }) {
+                            HStack(alignment: .center) {
+                                Circle()
+                                    .frame(width: 48, height: 48)
+                                    .foregroundColor(Color.gray.opacity(0.2))
+                                
+                                HStack(alignment: .firstTextBaseline) {
+                                    VStack(alignment: .leading) {
+                                        Text("\(recent.publicKey)")
+                                        .fontWeight(.semibold)
+                                        .font(.system(size: 16))
+                                        .lineLimit(1)
+                                        Text("\(recent.message)")
+                                        .fontWeight(.regular)
+                                        .foregroundColor(Color.black.opacity(0.6))
+                                        .font(.system(size: 12))
+                                        .padding(.top, 4)
+                                        .lineLimit(3)
+                                    }
+                                    Spacer()
+                                    Text("\(recent.date, formatter: RelativeDateTimeFormatter())")
                                     .font(.system(size: 12))
+                                    .foregroundColor(Color.black.opacity(0.6))
                                     .padding(.top, 4)
-                                    .lineLimit(3)
+                                    .lineLimit(1)
                                 }
-                                Spacer()
-                                Text("\(recent.date, formatter: RelativeDateTimeFormatter())")
-                                .font(.system(size: 12))
-                                .foregroundColor(Color.black.opacity(0.6))
-                                .padding(.top, 4)
-                                .lineLimit(1)
                             }
                         }
                     }
@@ -122,13 +112,50 @@ struct RecentsView: View {
     var navBar: some View {
         HStack {
             Spacer()
-            Image(systemName: "plus")
-            .frame(width: 64, height: 64)
-            .background(Color(hex: "#4b7bec"))
-            .cornerRadius(32)
+            NavigationLink(destination: StartChatView()) {
+                Image(systemName: "plus")
+                .frame(width: 64, height: 64)
+                .background(Color(hex: "#4b7bec"))
+                .cornerRadius(32)
+            }
             Spacer()
         }
         .foregroundColor(Color(hex: "#d1d8e0"))
+    }
+    
+    func loadRecents() {
+        guard
+            let keyPairData = Keychain.load(dataBehindKey: "keyPair"),
+            let keyPair = try? ISO8601Decoder().decode(RSAKeyPair.self, from: keyPairData),
+            let ownPublicKeyString = try? keyPair.publicKey.pemString()
+        else { return }
+        
+        Transaction.loadAll(byPublicKey: ownPublicKeyString) { transactions in
+            guard let transactions = transactions else { return }
+            
+            self.transactionsByPartnerPublicKey = Dictionary<String, [Transaction]>(
+                grouping: transactions, by: { transaction in
+                    if transaction.receiver == ownPublicKeyString {
+                        return transaction.sender
+                    }
+                    return transaction.receiver
+                }
+            )
+            
+            self.recents = self.transactionsByPartnerPublicKey
+                .compactMap { (partnerPublicKey, transactions) in
+                    guard
+                        let mostRecentTransaction = transactions
+                            .max(by: { (a, b) -> Bool in return a.timestamp < b.timestamp }),
+                        let message = mostRecentTransaction.decryptMessage(withKeyPair: keyPair)
+                    else {return nil}
+                    return Recent(
+                        publicKey: partnerPublicKey,
+                        message: message.content,
+                        date: message.date
+                    )
+                }
+        }
     }
 }
 

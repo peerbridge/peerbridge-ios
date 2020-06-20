@@ -19,6 +19,8 @@
 		BE4E41AF249A588700841C04 /* Envelope.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41AE249A588700841C04 /* Envelope.swift */; };
 		BE4E41B1249A599500841C04 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B0249A599500841C04 /* Transaction.swift */; };
 		BE4E41B3249A69E300841C04 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B2249A69E300841C04 /* Requests.swift */; };
+		BE58CE9A249E298F00569D41 /* EncryptedSessionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58CE99249E298F00569D41 /* EncryptedSessionKey.swift */; };
+		BE58CE9E249E323800569D41 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58CE9D249E323800569D41 /* ChatView.swift */; };
 		BE85BACB249CAA480035FC83 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACA249CAA480035FC83 /* Message.swift */; };
 		BE85BACF249CAFA80035FC83 /* Coders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACE249CAFA80035FC83 /* Coders.swift */; };
 		BE85BAD6249CB8D50035FC83 /* RecentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BAD5249CB8D50035FC83 /* RecentsView.swift */; };
@@ -56,6 +58,8 @@
 		BE4E41AE249A588700841C04 /* Envelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Envelope.swift; sourceTree = "<group>"; };
 		BE4E41B0249A599500841C04 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		BE4E41B2249A69E300841C04 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
+		BE58CE99249E298F00569D41 /* EncryptedSessionKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSessionKey.swift; sourceTree = "<group>"; };
+		BE58CE9D249E323800569D41 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		BE85BACA249CAA480035FC83 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		BE85BACE249CAFA80035FC83 /* Coders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coders.swift; sourceTree = "<group>"; };
 		BE85BAD5249CB8D50035FC83 /* RecentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsView.swift; sourceTree = "<group>"; };
@@ -164,6 +168,7 @@
 				BE4E41B0249A599500841C04 /* Transaction.swift */,
 				BE85BACA249CAA480035FC83 /* Message.swift */,
 				BE4E41AE249A588700841C04 /* Envelope.swift */,
+				BE58CE99249E298F00569D41 /* EncryptedSessionKey.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -183,6 +188,7 @@
 				BE1F9BDE249CE19B00817B29 /* StartChatView.swift */,
 				BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */,
 				BE85BAD5249CB8D50035FC83 /* RecentsView.swift */,
+				BE58CE9D249E323800569D41 /* ChatView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -346,6 +352,7 @@
 				BEA62753249B55A8005FFEE2 /* Colors.swift in Sources */,
 				BEA62751249B53E8005FFEE2 /* Gradients.swift in Sources */,
 				BE85BACB249CAA480035FC83 /* Message.swift in Sources */,
+				BE58CE9E249E323800569D41 /* ChatView.swift in Sources */,
 				BE85BAD6249CB8D50035FC83 /* RecentsView.swift in Sources */,
 				BE1F9BE0249CE1D300817B29 /* QRCodeScannerView.swift in Sources */,
 				BE85BACF249CAFA80035FC83 /* Coders.swift in Sources */,
@@ -357,6 +364,7 @@
 				BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */,
 				BEA6274F249B5024005FFEE2 /* Block.swift in Sources */,
 				BE4E41AF249A588700841C04 /* Envelope.swift in Sources */,
+				BE58CE9A249E298F00569D41 /* EncryptedSessionKey.swift in Sources */,
 				BE3AF315249BC9C7008D05AA /* Endpoints.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

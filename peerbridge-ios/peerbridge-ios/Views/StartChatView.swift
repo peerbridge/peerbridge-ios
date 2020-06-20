@@ -14,20 +14,20 @@ struct StartChatView: View {
     @State var presentedSheet: SheetType?
     @State var remoteUrl: String = Endpoints.main
     @State var message: String = "Incroyable"
-    @State var receiverPublicKey: String?
+    @State var receiverPublicKeyString: String?
     
     func generateOwnQRCode() -> UIImage {
-        var publicKey: String
+        var senderPublicKeyString: String
         if let keyPairData = Keychain.load(dataBehindKey: "keyPair") {
             let keyPair = try! JSONDecoder().decode(RSAKeyPair.self, from: keyPairData)
-            publicKey = try! keyPair.publicKey.pemString()
+            senderPublicKeyString = try! keyPair.publicKey.pemString()
         } else {
             let keyPair = try! Encryption.createRandomAsymmetricKeyPair()
             try! Keychain.save(try! JSONEncoder().encode(keyPair), forKey: "keyPair")
-            publicKey = try! keyPair.publicKey.pemString()
+            senderPublicKeyString = try! keyPair.publicKey.pemString()
         }
         
-        let data = Data(publicKey.utf8)
+        let data = Data(senderPublicKeyString.utf8)
         let context = CIContext()
         let filter = CIFilter.qrCodeGenerator()
         filter.setValue(data, forKey: "inputMessage")
@@ -64,7 +64,7 @@ struct StartChatView: View {
             completion: { result in
                 if case let .success(code) = result {
                     self.isPresentingSheet = false
-                    self.receiverPublicKey = code
+                    self.receiverPublicKeyString = code
                     self.presentedSheet = .sendMessage
                     self.isPresentingSheet = true
                 }
@@ -80,7 +80,6 @@ struct StartChatView: View {
             .textFieldStyle(RoundedBorderTextFieldStyle())
             .foregroundColor(Color.black)
             Button(action: {
-                guard let publicKey = self.receiverPublicKey else {return}
                 let sessionKey = Encryption.createRandomSymmetricKey()
                 
                 let message = Message(
@@ -92,10 +91,26 @@ struct StartChatView: View {
                     data: try! ISO8601Encoder().encode(message),
                     symmetricallyWithKeyData: sessionKey
                 )!
-                let receiverPublicKey = try! PublicKey(pemEncoded: publicKey)
-                let encryptedSessionKey = try! Encryption.encrypt(
-                    data: sessionKey,
-                    asymmetricallyWithPublicKey: receiverPublicKey
+                let receiverPublicKey = try! PublicKey(pemEncoded: self.receiverPublicKeyString!)
+                var senderPublicKeyString: String
+                if let keyPairData = Keychain.load(dataBehindKey: "keyPair") {
+                    let keyPair = try! JSONDecoder().decode(RSAKeyPair.self, from: keyPairData)
+                    senderPublicKeyString = try! keyPair.publicKey.pemString()
+                } else {
+                    let keyPair = try! Encryption.createRandomAsymmetricKeyPair()
+                    try! Keychain.save(try! JSONEncoder().encode(keyPair), forKey: "keyPair")
+                    senderPublicKeyString = try! keyPair.publicKey.pemString()
+                }
+                let senderPublicKey = try! PublicKey(pemEncoded: senderPublicKeyString)
+                let encryptedSessionKey = EncryptedSessionKey(
+                    encryptedBySenderPublicKey: try! Encryption.encrypt(
+                        data: sessionKey,
+                        asymmetricallyWithPublicKey: senderPublicKey
+                    ),
+                    encryptedByReceiverPublicKey: try! Encryption.encrypt(
+                        data: sessionKey,
+                        asymmetricallyWithPublicKey: receiverPublicKey
+                    )
                 )
                 let envelope = Envelope(
                     nonce: Encryption.createRandomNonce(),
@@ -104,8 +119,8 @@ struct StartChatView: View {
                 )
                 let transaction = Transaction(
                     nonce: Encryption.createRandomNonce(),
-                    sender: publicKey,
-                    receiver: publicKey,
+                    sender: senderPublicKeyString,
+                    receiver: self.receiverPublicKeyString!,
                     data: try! ISO8601Encoder().encode(envelope),
                     timestamp: Date()
                 )

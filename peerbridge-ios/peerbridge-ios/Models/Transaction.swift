@@ -14,14 +14,13 @@ extension Transaction: Identifiable {
     }
 }
 
-public extension Transaction {
-    static func loadReceived(
+extension Transaction {    
+    static func loadAll(
         byPublicKey publicKey: String,
         completion: @escaping ([Transaction]?) -> Void
     ) {
-        
         let requestPayload = FilterTransactionsRequest(publicKey: publicKey)
-        let url = URL(string: "\(Endpoints.main)/blockchain/transactions/received")!
+        let url = URL(string: "\(Endpoints.main)/blockchain/transactions/filter")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
@@ -44,5 +43,32 @@ public extension Transaction {
             }
         }
         task.resume()
+    }
+    
+    public func decryptMessage(withKeyPair keyPair: RSAKeyPair) -> Message? {
+        guard
+            let keyPairPublicKeyString = try? keyPair.publicKey.pemString(),
+            let envelope = try? ISO8601Decoder().decode(Envelope.self, from: data)
+        else { return nil }
+        
+        var encryptedSessionKey: Data
+        if keyPairPublicKeyString == sender {
+            encryptedSessionKey = envelope.encryptedSessionKey.encryptedBySenderPublicKey
+        } else {
+            encryptedSessionKey = envelope.encryptedSessionKey.encryptedByReceiverPublicKey
+        }
+        
+        guard
+            let decryptedSessionKey = try? Encryption.decrypt(
+                data: encryptedSessionKey,
+                asymmetricallyWithPrivateKey: keyPair.privateKey
+            ),
+            let decryptedMessageData = try? Encryption.decrypt(
+                data: envelope.encryptedMessage,
+                symmetricallyWithKeyData: decryptedSessionKey
+            )
+        else { return nil }
+        
+        return try? ISO8601Decoder().decode(Message.self, from: decryptedMessageData)
     }
 }
