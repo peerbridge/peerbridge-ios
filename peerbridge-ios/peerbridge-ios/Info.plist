@@ -63,5 +63,7 @@
 		<key>NSAllowsArbitraryLoads</key>
 		<true/>
 	</dict>
+	<key>NSFaceIDUsageDescription</key>
+	<string>Use Face ID to authenticate with PeerBridge.</string>
 </dict>
 </plist>

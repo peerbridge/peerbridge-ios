@@ -1,7 +1,7 @@
 import Foundation
 import CryptoKit
-import CommonCrypto
 import SwiftyRSA
+
 
 public extension SymmetricKey {
     var data: Data {
@@ -12,37 +12,8 @@ public extension SymmetricKey {
     }
 }
 
-public struct RSAKeyPair: Codable {
-    let privateKey: PrivateKey
-    let publicKey: PublicKey
 
-    private enum CodingKeys: String, CodingKey {
-        case privateKey, publicKey
-    }
-
-    public func encode(to encoder: Encoder) throws {
-        var container = encoder.container(keyedBy: CodingKeys.self)
-        let privateKeyString = try privateKey.pemString()
-        let publicKeyString = try publicKey.pemString()
-        try container.encode(privateKeyString, forKey: .privateKey)
-        try container.encode(publicKeyString, forKey: .publicKey)
-    }
-
-    public init(privateKey: PrivateKey, publicKey: PublicKey) {
-        self.privateKey = privateKey
-        self.publicKey = publicKey
-    }
-
-    public init(from decoder: Decoder) throws {
-        let values = try decoder.container(keyedBy: CodingKeys.self)
-        let privateKeyString = try values.decode(String.self, forKey: .privateKey)
-        let publicKeyString = try values.decode(String.self, forKey: .publicKey)
-        self.privateKey = try PrivateKey(pemEncoded: privateKeyString)
-        self.publicKey = try PublicKey(pemEncoded: publicKeyString)
-    }
-}
-
-public final class Encryption {
+public final class Crypto {
     public static func createRandomNonce() -> Data {
         var nonce = Data(count: 256)
         let result = nonce.withUnsafeMutableBytes { pointer in

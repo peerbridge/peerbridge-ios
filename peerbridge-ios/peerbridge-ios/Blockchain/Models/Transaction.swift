@@ -59,11 +59,11 @@ extension Transaction {
         }
         
         guard
-            let decryptedSessionKey = try? Encryption.decrypt(
+            let decryptedSessionKey = try? Crypto.decrypt(
                 data: encryptedSessionKey,
                 asymmetricallyWithPrivateKey: keyPair.privateKey
             ),
-            let decryptedMessageData = try? Encryption.decrypt(
+            let decryptedMessageData = try? Crypto.decrypt(
                 data: envelope.encryptedMessage,
                 symmetricallyWithKeyData: decryptedSessionKey
             )

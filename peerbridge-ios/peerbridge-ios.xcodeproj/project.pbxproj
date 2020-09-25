@@ -8,8 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		68F02BDF3F166BADC3BBF9BA /* Pods_peerbridge_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */; };
-		BE1F9BDF249CE19B00817B29 /* StartChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE1F9BDE249CE19B00817B29 /* StartChatView.swift */; };
-		BE1F9BE0249CE1D300817B29 /* QRCodeScannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */; };
 		BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EA249A2540001CDE09 /* AppDelegate.swift */; };
 		BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */; };
 		BE24B6F1249A2541001CDE09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F0249A2541001CDE09 /* Assets.xcassets */; };
@@ -20,16 +18,15 @@
 		BE4E41B1249A599500841C04 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B0249A599500841C04 /* Transaction.swift */; };
 		BE4E41B3249A69E300841C04 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B2249A69E300841C04 /* Requests.swift */; };
 		BE58CE9A249E298F00569D41 /* EncryptedSessionKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58CE99249E298F00569D41 /* EncryptedSessionKey.swift */; };
-		BE58CE9E249E323800569D41 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58CE9D249E323800569D41 /* ChatView.swift */; };
 		BE85BACB249CAA480035FC83 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACA249CAA480035FC83 /* Message.swift */; };
-		BE85BACF249CAFA80035FC83 /* Coders.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACE249CAFA80035FC83 /* Coders.swift */; };
-		BE85BAD6249CB8D50035FC83 /* RecentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BAD5249CB8D50035FC83 /* RecentsView.swift */; };
+		BE85BACF249CAFA80035FC83 /* ISO8601Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */; };
 		BEA6274F249B5024005FFEE2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6274E249B5024005FFEE2 /* Block.swift */; };
-		BEA62751249B53E8005FFEE2 /* Gradients.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA62750249B53E8005FFEE2 /* Gradients.swift */; };
-		BEA62753249B55A8005FFEE2 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA62752249B55A8005FFEE2 /* Colors.swift */; };
-		BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABEB249A271B00BE2FBE /* Encryption.swift */; };
+		BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */; };
+		BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */; };
+		BEBE7CDC251DE85E001B3BF8 /* ISO8601Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CDB251DE85E001B3BF8 /* ISO8601Encoder.swift */; };
+		BEF1ABEC249A271B00BE2FBE /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABEB249A271B00BE2FBE /* Crypto.swift */; };
 		BEF1ABF5249A290300BE2FBE /* EncryptionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */; };
-		BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Keychain.swift */; };
+		BEF1ABFD249A298300BE2FBE /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Authenticator.swift */; };
 		BEF1ABFF249A308600BE2FBE /* KeychainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */; };
 /* End PBXBuildFile section */
 
@@ -45,7 +42,6 @@
 
 /* Begin PBXFileReference section */
 		42DDF24887B44FB8EAB17C1E /* Pods-peerbridge-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios.release.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios.release.xcconfig"; sourceTree = "<group>"; };
-		BE1F9BDE249CE19B00817B29 /* StartChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartChatView.swift; sourceTree = "<group>"; };
 		BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "peerbridge-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BE24B6EA249A2540001CDE09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -53,24 +49,22 @@
 		BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BE24B6F6249A2541001CDE09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		BE24B6F8249A2541001CDE09 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeScannerView.swift; sourceTree = "<group>"; };
 		BE3AF314249BC9C7008D05AA /* Endpoints.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoints.swift; sourceTree = "<group>"; };
 		BE4E41AE249A588700841C04 /* Envelope.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Envelope.swift; sourceTree = "<group>"; };
 		BE4E41B0249A599500841C04 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		BE4E41B2249A69E300841C04 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		BE58CE99249E298F00569D41 /* EncryptedSessionKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSessionKey.swift; sourceTree = "<group>"; };
-		BE58CE9D249E323800569D41 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
 		BE85BACA249CAA480035FC83 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
-		BE85BACE249CAFA80035FC83 /* Coders.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Coders.swift; sourceTree = "<group>"; };
-		BE85BAD5249CB8D50035FC83 /* RecentsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecentsView.swift; sourceTree = "<group>"; };
+		BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601Decoder.swift; sourceTree = "<group>"; };
 		BEA6274E249B5024005FFEE2 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
-		BEA62750249B53E8005FFEE2 /* Gradients.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Gradients.swift; sourceTree = "<group>"; };
-		BEA62752249B55A8005FFEE2 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
-		BEF1ABEB249A271B00BE2FBE /* Encryption.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Encryption.swift; sourceTree = "<group>"; };
+		BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAKeyPair.swift; sourceTree = "<group>"; };
+		BEBE7CDB251DE85E001B3BF8 /* ISO8601Encoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601Encoder.swift; sourceTree = "<group>"; };
+		BEF1ABEB249A271B00BE2FBE /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "peerbridge-ios-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionTest.swift; sourceTree = "<group>"; };
 		BEF1ABF6249A290300BE2FBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		BEF1ABFC249A298300BE2FBE /* Keychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Keychain.swift; sourceTree = "<group>"; };
+		BEF1ABFC249A298300BE2FBE /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTest.swift; sourceTree = "<group>"; };
 		DCBF91E11F39C3C0DBE967E2 /* Pods-peerbridge-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios.debug.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_peerbridge_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -135,14 +129,10 @@
 		BE24B6E9249A2540001CDE09 /* peerbridge-ios */ = {
 			isa = PBXGroup;
 			children = (
-				BE85BAD4249CB8CD0035FC83 /* Views */,
-				BE85BAC6249CA8980035FC83 /* Encryption */,
-				BE85BAC5249CA8800035FC83 /* Models */,
-				BE3AF314249BC9C7008D05AA /* Endpoints.swift */,
-				BE85BACE249CAFA80035FC83 /* Coders.swift */,
-				BEA62750249B53E8005FFEE2 /* Gradients.swift */,
-				BEA62752249B55A8005FFEE2 /* Colors.swift */,
-				BE4E41B2249A69E300841C04 /* Requests.swift */,
+				BEBE7CDA251DE83B001B3BF8 /* Coding */,
+				BEBE7CCE251DE713001B3BF8 /* Crypto */,
+				BEBE7CC4251DE45E001B3BF8 /* Authentication */,
+				BE85BAC5249CA8800035FC83 /* Blockchain */,
 				BE24B6EA249A2540001CDE09 /* AppDelegate.swift */,
 				BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */,
 				BE24B6F0249A2541001CDE09 /* Assets.xcassets */,
@@ -161,7 +151,25 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		BE85BAC5249CA8800035FC83 /* Models */ = {
+		BE85BAC5249CA8800035FC83 /* Blockchain */ = {
+			isa = PBXGroup;
+			children = (
+				BEBE7CCF251DE72E001B3BF8 /* Networking */,
+				BEBE7CCD251DE708001B3BF8 /* Models */,
+			);
+			path = Blockchain;
+			sourceTree = "<group>";
+		};
+		BEBE7CC4251DE45E001B3BF8 /* Authentication */ = {
+			isa = PBXGroup;
+			children = (
+				BEBE7CEA251DE922001B3BF8 /* Views */,
+				BEF1ABFC249A298300BE2FBE /* Authenticator.swift */,
+			);
+			path = Authentication;
+			sourceTree = "<group>";
+		};
+		BEBE7CCD251DE708001B3BF8 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				BEA6274E249B5024005FFEE2 /* Block.swift */,
@@ -173,22 +181,45 @@
 			path = Models;
 			sourceTree = "<group>";
 		};
-		BE85BAC6249CA8980035FC83 /* Encryption */ = {
+		BEBE7CCE251DE713001B3BF8 /* Crypto */ = {
 			isa = PBXGroup;
 			children = (
-				BEF1ABFC249A298300BE2FBE /* Keychain.swift */,
-				BEF1ABEB249A271B00BE2FBE /* Encryption.swift */,
+				BEBE7CD2251DE755001B3BF8 /* Models */,
+				BEF1ABEB249A271B00BE2FBE /* Crypto.swift */,
 			);
-			path = Encryption;
+			path = Crypto;
 			sourceTree = "<group>";
 		};
-		BE85BAD4249CB8CD0035FC83 /* Views */ = {
+		BEBE7CCF251DE72E001B3BF8 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				BE1F9BDE249CE19B00817B29 /* StartChatView.swift */,
-				BE3AF312249BC4BE008D05AA /* QRCodeScannerView.swift */,
-				BE85BAD5249CB8D50035FC83 /* RecentsView.swift */,
-				BE58CE9D249E323800569D41 /* ChatView.swift */,
+				BE4E41B2249A69E300841C04 /* Requests.swift */,
+				BE3AF314249BC9C7008D05AA /* Endpoints.swift */,
+			);
+			path = Networking;
+			sourceTree = "<group>";
+		};
+		BEBE7CD2251DE755001B3BF8 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BEBE7CDA251DE83B001B3BF8 /* Coding */ = {
+			isa = PBXGroup;
+			children = (
+				BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */,
+				BEBE7CDB251DE85E001B3BF8 /* ISO8601Encoder.swift */,
+			);
+			path = Coding;
+			sourceTree = "<group>";
+		};
+		BEBE7CEA251DE922001B3BF8 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -349,21 +380,18 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE4E41B1249A599500841C04 /* Transaction.swift in Sources */,
-				BEA62753249B55A8005FFEE2 /* Colors.swift in Sources */,
-				BEA62751249B53E8005FFEE2 /* Gradients.swift in Sources */,
 				BE85BACB249CAA480035FC83 /* Message.swift in Sources */,
-				BE58CE9E249E323800569D41 /* ChatView.swift in Sources */,
-				BE85BAD6249CB8D50035FC83 /* RecentsView.swift in Sources */,
-				BE1F9BE0249CE1D300817B29 /* QRCodeScannerView.swift in Sources */,
-				BE85BACF249CAFA80035FC83 /* Coders.swift in Sources */,
+				BE85BACF249CAFA80035FC83 /* ISO8601Decoder.swift in Sources */,
 				BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */,
+				BEBE7CDC251DE85E001B3BF8 /* ISO8601Encoder.swift in Sources */,
+				BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */,
 				BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */,
-				BEF1ABEC249A271B00BE2FBE /* Encryption.swift in Sources */,
+				BEF1ABEC249A271B00BE2FBE /* Crypto.swift in Sources */,
 				BE4E41B3249A69E300841C04 /* Requests.swift in Sources */,
-				BE1F9BDF249CE19B00817B29 /* StartChatView.swift in Sources */,
-				BEF1ABFD249A298300BE2FBE /* Keychain.swift in Sources */,
+				BEF1ABFD249A298300BE2FBE /* Authenticator.swift in Sources */,
 				BEA6274F249B5024005FFEE2 /* Block.swift in Sources */,
 				BE4E41AF249A588700841C04 /* Envelope.swift in Sources */,
+				BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */,
 				BE58CE9A249E298F00569D41 /* EncryptedSessionKey.swift in Sources */,
 				BE3AF315249BC9C7008D05AA /* Endpoints.swift in Sources */,
 			);
