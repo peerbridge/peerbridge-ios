@@ -4,25 +4,38 @@ import SwiftyRSA
 
 
 public final class Authenticator {
-    public struct KeychainError: Error {
-        var status: OSStatus
+    public enum Error: Swift.Error {
+        case noKeyPair
+        case decodingFailed
+        case keychainFailed(OSStatus)
         
         var localizedDescription: String {
-            guard
-                let description =  SecCopyErrorMessageString(status, nil) as String?
-            else { return "Unknown Error" }
-            return description
+            switch self {
+            case .decodingFailed:
+                return "Decoding failed."
+            case .noKeyPair:
+                return "No keypair registered."
+            case .keychainFailed(let status):
+                guard
+                    let description = SecCopyErrorMessageString(status, nil) as String?
+                else { return "Unknown Error" }
+                return description
+            }
         }
     }
     
-    public enum CodingError: Error {
-        case decodingFailed
+    public static func loadKeyPair() throws -> RSAKeyPair {
+        let publicKeyString = try loadPublicKey()
+        let privateKeyString = try loadPrivateKey(for: publicKeyString)
+        let publicKey = try PublicKey(pemEncoded: publicKeyString)
+        let privateKey = try PrivateKey(pemEncoded: privateKeyString)
+        return RSAKeyPair(privateKey: privateKey, publicKey: publicKey)
     }
     
     public static func loadPublicKey() throws -> PEMString {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService: "com.peerbridge.keys.public",
+            kSecAttrService: "com.peerbridge.keys.publickey",
             kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
             kSecReturnData: true,
             kSecReturnAttributes: true,
@@ -30,13 +43,15 @@ public final class Authenticator {
         
         var result: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
-        guard status == errSecSuccess else { throw KeychainError(status: status) }
+        
+        guard status != errSecItemNotFound else { throw Error.noKeyPair }
+        guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
         
         guard
             let existingItem = result as? [CFString: Any],
             let data = existingItem[kSecValueData] as? Data,
             let pemString = String(data: data, encoding: .utf8)
-        else { throw CodingError.decodingFailed }
+        else { throw Self.Error.decodingFailed }
         return pemString
     }
     
@@ -44,44 +59,71 @@ public final class Authenticator {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: publicKey,
-            kSecAttrService: "com.peerbridge.keys.private",
+            kSecAttrService: "com.peerbridge.keys.privatekey",
             kSecMatchLimit: kSecMatchLimitOne,
             kSecReturnAttributes: true,
-            kSecUseOperationPrompt: "Access your credentials from the keychain",
+            kSecUseOperationPrompt: "Access your private key from the keychain",
             kSecReturnData: true
         ]
         
         var result: CFTypeRef?
         let status = SecItemCopyMatching(query as CFDictionary, &result)
-        guard status == errSecSuccess else { throw KeychainError(status: status) }
+        guard status != errSecItemNotFound else { throw Error.noKeyPair }
+        guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
         
         guard
             let existingItem = result as? [CFString: Any],
             let data = existingItem[kSecValueData] as? Data,
             let pemString = String(data: data, encoding: .utf8)
-        else { throw CodingError.decodingFailed }
+        else { throw Self.Error.decodingFailed }
         return pemString
     }
     
-    public static func registerNewKeyPair() throws {
-        let credentials = try Crypto.createRandomAsymmetricKeyPair()
-        let publicKeyString: PEMString = try credentials.publicKey.pemString()
-        let privateKeyString: PEMString = try credentials.privateKey.pemString()
+    public static func register(newKeyPair keyPair: RSAKeyPair) throws {
+        let publicKeyString: PEMString = try keyPair.publicKey.pemString()
+        let privateKeyString: PEMString = try keyPair.privateKey.pemString()
         try register(publicKey: publicKeyString)
         try register(privateKey: privateKeyString, forPublicKey: publicKeyString)
     }
-    
+        
     private static func register(publicKey: PEMString) throws {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService: "com.peerbridge.keys.public",
+            kSecAttrService: "com.peerbridge.keys.publickey",
             kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
             kSecValueData: publicKey.data(using: String.Encoding.utf8)!
         ]
-        let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else { throw KeychainError(status: status) }
+        
+        var status = SecItemDelete(query as CFDictionary)
+        guard
+            status == errSecSuccess || // if the public key will be overridden
+            status == errSecItemNotFound // if there was no registered public key
+        else { throw Self.Error.keychainFailed(status) }
+        
+        status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
     }
     
+    #if targetEnvironment(simulator) // disable face id authentication on simulator
+    private static func register(privateKey: PEMString, forPublicKey publicKey: PEMString) throws {
+        let query: [CFString: Any] = [
+            kSecClass: kSecClassGenericPassword,
+            kSecAttrAccount: publicKey,
+            kSecAttrService: "com.peerbridge.keys.privatekey",
+            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
+            kSecValueData: privateKey.data(using: String.Encoding.utf8)!
+        ]
+        
+        var status = SecItemDelete(query as CFDictionary)
+        guard
+            status == errSecSuccess || // if the private key will be overridden
+            status == errSecItemNotFound // if there was no registered private key
+        else { throw Self.Error.keychainFailed(status) }
+        
+        status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
+    }
+    #else // use face id authentication for the private key
     private static func register(privateKey: PEMString, forPublicKey publicKey: PEMString) throws {
         let access = SecAccessControlCreateWithFlags(
             nil, // Use the default allocator
@@ -100,13 +142,20 @@ public final class Authenticator {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: publicKey,
-            kSecAttrService: "com.peerbridge.keys.private",
+            kSecAttrService: "com.peerbridge.keys.privatekey",
             kSecAttrAccessControl: access as Any,
             kSecUseAuthenticationContext: context,
             kSecValueData: privateKey.data(using: String.Encoding.utf8)!
         ]
         
-        let status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else { throw KeychainError(status: status) }
+        var status = SecItemDelete(query as CFDictionary)
+        guard
+            status == errSecSuccess || // if the private key will be overridden
+            status == errSecItemNotFound // if there was no registered private key
+        else { throw Self.Error.keychainFailed(status) }
+        
+        status = SecItemAdd(query as CFDictionary, nil)
+        guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
     }
+    #endif
 }

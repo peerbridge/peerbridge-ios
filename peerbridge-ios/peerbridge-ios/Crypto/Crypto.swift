@@ -36,6 +36,7 @@ public final class Crypto {
         let key = SymmetricKey(data: keyData)
         let nonce = AES.GCM.Nonce()
         let sealedBox = try AES.GCM.seal(data, using: key, nonce: nonce)
+        print(sealedBox.tag)
         return sealedBox.combined
     }
 
@@ -58,7 +59,7 @@ public final class Crypto {
         asymmetricallyWithPublicKey publicKey: PublicKey
     ) throws -> Data {
         let clear = ClearMessage(data: data)
-        let encrypted = try clear.encrypted(with: publicKey, padding: .OAEP)
+        let encrypted = try clear.encrypted(with: publicKey, padding: .PKCS1)
         return encrypted.data
     }
 
@@ -67,7 +68,7 @@ public final class Crypto {
         asymmetricallyWithPrivateKey privateKey: PrivateKey
     ) throws -> Data {
         let encrypted = EncryptedMessage(data: data)
-        let decrypted = try encrypted.decrypted(with: privateKey, padding: .OAEP)
+        let decrypted = try encrypted.decrypted(with: privateKey, padding: .PKCS1)
         return decrypted.data
     }
 

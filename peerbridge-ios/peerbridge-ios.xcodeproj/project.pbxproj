@@ -27,7 +27,6 @@
 		BEF1ABEC249A271B00BE2FBE /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABEB249A271B00BE2FBE /* Crypto.swift */; };
 		BEF1ABF5249A290300BE2FBE /* EncryptionTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */; };
 		BEF1ABFD249A298300BE2FBE /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Authenticator.swift */; };
-		BEF1ABFF249A308600BE2FBE /* KeychainTest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -65,7 +64,6 @@
 		BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionTest.swift; sourceTree = "<group>"; };
 		BEF1ABF6249A290300BE2FBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEF1ABFC249A298300BE2FBE /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
-		BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainTest.swift; sourceTree = "<group>"; };
 		DCBF91E11F39C3C0DBE967E2 /* Pods-peerbridge-ios.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios.debug.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios.debug.xcconfig"; sourceTree = "<group>"; };
 		E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_peerbridge_ios.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -227,7 +225,6 @@
 		BEF1ABF3249A290300BE2FBE /* peerbridge-ios-tests */ = {
 			isa = PBXGroup;
 			children = (
-				BEF1ABFE249A308600BE2FBE /* KeychainTest.swift */,
 				BEF1ABF4249A290300BE2FBE /* EncryptionTest.swift */,
 				BEF1ABF6249A290300BE2FBE /* Info.plist */,
 			);
@@ -402,7 +399,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				BEF1ABF5249A290300BE2FBE /* EncryptionTest.swift in Sources */,
-				BEF1ABFF249A308600BE2FBE /* KeychainTest.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
