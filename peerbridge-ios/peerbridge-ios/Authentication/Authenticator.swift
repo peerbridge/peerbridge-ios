@@ -104,26 +104,6 @@ public final class Authenticator {
         guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
     }
     
-    #if targetEnvironment(simulator) // disable face id authentication on simulator
-    private static func register(privateKey: PEMString, forPublicKey publicKey: PEMString) throws {
-        let query: [CFString: Any] = [
-            kSecClass: kSecClassGenericPassword,
-            kSecAttrAccount: publicKey,
-            kSecAttrService: "com.peerbridge.keys.privatekey",
-            kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
-            kSecValueData: privateKey.data(using: String.Encoding.utf8)!
-        ]
-        
-        var status = SecItemDelete(query as CFDictionary)
-        guard
-            status == errSecSuccess || // if the private key will be overridden
-            status == errSecItemNotFound // if there was no registered private key
-        else { throw Self.Error.keychainFailed(status) }
-        
-        status = SecItemAdd(query as CFDictionary, nil)
-        guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
-    }
-    #else // use face id authentication for the private key
     private static func register(privateKey: PEMString, forPublicKey publicKey: PEMString) throws {
         let access = SecAccessControlCreateWithFlags(
             nil, // Use the default allocator
@@ -157,5 +137,4 @@ public final class Authenticator {
         status = SecItemAdd(query as CFDictionary, nil)
         guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
     }
-    #endif
 }

@@ -1,22 +1,28 @@
 PODS:
+  - SQLite.swift (0.12.2):
+    - SQLite.swift/standard (= 0.12.2)
+  - SQLite.swift/standard (0.12.2)
   - SwiftLint (0.39.2)
   - SwiftyRSA (1.6.0):
     - SwiftyRSA/ObjC (= 1.6.0)
   - SwiftyRSA/ObjC (1.6.0)
 
 DEPENDENCIES:
+  - SQLite.swift (~> 0.12.0)
   - SwiftLint
   - SwiftyRSA
 
 SPEC REPOS:
   trunk:
+    - SQLite.swift
     - SwiftLint
     - SwiftyRSA
 
 SPEC CHECKSUMS:
+  SQLite.swift: d2b4642190917051ce6bd1d49aab565fe794eea3
   SwiftLint: 22ccbbe3b8008684be5955693bab135e0ed6a447
   SwiftyRSA: 3b9c9179744217951facc6a3e9ae8d8c97061ffa
 
-PODFILE CHECKSUM: a1e14b4b50e6986b8a21286d09e7fb691ff753e3
+PODFILE CHECKSUM: 031b74cb6d87fc55338a0d257ff667521c6a02b5
 
-COCOAPODS: 1.9.1
+COCOAPODS: 1.9.3
