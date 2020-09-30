@@ -27,9 +27,10 @@ public final class Authenticator {
     public static func loadKeyPair() throws -> RSAKeyPair {
         let publicKeyString = try loadPublicKey()
         let privateKeyString = try loadPrivateKey(for: publicKeyString)
-        let publicKey = try PublicKey(pemEncoded: publicKeyString)
-        let privateKey = try PrivateKey(pemEncoded: privateKeyString)
-        return RSAKeyPair(privateKey: privateKey, publicKey: publicKey)
+        return try RSAKeyPair(
+            privateKeyString: privateKeyString,
+            publicKeyString: publicKeyString
+        )
     }
     
     public static func loadPublicKey() throws -> PEMString {

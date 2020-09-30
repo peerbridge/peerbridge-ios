@@ -51,7 +51,7 @@ public final class Crypto {
 
     public static func createRandomAsymmetricKeyPair() throws -> RSAKeyPair {
         let keyPair = try SwiftyRSA.generateRSAKeyPair(sizeInBits: 2048)
-        return .init(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey)
+        return try RSAKeyPair(privateKey: keyPair.privateKey, publicKey: keyPair.publicKey)
     }
 
     public static func encrypt(

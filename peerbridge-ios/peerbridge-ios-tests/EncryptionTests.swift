@@ -20,7 +20,9 @@ class EncryptionTest: XCTestCase {
     func testAsymmetricKeyPairSerialization() throws {
         let keyPair = try Crypto.createRandomAsymmetricKeyPair()
         let serializedData = try JSONEncoder().encode(keyPair)
-        let deserializedKeyPair = try JSONDecoder().decode(RSAKeyPair.self, from: serializedData)
+        let deserializedKeyPair = try JSONDecoder().decode(
+            RSAKeyPair.self, from: serializedData
+        )
         XCTAssertEqual(
             try deserializedKeyPair.privateKey.pemString(),
             try keyPair.privateKey.pemString()
@@ -34,8 +36,14 @@ class EncryptionTest: XCTestCase {
     func testAsymmetricEncryption() throws {
         let keypair = try! Crypto.createRandomAsymmetricKeyPair()
         let message = "Lungo".data(using: .utf8)!
-        let encryptedMessage = try Crypto.encrypt(data: message, asymmetricallyWithPublicKey: keypair.publicKey)
-        let decryptedMessage = try Crypto.decrypt(data: encryptedMessage, asymmetricallyWithPrivateKey: keypair.privateKey)
+        let encryptedMessage = try Crypto.encrypt(
+            data: message,
+            asymmetricallyWithPublicKey: keypair.publicKey
+        )
+        let decryptedMessage = try Crypto.decrypt(
+            data: encryptedMessage,
+            asymmetricallyWithPrivateKey: keypair.privateKey
+        )
         XCTAssertEqual(message, decryptedMessage)
     }
 }

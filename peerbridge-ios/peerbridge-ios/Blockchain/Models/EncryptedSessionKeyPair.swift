@@ -1,6 +1,6 @@
 import Foundation
 
-public struct EncryptedSessionKey: Codable {
+public struct EncryptedSessionKeyPair: Codable {
     let encryptedBySenderPublicKey: Data
     let encryptedByReceiverPublicKey: Data
 }

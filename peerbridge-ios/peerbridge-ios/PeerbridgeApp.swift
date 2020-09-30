@@ -1,22 +1,49 @@
 import SwiftUI
+import SwiftyRSA
 
-@main
-struct PeerbridgeApp: App {
-    @UIApplicationDelegateAdaptor(AppDelegate.self) var appDelegate
 
-    var body: some Scene {
-        WindowGroup {
-            AuthenticationView()
-        }
+class PersistenceEnvironment: ObservableObject {
+    @Published var transactions: TransactionRepository
+    
+    init(transactions: TransactionRepository) {
+        self.transactions = transactions
     }
 }
 
 
-class AppDelegate: NSObject, UIApplicationDelegate {
-    func application(
-        _ application: UIApplication,
-        didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey : Any]? = nil
-    ) -> Bool {
-        return true
+@main
+struct PeerbridgeApp: App {
+    @State var persistence: PersistenceEnvironment? = nil
+    @State var error: String? = nil
+    
+    func loadPersistence() {
+        do {
+            let transactions = try TransactionRepository()
+            self.persistence = PersistenceEnvironment(transactions: transactions)
+        } catch let error {
+            self.error = "There was an error: \(error)"
+        }
+    }
+    
+    var body: some Scene {
+        WindowGroup {
+            if let persistence = persistence {
+                AuthenticationView().environmentObject(persistence)
+            } else {
+                if let error = error {
+                    VStack {
+                        Text(error)
+                        Button(action: self.loadPersistence) {
+                            Text("Try again")
+                        }
+                    }
+                } else {
+                    VStack {
+                        Text("Loading...")
+                        ProgressView()
+                    }.onAppear(perform: loadPersistence)
+                }
+            }
+        }
     }
 }

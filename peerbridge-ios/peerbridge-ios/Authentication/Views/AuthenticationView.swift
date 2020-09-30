@@ -4,13 +4,23 @@ import SwiftUI
 import SwiftyRSA
 
 
+class AuthenticationEnvironment: ObservableObject {
+    let keyPair: RSAKeyPair
+    
+    init(keyPair: RSAKeyPair) {
+        self.keyPair = keyPair
+    }
+}
+
+
 struct AuthenticationView: View {
     @State var error: String? = nil
-    
+    @State var auth: AuthenticationEnvironment? = nil
+        
     func loadKeypair() {
         do {
             let keyPair = try Authenticator.loadKeyPair()
-            print(keyPair)
+            self.auth = .init(keyPair: keyPair)
         } catch Authenticator.Error.noKeyPair {
             newKeypair()
         } catch let error {
@@ -24,7 +34,7 @@ struct AuthenticationView: View {
         do {
             let keyPair = try Crypto.createRandomAsymmetricKeyPair()
             try Authenticator.register(newKeyPair: keyPair)
-            print(keyPair)
+            self.auth = .init(keyPair: keyPair)
         } catch let error {
             withAnimation {
                 self.error = "Please try again. \n \(error.localizedDescription)"
@@ -32,50 +42,46 @@ struct AuthenticationView: View {
         }
     }
     
-    var backgroundGradient: LinearGradient {
-        LinearGradient(
-            gradient: Gradient(colors: [
-                Color(white: 0.3), Color(white: 0.1)
-            ]),
-            startPoint: .topLeading,
-            endPoint: .bottomTrailing
-        )
-    }
-    
     var body: some View {
-        VStack {
-            Spacer()
-            
-            Image("Fingerprint")
-                .renderingMode(.template)
-                .resizable()
-                .colorInvert()
-                .colorMultiply(.blue)
-                .frame(width: 128, height: 128, alignment: .center)
-                .padding(8)
-            
-            Spacer().frame(height: 48)
-            
-            if self.error != nil {
-                Text("\(self.error!)")
-                    .font(.footnote)
-                    .padding(32)
-                    .multilineTextAlignment(.center)
-            }
-            
-            Spacer().frame(height: 48)
-            
-            Button(action: self.loadKeypair) {
-                Text("Authenticate")
-                    .padding(16)
-                    .background(Color.white)
-                    .cornerRadius(12)
-                    .shadow(color: Color.black.opacity(0.1), radius: 10)
-            }
-            
-            Spacer()
+        if let auth = auth {
+            ChatsView().environmentObject(auth)
+        } else {
+            VStack {
+                Spacer()
+                
+                Image("Fingerprint")
+                    .renderingMode(.template)
+                    .resizable()
+                    .colorInvert()
+                    .colorMultiply(.black)
+                    .frame(width: 128, height: 128, alignment: .center)
+                    .padding()
+                
+                Button(action: self.loadKeypair) {
+                    Text("Authenticate").padding()
+                }
+                
+                if let error = self.error {
+                    Text(error)
+                        .font(.footnote)
+                        .padding()
+                        .multilineTextAlignment(.center)
+                }
+                
+                Spacer()
+            }.onAppear(perform: loadKeypair)
         }
     }
+}
+
+
+#if DEBUG
+extension AuthenticationEnvironment {
+    static let debugKeyPair = try! Crypto.createRandomAsymmetricKeyPair()
+    
+    static let debugEnvironment = AuthenticationEnvironment(
+        keyPair: debugKeyPair
+    )
 }
 
 struct AuthenticationView_Previews: PreviewProvider {
@@ -83,3 +89,4 @@ struct AuthenticationView_Previews: PreviewProvider {
         AuthenticationView()
     }
 }
+#endif

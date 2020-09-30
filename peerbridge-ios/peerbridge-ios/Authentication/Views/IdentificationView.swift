@@ -23,16 +23,22 @@ struct IdentificationView: View {
     @State var grid: [[Double]] = []
     @State var color: Color = .white
     
+    init(key: String) {
+        self.key = key
+    }
+    
     func generateGrid() {
         let values = Insecure.MD5
             .hash(data: key.data(using: .utf8) ?? Data())
             .map { Double($0 as UInt8) / Double(255) }
+        // an MD5 hash contains 16 bytes
         self.grid = [
             Array(values[0 ..< 4]),
             Array(values[4 ..< 8]),
             Array(values[8 ..< 12]),
             Array(values[12 ..< 16]),
         ]
+        // use the first byte for the color hue
         self.color = Color(
             hue: values[0],
             saturation: 1,
@@ -55,6 +61,8 @@ struct IdentificationView: View {
     }
 }
 
+
+#if DEBUG
 struct IdentificationView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
@@ -71,3 +79,4 @@ struct IdentificationView_Previews: PreviewProvider {
         }
     }
 }
+#endif
