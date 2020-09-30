@@ -13,8 +13,7 @@
 		BE119E04252369CB00041870 /* IdentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119E03252369CA00041870 /* IdentificationView.swift */; };
 		BE119E1325237DD000041870 /* ChatRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119E1225237DD000041870 /* ChatRowView.swift */; };
 		BE119E1A252382D400041870 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119E19252382D400041870 /* Chat.swift */; };
-		BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EA249A2540001CDE09 /* AppDelegate.swift */; };
-		BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */; };
+		BE119E242524466900041870 /* PeerbridgeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119E232524466900041870 /* PeerbridgeApp.swift */; };
 		BE24B6F1249A2541001CDE09 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F0249A2541001CDE09 /* Assets.xcassets */; };
 		BE24B6F4249A2541001CDE09 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */; };
 		BE24B6F7249A2541001CDE09 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */; };
@@ -55,9 +54,8 @@
 		BE119E03252369CA00041870 /* IdentificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentificationView.swift; sourceTree = "<group>"; };
 		BE119E1225237DD000041870 /* ChatRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRowView.swift; sourceTree = "<group>"; };
 		BE119E19252382D400041870 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
+		BE119E232524466900041870 /* PeerbridgeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PeerbridgeApp.swift; sourceTree = "<group>"; };
 		BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "peerbridge-ios.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BE24B6EA249A2540001CDE09 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		BE24B6F0249A2541001CDE09 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		BE24B6F3249A2541001CDE09 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		BE24B6F6249A2541001CDE09 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -184,12 +182,11 @@
 				BE119DFB2523691500041870 /* Chats */,
 				BEBE7CC4251DE45E001B3BF8 /* Authentication */,
 				BE85BAC5249CA8800035FC83 /* Blockchain */,
-				BE24B6EA249A2540001CDE09 /* AppDelegate.swift */,
-				BE24B6EC249A2540001CDE09 /* SceneDelegate.swift */,
 				BE24B6F0249A2541001CDE09 /* Assets.xcassets */,
 				BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */,
 				BE24B6F8249A2541001CDE09 /* Info.plist */,
 				BE24B6F2249A2541001CDE09 /* Preview Content */,
+				BE119E232524466900041870 /* PeerbridgeApp.swift */,
 			);
 			path = "peerbridge-ios";
 			sourceTree = "<group>";
@@ -470,12 +467,11 @@
 				BE4E41B1249A599500841C04 /* Transaction.swift in Sources */,
 				BE85BACB249CAA480035FC83 /* Message.swift in Sources */,
 				BE85BACF249CAFA80035FC83 /* ISO8601Decoder.swift in Sources */,
-				BE24B6EB249A2540001CDE09 /* AppDelegate.swift in Sources */,
 				BE119DFD2523692F00041870 /* ChatsView.swift in Sources */,
 				BEBE7CDC251DE85E001B3BF8 /* ISO8601Encoder.swift in Sources */,
+				BE119E242524466900041870 /* PeerbridgeApp.swift in Sources */,
 				BE119E1325237DD000041870 /* ChatRowView.swift in Sources */,
 				BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */,
-				BE24B6ED249A2540001CDE09 /* SceneDelegate.swift in Sources */,
 				BEF1ABEC249A271B00BE2FBE /* Crypto.swift in Sources */,
 				BE4E41B3249A69E300841C04 /* Requests.swift in Sources */,
 				BEF1ABFD249A298300BE2FBE /* Authenticator.swift in Sources */,
@@ -572,7 +568,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -627,7 +623,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
