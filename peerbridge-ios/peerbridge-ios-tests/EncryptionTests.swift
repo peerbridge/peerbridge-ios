@@ -30,7 +30,7 @@ class EncryptionTest: XCTestCase {
         XCTAssertEqual(
             try deserializedKeyPair.publicKey.pemString(),
             try keyPair.publicKey.pemString()
-        )
+        )        
     }
     
     func testAsymmetricEncryption() throws {

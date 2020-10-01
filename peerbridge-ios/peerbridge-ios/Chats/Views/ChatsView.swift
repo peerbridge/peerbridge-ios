@@ -28,6 +28,20 @@ struct ChatsView: View {
         self.chats = chats
     }
     
+    func updateTransactions() {
+        TransactionEndpoint.fetch(auth: auth) { result in
+            switch result {
+            case .failure(let error):
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+                print("Update Transactions failed: \(error)")
+            case .success(let transactions):
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                persistence.transactions.update(transactions: transactions)
+                loadChats()
+            }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             VStack {
@@ -36,7 +50,7 @@ struct ChatsView: View {
                     isActive: $shouldShowMessages,
                     label: { EmptyView() }
                 )
-                
+
                 List(chats, id: \.partner) { chat in
                     Button {
                         guard
@@ -48,16 +62,23 @@ struct ChatsView: View {
                         ChatRowView(chat: chat)
                     }
                 }
-                .navigationBarTitle("Chats")
-                .navigationBarItems(trailing:
-                    NavigationLink(destination: PairingView()) {
-                        HStack {
-                            Image(systemName: "plus")
-                            Text("Start Chat")
-                        }
-                    }
-                )
+                .listStyle(PlainListStyle())
             }
+            .navigationBarTitle("Chats")
+            .navigationBarItems(
+                leading: Button(action: updateTransactions) {
+                    HStack {
+                        Image(systemName: "arrow.clockwise")
+                        Text("Update")
+                    }
+                },
+                trailing: NavigationLink(destination: PairingView()) {
+                    HStack {
+                        Text("Start Chat")
+                        Image(systemName: "plus")
+                    }
+                }
+            )
         }
         .onOpenURL(perform: handleURL)
         .onAppear(perform: loadChats)
@@ -68,8 +89,9 @@ struct ChatsView: View {
 #if DEBUG
 struct ChatsView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatsView(chats: .example)
+        ChatsView()
             .environmentObject(AuthenticationEnvironment.alice)
+            .environmentObject(PersistenceEnvironment.debug)
     }
 }
 #endif

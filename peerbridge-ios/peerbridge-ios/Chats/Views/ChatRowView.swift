@@ -5,24 +5,22 @@ struct ChatRowView: View {
     
     @EnvironmentObject var auth: AuthenticationEnvironment
     
-    @State var message: Message = "Decrypting message..."
+    @State var message: Message = "Encrypted Message"
 
     func decryptMessage() {
         if let decryptedMessage = try? chat.lastTransaction
             .decrypt(withKeyPair: auth.keyPair) {
             self.message = decryptedMessage
-        } else {
-            self.message = "Message could not be decrypted."
         }
     }
     
     var body: some View {
         HStack(alignment: .top) {
             IdentificationView(key: chat.partner)
-                .frame(width: 70, height: 70)
+                .frame(width: 64, height: 64)
             VStack(alignment: .leading) {
                 HStack {
-                    Text(chat.partner)
+                    Text(chat.partner.infix ?? "...")
                         .font(.headline)
                         .lineLimit(0)
                     Spacer()
@@ -48,7 +46,7 @@ struct ChatRowView_Previews: PreviewProvider {
         ChatRowView(chat: Chat(
             partner: .bobPublicKeyString,
             lastTransaction: .example1
-        )).environmentObject(AuthenticationEnvironment.alice)
+        ), message: "Hello World").environmentObject(AuthenticationEnvironment.alice)
     }
 }
 #endif

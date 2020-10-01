@@ -16,16 +16,16 @@ struct PairingView: View {
     
     var body: some View {
         VStack {
-            Text("Show this QR Code to another user to start chatting!")
-                .padding()
-                .multilineTextAlignment(.center)
             if let url = url {
                 QRCodeView(uri: url).padding()
             }
-            Text("peerbridge://your-public-key")
-                .font(.footnote)
+            Text("Show this QR Code to another user to start chatting!")
+                .padding()
                 .multilineTextAlignment(.center)
-        }.onAppear(perform: generateUrl)
+            Spacer()
+        }
+        .navigationTitle("Start Chat")
+        .onAppear(perform: generateUrl)
     }
 }
 

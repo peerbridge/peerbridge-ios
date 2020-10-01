@@ -10,14 +10,12 @@ struct MessageRowView: View {
     
     @EnvironmentObject var auth: AuthenticationEnvironment
     
-    @State var message: String = "Loading..."
+    @State var message: String = "Encrypted Message"
     
     func decryptMessage() {
         if let decryptedMessage = try? transaction
             .decrypt(withKeyPair: auth.keyPair) {
             message = decryptedMessage
-        } else {
-            message = "Message could not be decrypted."
         }
     }
     
@@ -28,14 +26,20 @@ struct MessageRowView: View {
             }
             
             VStack(alignment: isOwnMessage ? .trailing : .leading) {
-                Text(transaction.timestamp, style: .relative)
-                    .font(.footnote)
-                    .padding(.bottom, 2)
+                HStack {
+                    Text(transaction.timestamp, style: .relative)
+                        .font(.caption2)
+                    Image(systemName: "lock")
+                        .resizable()
+                        .frame(width: 8, height: 10)
+                }
+                .padding(.bottom, 2)
                 Text(message)
                     .lineLimit(nil)
+                    .padding(.bottom, 2)
             }
             .padding(8)
-            .background(isOwnMessage ? Color.blue.opacity(0.25) : Color.gray.opacity(0.25))
+            .background(isOwnMessage ? Color.blue.opacity(0.6) : Color.blue.opacity(0.25))
             .cornerRadius(12)
             
             if !isOwnMessage {
@@ -50,8 +54,10 @@ struct MessageRowView: View {
 #if DEBUG
 struct MessageRowView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageRowView(transaction: .example1)
-            .environmentObject(AuthenticationEnvironment.alice)
+        MessageRowView(
+            transaction: .example1,
+            message: "Overridden message for testing and preview purposes"
+        ).environmentObject(AuthenticationEnvironment.bob)
     }
 }
 #endif

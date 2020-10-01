@@ -134,23 +134,6 @@ extension Chat {
     static let exampleForBob = Chat(partner: .alicePublicKeyString, lastTransaction: .example2)
 }
 
-extension Sequence where Element == Chat {
-    static var example: [Element] {
-        (0...10).map { (i: Int) -> Chat in
-            return Chat(
-                partner: "Partner \(i)",
-                lastTransaction: Transaction(
-                    index: UUID().uuidString,
-                    sender: .alicePublicKeyString,
-                    receiver: .bobPublicKeyString,
-                    data: "garbage".data(using: .utf8)!,
-                    timestamp: Date().addingTimeInterval(-10000)
-                )
-            )
-        }
-    }
-}
-
 class MockedTransactionRepository: TransactionRepository {
     init() throws {
         try super.init(location: .inMemory)

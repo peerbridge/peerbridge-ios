@@ -1,5 +1,7 @@
 import Foundation
 import SQLite
+import SQLite3
+
 
 public typealias Message = String
 
@@ -41,6 +43,55 @@ public struct Transaction: Codable {
     }
 }
 
+public class TransactionEndpoint {
+    enum NetworkError: Error {
+        case noDataReturned
+    }
+    
+    static func fetch(
+        auth: AuthenticationEnvironment,
+        completion: @escaping (Swift.Result<[Transaction], Error>) -> Void
+    ) {
+        fetch(ownPublicKey: auth.keyPair.publicKeyString, completion: completion)
+    }
+    
+    static func fetch(
+        ownPublicKey: PEMString,
+        completion: @escaping (Swift.Result<[Transaction], Error>) -> Void
+    ) {
+        let requestPayload = FilterTransactionsRequest(publicKey: ownPublicKey)
+        let url = URL(string: "\(Endpoints.main)/blockchain/transactions/filter")!
+        var request = URLRequest(url: url)
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpMethod = "POST"
+        do {
+            request.httpBody = try ISO8601Encoder().encode(requestPayload)
+        } catch let error {
+            completion(.failure(error))
+            return
+        }
+        
+        let task = URLSession.shared.dataTask(with: request) { data, response, error in
+            if let error = error {
+                completion(.failure(error))
+                return
+            }
+            guard let data = data else {
+                completion(.failure(NetworkError.noDataReturned))
+                return
+            }
+            do {
+                let transactions = try ISO8601Decoder()
+                    .decode([Transaction].self, from: data)
+                completion(.success(transactions))
+            } catch let error {
+                completion(.failure(error))
+            }
+        }
+        task.resume()
+    }
+}
+
 public class TransactionRepository: Repository, ObservableObject {
     typealias Object = Transaction
     
@@ -74,6 +125,13 @@ public class TransactionRepository: Repository, ObservableObject {
             builder.column(Expression<Data>("data"))
             builder.column(Expression<Date>("timestamp"))
         })
+    }
+    
+    func update(transactions: [Transaction]) {
+        for transaction in transactions {
+            // TODO: handle errors (excluding duplicate insertion)
+            try? insert(object: transaction)
+        }
     }
     
     func getLastTimestamp() throws -> Date {

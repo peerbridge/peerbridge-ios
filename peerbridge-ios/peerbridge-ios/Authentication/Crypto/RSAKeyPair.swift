@@ -1,7 +1,44 @@
 import SwiftyRSA
+import CryptoKit
 
 
 public typealias PEMString = String
+
+
+extension PEMString {
+    static let publicKeyPrefix = "-----BEGIN RSA PUBLIC KEY-----"
+    static let publicKeySuffix = "-----END RSA PUBLIC KEY-----"
+    static let privateKeyPrefix = "-----BEGIN RSA PRIVATE KEY-----"
+    static let privateKeySuffix = "-----END RSA PRIVATE KEY-----"
+    
+    var isPublicKey: Bool {
+        let trimmed = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        return  trimmed.hasPrefix(PEMString.publicKeyPrefix) &&
+                trimmed.hasSuffix(PEMString.publicKeySuffix)
+    }
+    
+    var isPrivateKey: Bool {
+        let trimmed = self.trimmingCharacters(in: .whitespacesAndNewlines)
+        return  trimmed.hasPrefix(PEMString.privateKeyPrefix) &&
+                trimmed.hasSuffix(PEMString.privateKeySuffix)
+    }
+    
+    var infix: String? {
+        if isPublicKey {
+            return self
+                .replacingOccurrences(of: PEMString.publicKeyPrefix, with: "")
+                .replacingOccurrences(of: PEMString.publicKeySuffix, with: "")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        if isPrivateKey {
+            return self
+                .replacingOccurrences(of: PEMString.privateKeyPrefix, with: "")
+                .replacingOccurrences(of: PEMString.privateKeySuffix, with: "")
+                .trimmingCharacters(in: .whitespacesAndNewlines)
+        }
+        return nil
+    }
+}
 
 
 extension PrivateKey: Hashable {

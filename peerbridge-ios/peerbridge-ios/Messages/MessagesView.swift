@@ -2,6 +2,13 @@ import SwiftUI
 import SwiftyRSA
 
 
+fileprivate extension UIApplication {
+    func endEditing() {
+        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+    }
+}
+
+
 struct MessagesView: View {
     let selectedPartner: PublicKey?
     
@@ -12,6 +19,7 @@ struct MessagesView: View {
     @State var transactions: [Transaction] = []
     
     func sendMessage() {
+        UIApplication.shared.endEditing()
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
         let sessionKey = Crypto.createRandomSymmetricKey()
@@ -93,23 +101,39 @@ struct MessagesView: View {
     }
     
     var body: some View {
-        NavigationView {
-            VStack {
-                List(transactions, id: \.index) { transaction in
-                    MessageRowView(transaction: transaction)
-                }.listStyle(PlainListStyle())
-                Spacer()
-                HStack {
-                    TextField("Your Message", text: $message)
-                        .textFieldStyle(RoundedBorderTextFieldStyle())
-                        .padding(.leading)
-                    Button(action: sendMessage) {
-                        Text("Send")
-                    }.padding()
+        VStack(spacing: 0) {
+            ScrollView {
+                LazyVStack {
+                    ForEach(transactions, id: \.index) { transaction in
+                        MessageRowView(transaction: transaction)
+                    }
                 }
             }
-            .navigationTitle("Messages")
-        }.onAppear(perform: loadTransactions)
+            .padding(.horizontal)
+            HStack {
+                TextField("Your Message", text: $message, onCommit: {
+                    UIApplication.shared.endEditing()
+                })
+                .padding(.horizontal)
+                .padding(.vertical, 12)
+                .background(Color.black.opacity(0.05))
+                .cornerRadius(24)
+                .padding(.leading)
+                .padding(.vertical, 12)
+                Button(action: sendMessage) {
+                    Image(systemName: "paperplane.fill")
+                        .renderingMode(.template)
+                        .foregroundColor(.white)
+                }
+                .padding(12)
+                .background(Color.blue)
+                .cornerRadius(24)
+                .padding(.trailing)
+                .padding(.vertical)
+            }
+        }
+        .navigationTitle("Messages")
+        .onAppear(perform: loadTransactions)
     }
 }
 
