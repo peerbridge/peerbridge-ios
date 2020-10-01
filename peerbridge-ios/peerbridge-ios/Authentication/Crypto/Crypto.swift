@@ -36,7 +36,6 @@ public final class Crypto {
         let key = SymmetricKey(data: keyData)
         let nonce = AES.GCM.Nonce()
         let sealedBox = try AES.GCM.seal(data, using: key, nonce: nonce)
-        print(sealedBox.tag)
         return sealedBox.combined
     }
 

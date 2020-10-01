@@ -48,7 +48,7 @@ struct IdentificationView: View {
     
     var body: some View {
         VStack(spacing: 2) {
-            ForEach(self.grid, id: \.self) { row in
+            ForEach(grid, id: \.self) { row in
                 HStack(spacing: 2) {
                     ForEach(row, id: \.self) { column in
                         Rectangle().opacity(column)
@@ -56,8 +56,8 @@ struct IdentificationView: View {
                 }
             }
         }
-        .foregroundColor(self.color)
-        .onAppear(perform: self.generateGrid)
+        .foregroundColor(color)
+        .onAppear(perform: generateGrid)
     }
 }
 

@@ -20,7 +20,7 @@ struct AuthenticationView: View {
     func loadKeypair() {
         do {
             let keyPair = try Authenticator.loadKeyPair()
-            self.auth = .init(keyPair: keyPair)
+            auth = .init(keyPair: keyPair)
         } catch Authenticator.Error.noKeyPair {
             newKeypair()
         } catch let error {
@@ -34,7 +34,7 @@ struct AuthenticationView: View {
         do {
             let keyPair = try Crypto.createRandomAsymmetricKeyPair()
             try Authenticator.register(newKeyPair: keyPair)
-            self.auth = .init(keyPair: keyPair)
+            auth = .init(keyPair: keyPair)
         } catch let error {
             withAnimation {
                 self.error = "Please try again. \n \(error.localizedDescription)"
@@ -57,11 +57,11 @@ struct AuthenticationView: View {
                     .frame(width: 128, height: 128, alignment: .center)
                     .padding()
                 
-                Button(action: self.loadKeypair) {
+                Button(action: loadKeypair) {
                     Text("Authenticate").padding()
                 }
                 
-                if let error = self.error {
+                if let error = error {
                     Text(error)
                         .font(.footnote)
                         .padding()

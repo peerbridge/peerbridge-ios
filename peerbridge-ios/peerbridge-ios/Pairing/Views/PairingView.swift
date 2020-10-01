@@ -11,7 +11,7 @@ struct PairingView: View {
                 .publicKeyString
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         else { return }
-        self.url = "peerbridge://pair?publicKey=\(encodedPublicKey)"
+        url = "peerbridge://pair?publicKey=\(encodedPublicKey)"
     }
     
     var body: some View {
@@ -25,7 +25,7 @@ struct PairingView: View {
             Text("peerbridge://your-public-key")
                 .font(.footnote)
                 .multilineTextAlignment(.center)
-        }.onAppear(perform: self.generateUrl)
+        }.onAppear(perform: generateUrl)
     }
 }
 

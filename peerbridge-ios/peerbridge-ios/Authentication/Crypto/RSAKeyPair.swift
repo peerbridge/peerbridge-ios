@@ -4,6 +4,28 @@ import SwiftyRSA
 public typealias PEMString = String
 
 
+extension PrivateKey: Hashable {
+    public static func == (lhs: PrivateKey, rhs: PrivateKey) -> Bool {
+        return lhs.reference == rhs.reference
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(reference)
+    }
+}
+
+
+extension PublicKey: Hashable {
+    public static func == (lhs: PublicKey, rhs: PublicKey) -> Bool {
+        return lhs.reference == rhs.reference
+    }
+    
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(reference)
+    }
+}
+
+
 public struct RSAKeyPair: Codable {
     let privateKey: PrivateKey
     let privateKeyString: PEMString

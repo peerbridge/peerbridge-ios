@@ -5,7 +5,7 @@ struct MessageRowView: View {
     let transaction: Transaction
     
     var isOwnMessage: Bool {
-        return transaction.sender == auth.keyPair.publicKeyString
+        transaction.sender == auth.keyPair.publicKeyString
     }
     
     @EnvironmentObject var auth: AuthenticationEnvironment
@@ -15,9 +15,9 @@ struct MessageRowView: View {
     func decryptMessage() {
         if let decryptedMessage = try? transaction
             .decrypt(withKeyPair: auth.keyPair) {
-            self.message = decryptedMessage
+            message = decryptedMessage
         } else {
-            self.message = "Message could not be decrypted."
+            message = "Message could not be decrypted."
         }
     }
     
@@ -26,21 +26,23 @@ struct MessageRowView: View {
             if isOwnMessage {
                 Spacer()
             }
+            
             VStack(alignment: isOwnMessage ? .trailing : .leading) {
-                Text(self.transaction.timestamp, style: .relative)
+                Text(transaction.timestamp, style: .relative)
                     .font(.footnote)
                     .padding(.bottom, 2)
-                Text(self.message)
+                Text(message)
                     .lineLimit(nil)
             }
             .padding(8)
             .background(isOwnMessage ? Color.blue.opacity(0.25) : Color.gray.opacity(0.25))
             .cornerRadius(12)
+            
             if !isOwnMessage {
                 Spacer()
             }
         }
-        .onAppear(perform: self.decryptMessage)
+        .onAppear(perform: decryptMessage)
     }
 }
 
@@ -54,8 +56,6 @@ struct MessageRowView_Previews: PreviewProvider {
                 data: "".data(using: .utf8)!,
                 timestamp: Date(timeIntervalSinceNow: -10000)
             )
-        ).environmentObject(
-            AuthenticationEnvironment.debugEnvironment
-        )
+        ).environmentObject(AuthenticationEnvironment.debugEnvironment)
     }
 }

@@ -33,7 +33,7 @@ struct PeerbridgeApp: App {
                 if let error = error {
                     VStack {
                         Text(error)
-                        Button(action: self.loadPersistence) {
+                        Button(action: loadPersistence) {
                             Text("Try again")
                         }
                     }

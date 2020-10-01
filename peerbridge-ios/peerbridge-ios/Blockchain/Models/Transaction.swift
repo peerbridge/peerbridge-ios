@@ -95,6 +95,10 @@ public final class TransactionRepository: Repository, ObservableObject {
         }
     }
     
+    func getChats(auth: AuthenticationEnvironment) throws -> [Chat] {
+        return try getChats(ownPublicKey: auth.keyPair.publicKeyString)
+    }
+    
     func getChats(ownPublicKey: PEMString) throws -> [Chat] {
         let sender = Expression<String>("sender")
         let receiver = Expression<String>("receiver")

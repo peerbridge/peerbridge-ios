@@ -3,19 +3,23 @@ import SwiftyRSA
 
 
 struct MessagesView: View {
+    let selectedPartner: PublicKey?
+    
     @EnvironmentObject var persistence: PersistenceEnvironment
     @EnvironmentObject var auth: AuthenticationEnvironment
-    @EnvironmentObject var chat: ChatEnvironment
     
     @State var message: String = ""
     @State var transactions: [Transaction] = []
     
     func sendMessage() {
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        
         let sessionKey = Crypto.createRandomSymmetricKey()
         
         guard
+            let selectedPartner = selectedPartner,
             let messageData = message.data(using: .utf8),
-            let partnerPublicKeyString = try? chat.partnerPublicKey.pemString(),
+            let partnerPublicKeyString = try? selectedPartner.pemString(),
             let encryptedMessage = try? Crypto.encrypt(
                 data: messageData,
                 symmetricallyWithKeyData: sessionKey
@@ -26,7 +30,7 @@ struct MessagesView: View {
             ),
             let encryptedByReceiverPublicKey = try? Crypto.encrypt(
                 data: sessionKey,
-                asymmetricallyWithPublicKey: chat.partnerPublicKey
+                asymmetricallyWithPublicKey: selectedPartner
             )
         else { return }
         
@@ -70,8 +74,8 @@ struct MessagesView: View {
                 let transaction = try ISO8601Decoder().decode(Transaction.self, from: data)
                 try persistence.transactions.insert(object: transaction)
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-                self.message = ""
-                self.loadTransactions()
+                message = ""
+                loadTransactions()
             } catch let error {
                 print("The database was not able to save the transaction: \(error)")
             }
@@ -81,8 +85,7 @@ struct MessagesView: View {
     
     func loadTransactions() {
         guard
-            let partnerPublicKeyString = try? chat.partnerPublicKey
-                .pemString(),
+            let partnerPublicKeyString = try? selectedPartner?.pemString(),
             let transactions = try? persistence.transactions
                 .getTransactions(withPartner: partnerPublicKeyString)
         else { return }
@@ -92,15 +95,15 @@ struct MessagesView: View {
     var body: some View {
         NavigationView {
             VStack {
-                List(self.transactions, id: \.index) { transaction in
+                List(transactions, id: \.index) { transaction in
                     MessageRowView(transaction: transaction)
                 }.listStyle(PlainListStyle())
                 Spacer()
                 HStack {
-                    TextField("Your Message", text: self.$message)
+                    TextField("Your Message", text: $message)
                         .textFieldStyle(RoundedBorderTextFieldStyle())
                         .padding(.leading)
-                    Button(action: self.sendMessage) {
+                    Button(action: sendMessage) {
                         Text("Send")
                     }.padding()
                 }
@@ -108,7 +111,7 @@ struct MessagesView: View {
                 ToolbarItem(placement: .destructiveAction) {
                     HStack {
                         IdentificationView(
-                            key: (try? chat.partnerPublicKey.pemString()) ?? ""
+                            key: (try? selectedPartner?.pemString()) ?? ""
                         )
                         .frame(width: 30, height: 30)
                         .padding(.leading, 4)
@@ -118,13 +121,14 @@ struct MessagesView: View {
                     Text("Messages").font(.title)
                 }
             }
-        }.onAppear(perform: self.loadTransactions)
+        }.onAppear(perform: loadTransactions)
     }
 }
 
-struct MessagesView_Previews: PreviewProvider {
+struct MessagesView_Previews: PreviewProvider {    
     static var previews: some View {
         MessagesView(
+            selectedPartner: AuthenticationEnvironment.debugEnvironment.keyPair.publicKey,
             transactions: [
                 Transaction(
                     index: "1",
@@ -136,6 +140,5 @@ struct MessagesView_Previews: PreviewProvider {
             ]
         )
         .environmentObject(AuthenticationEnvironment.debugEnvironment)
-        .environmentObject(ChatEnvironment.debugEnvironment)
     }
 }
