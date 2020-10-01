@@ -41,7 +41,7 @@ public struct Transaction: Codable {
     }
 }
 
-public final class TransactionRepository: Repository, ObservableObject {
+public class TransactionRepository: Repository, ObservableObject {
     typealias Object = Transaction
     
     enum Error: Swift.Error {

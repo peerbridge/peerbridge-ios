@@ -68,21 +68,8 @@ struct ChatsView: View {
 #if DEBUG
 struct ChatsView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatsView(
-            chats: (0...10).map { (i: Int) -> Chat in
-                return Chat(
-                    partner: "Partner \(i)",
-                    lastTransaction: Transaction(
-                        index: UUID().uuidString,
-                        sender: .alicePublicKeyString,
-                        receiver: .bobPublicKeyString,
-                        data: "garbage".data(using: .utf8)!,
-                        timestamp: Date().addingTimeInterval(-10000)
-                    )
-                )
-            }
-        )
-        .environmentObject(AuthenticationEnvironment.alice)
+        ChatsView(chats: .example)
+            .environmentObject(AuthenticationEnvironment.alice)
     }
 }
 #endif

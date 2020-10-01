@@ -50,15 +50,8 @@ struct MessageRowView: View {
 #if DEBUG
 struct MessageRowView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageRowView(
-            transaction: Transaction(
-                index: UUID().uuidString,
-                sender: .alicePublicKeyString,
-                receiver: .bobPublicKeyString,
-                data: "garbage".data(using: .utf8)!,
-                timestamp: Date(timeIntervalSinceNow: -10000)
-            )
-        ).environmentObject(AuthenticationEnvironment.alice)
+        MessageRowView(transaction: .example1)
+            .environmentObject(AuthenticationEnvironment.alice)
     }
 }
 #endif

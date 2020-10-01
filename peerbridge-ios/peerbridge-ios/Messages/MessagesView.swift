@@ -107,20 +107,8 @@ struct MessagesView: View {
                         Text("Send")
                     }.padding()
                 }
-            }.toolbar() {
-                ToolbarItem(placement: .destructiveAction) {
-                    HStack {
-                        IdentificationView(
-                            key: (try? selectedPartner?.pemString()) ?? ""
-                        )
-                        .frame(width: 30, height: 30)
-                        .padding(.leading, 4)
-                    }
-                }
-                ToolbarItem(placement: .cancellationAction) {
-                    Text("Messages").font(.title)
-                }
             }
+            .navigationTitle("Messages")
         }.onAppear(perform: loadTransactions)
     }
 }
@@ -129,26 +117,9 @@ struct MessagesView: View {
 #if DEBUG
 struct MessagesView_Previews: PreviewProvider {    
     static var previews: some View {
-        MessagesView(
-            selectedPartner: .alicePublicKey,
-            transactions: [
-                Transaction(
-                    index: UUID().uuidString,
-                    sender: .alicePublicKeyString,
-                    receiver: .bobPublicKeyString,
-                    data: "garbage".data(using: .utf8)!,
-                    timestamp: Date(timeIntervalSinceNow: -1000)
-                ),
-                Transaction(
-                    index: UUID().uuidString,
-                    sender: .bobPublicKeyString,
-                    receiver: .alicePublicKeyString,
-                    data: "garbage".data(using: .utf8)!,
-                    timestamp: Date(timeIntervalSinceNow: -2000)
-                )
-            ]
-        )
+        MessagesView(selectedPartner: .alicePublicKey)
         .environmentObject(AuthenticationEnvironment.alice)
+        .environmentObject(PersistenceEnvironment.debug)
     }
 }
 #endif

@@ -46,15 +46,9 @@ struct ChatRowView: View {
 struct ChatRowView_Previews: PreviewProvider {
     static var previews: some View {
         ChatRowView(chat: Chat(
-            partner: "expect this to be a very long public key",
-            lastTransaction: Transaction(
-                index: UUID().uuidString,
-                sender: .alicePublicKeyString,
-                receiver: .bobPublicKeyString,
-                data: "garbage".data(using: .utf8)!,
-                timestamp: Date().addingTimeInterval(-10000)
-            )
-        )).environmentObject(AuthenticationEnvironment.debugEnvironment)
+            partner: .bobPublicKeyString,
+            lastTransaction: .example1
+        )).environmentObject(AuthenticationEnvironment.alice)
     }
 }
 #endif

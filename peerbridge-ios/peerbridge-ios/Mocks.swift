@@ -111,12 +111,83 @@ extension AuthenticationEnvironment {
     static let bob = AuthenticationEnvironment(keyPair: .bobKeyPair)
 }
 
+extension Transaction {
+    static let example1 = Transaction(
+        index: UUID().uuidString,
+        sender: .alicePublicKeyString,
+        receiver: .bobPublicKeyString,
+        data: "garbage".data(using: .utf8)!,
+        timestamp: Date(timeIntervalSinceNow: -10000)
+    )
+    
+    static let example2 = Transaction(
+        index: UUID().uuidString,
+        sender: .bobPublicKeyString,
+        receiver: .alicePublicKeyString,
+        data: "garbage".data(using: .utf8)!,
+        timestamp: Date(timeIntervalSinceNow: -5000)
+    )
+}
+
+extension Chat {
+    static let exampleForAlice = Chat(partner: .bobPublicKeyString, lastTransaction: .example2)
+    static let exampleForBob = Chat(partner: .alicePublicKeyString, lastTransaction: .example2)
+}
+
+extension Sequence where Element == Chat {
+    static var example: [Element] {
+        (0...10).map { (i: Int) -> Chat in
+            return Chat(
+                partner: "Partner \(i)",
+                lastTransaction: Transaction(
+                    index: UUID().uuidString,
+                    sender: .alicePublicKeyString,
+                    receiver: .bobPublicKeyString,
+                    data: "garbage".data(using: .utf8)!,
+                    timestamp: Date().addingTimeInterval(-10000)
+                )
+            )
+        }
+    }
+}
+
+class MockedTransactionRepository: TransactionRepository {
+    init() throws {
+        try super.init(location: .inMemory)
+    }
+    
+    override func getLastTimestamp() throws -> Date {
+        return Transaction.example2.timestamp
+    }
+    
+    override func getTransactions(withPartner partnerPublicKey: PEMString) throws -> [Transaction] {
+        if partnerPublicKey == .bobPublicKeyString || partnerPublicKey == .alicePublicKeyString {
+            return [.example1, .example2]
+        }
+        return []
+    }
+    
+    override func getChats(auth: AuthenticationEnvironment) throws -> [Chat] {
+        return try getChats(ownPublicKey: auth.keyPair.publicKeyString)
+    }
+    
+    override func getChats(ownPublicKey: PEMString) throws -> [Chat] {
+        if ownPublicKey == .alicePublicKeyString {
+            return [.exampleForAlice]
+        }
+        if ownPublicKey == .bobPublicKeyString {
+            return [.exampleForBob]
+        }
+        return []
+    }
+}
+
 extension TransactionRepository {
-    static let debug = try! TransactionRepository(location: .inMemory)
+    static let mock = try! MockedTransactionRepository()
 }
 
 extension PersistenceEnvironment {
-    static let debug = PersistenceEnvironment(transactions: .debug)
+    static let debug = PersistenceEnvironment(transactions: .mock)
 }
 
 #endif

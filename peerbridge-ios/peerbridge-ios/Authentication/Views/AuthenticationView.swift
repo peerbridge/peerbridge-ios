@@ -76,14 +76,6 @@ struct AuthenticationView: View {
 
 
 #if DEBUG
-extension AuthenticationEnvironment {
-    static let debugKeyPair = try! Crypto.createRandomAsymmetricKeyPair()
-    
-    static let debugEnvironment = AuthenticationEnvironment(
-        keyPair: debugKeyPair
-    )
-}
-
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
         AuthenticationView()

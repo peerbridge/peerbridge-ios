@@ -70,12 +70,4 @@ class TransactionTest: XCTestCase {
             "The most recent chat should be the first entry!"
         )
     }
-    
-    struct Example: Codable {
-        let date: Date
-    }
-    
-    func testDeserialization() throws {
-        print(ISO8601DateFormatter().date(from: "2020-09-30T15:01:10.349854Z"))
-    }
 }
