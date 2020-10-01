@@ -49,9 +49,9 @@ struct ChatRowView_Previews: PreviewProvider {
             partner: "expect this to be a very long public key",
             lastTransaction: Transaction(
                 index: UUID().uuidString,
-                sender: "alice",
-                receiver: "bob",
-                data: "Lorem Ipsum".data(using: .utf8)!,
+                sender: .alicePublicKeyString,
+                receiver: .bobPublicKeyString,
+                data: "garbage".data(using: .utf8)!,
                 timestamp: Date().addingTimeInterval(-10000)
             )
         )).environmentObject(AuthenticationEnvironment.debugEnvironment)

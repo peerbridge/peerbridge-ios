@@ -29,8 +29,11 @@ struct PairingView: View {
     }
 }
 
+
+#if DEBUG
 struct PairingView_Previews: PreviewProvider {
     static var previews: some View {
-        PairingView().environmentObject(AuthenticationEnvironment.debugEnvironment)
+        PairingView().environmentObject(AuthenticationEnvironment.alice)
     }
 }
+#endif

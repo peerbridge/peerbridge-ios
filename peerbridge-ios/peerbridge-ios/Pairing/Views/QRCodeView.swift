@@ -27,9 +27,12 @@ struct QRCodeView: View {
     }
 }
 
+
+#if DEBUG
 struct QRCodeView_Previews: PreviewProvider {
     static var previews: some View {
         QRCodeView(uri: "peerbridge://test")
             .frame(width: 200, height: 200)
     }
 }
+#endif

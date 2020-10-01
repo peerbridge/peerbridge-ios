@@ -67,13 +67,13 @@ struct IdentificationView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            IdentificationView(key: "public key 1")
+            IdentificationView(key: .alicePublicKeyString)
                 .frame(width: 100, height: 100)
             Spacer()
-            IdentificationView(key: "public key 2")
+            IdentificationView(key: .bobPublicKeyString)
                 .frame(width: 200, height: 200)
             Spacer()
-            IdentificationView(key: "public key 3")
+            IdentificationView(key: .alicePublicKeyString)
                 .frame(width: 50, height: 50)
             Spacer()
         }

@@ -74,15 +74,15 @@ struct ChatsView_Previews: PreviewProvider {
                     partner: "Partner \(i)",
                     lastTransaction: Transaction(
                         index: UUID().uuidString,
-                        sender: "alice",
-                        receiver: "bob",
-                        data: "Lorem Ipsum".data(using: .utf8)!,
+                        sender: .alicePublicKeyString,
+                        receiver: .bobPublicKeyString,
+                        data: "garbage".data(using: .utf8)!,
                         timestamp: Date().addingTimeInterval(-10000)
                     )
                 )
             }
         )
-        .environmentObject(AuthenticationEnvironment.debugEnvironment)
+        .environmentObject(AuthenticationEnvironment.alice)
     }
 }
 #endif

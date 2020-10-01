@@ -125,20 +125,30 @@ struct MessagesView: View {
     }
 }
 
+
+#if DEBUG
 struct MessagesView_Previews: PreviewProvider {    
     static var previews: some View {
         MessagesView(
-            selectedPartner: AuthenticationEnvironment.debugEnvironment.keyPair.publicKey,
+            selectedPartner: .alicePublicKey,
             transactions: [
                 Transaction(
-                    index: "1",
-                    sender: "alice",
-                    receiver: "bob",
-                    data: "test".data(using: .utf8)!,
+                    index: UUID().uuidString,
+                    sender: .alicePublicKeyString,
+                    receiver: .bobPublicKeyString,
+                    data: "garbage".data(using: .utf8)!,
                     timestamp: Date(timeIntervalSinceNow: -1000)
+                ),
+                Transaction(
+                    index: UUID().uuidString,
+                    sender: .bobPublicKeyString,
+                    receiver: .alicePublicKeyString,
+                    data: "garbage".data(using: .utf8)!,
+                    timestamp: Date(timeIntervalSinceNow: -2000)
                 )
             ]
         )
-        .environmentObject(AuthenticationEnvironment.debugEnvironment)
+        .environmentObject(AuthenticationEnvironment.alice)
     }
 }
+#endif
