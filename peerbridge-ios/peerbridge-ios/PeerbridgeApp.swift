@@ -53,89 +53,79 @@ struct PeerbridgeApp: App {
 
 
 class AppDelegate: NSObject, UIApplicationDelegate {
-    private func handleNotificationUpdate(withUserInfo userInfo: [AnyHashable: Any]) {
-        let content = UNMutableNotificationContent()
-        content.title = "New message"
-        content.body = "Open the Peerbridge App to view a new message"
-        content.sound = .default
-        content.categoryIdentifier = "message"
-        content.userInfo = userInfo
-
-        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 1, repeats: false)
-        let request = UNNotificationRequest(
-            identifier: "message", content: content, trigger: trigger
-        )
-        UNUserNotificationCenter.current().add(request) { error in
-            guard let error = error else { return }
-            print("Error adding notification: \(error)")
-        }
-    }
-    
     func application(
         _ application: UIApplication,
         didFinishLaunchingWithOptions launchOptions:
             [UIApplication.LaunchOptionsKey : Any]? = nil
     ) -> Bool {
         FirebaseApp.configure()
-        
-        let notificationCenter = UNUserNotificationCenter.current()
-        notificationCenter.delegate = self
-        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
-        notificationCenter.requestAuthorization(options: authOptions) { _, _ in }
-        
-        UIApplication.shared.registerForRemoteNotifications()
+
         Messaging.messaging().delegate = self
         
-        print(Messaging.messaging().fcmToken ?? "No FCM Token")
+        // Register for remote notifications. This shows a permission dialog on first run, to
+        // show the dialog at a more appropriate time move this registration accordingly.
+        UNUserNotificationCenter.current().delegate = self
+        let authOptions: UNAuthorizationOptions = [.alert, .badge, .sound]
+        UNUserNotificationCenter.current().requestAuthorization(
+            options: authOptions,
+            completionHandler: {_, _ in }
+        )
+
+        application.registerForRemoteNotifications()
         
         return true
     }
     
-    func application(_ application: UIApplication, didFailToRegisterForRemoteNotificationsWithError error: Error) {
-        print(error)
-    }
-    
-    func application(_ application: UIApplication, didReceiveRemoteNotification userInfo: [AnyHashable : Any]) {
-        handleNotificationUpdate(withUserInfo: userInfo)
-    }
-
     func application(
         _ application: UIApplication,
-        didReceiveRemoteNotification userInfo: [AnyHashable : Any],
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any]
+    ) {
+        // If you are receiving a notification message while your app is in the background,
+        // this callback will not be fired till the user taps on the notification launching the application.
+
+        print("Received remote notification with userInfo: \(userInfo)")
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didReceiveRemoteNotification userInfo: [AnyHashable: Any],
         fetchCompletionHandler completionHandler:
             @escaping (UIBackgroundFetchResult) -> Void
     ) {
-        handleNotificationUpdate(withUserInfo: userInfo)
-        completionHandler(.newData)
+        self.application(application, didReceiveRemoteNotification: userInfo)
+        completionHandler(UIBackgroundFetchResult.newData)
+    }
+    
+    func application(
+        _ application: UIApplication,
+        didFailToRegisterForRemoteNotificationsWithError error: Error
+    ) {
+        print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
 }
 
-extension AppDelegate: UNUserNotificationCenterDelegate {
+extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(
         _ center: UNUserNotificationCenter,
         willPresent notification: UNNotification,
         withCompletionHandler completionHandler:
             @escaping (UNNotificationPresentationOptions) -> Void
     ) {
-        completionHandler([.badge, .banner, .sound])
-    }
-
-    func userNotificationCenter(
-        _ center: UNUserNotificationCenter,
-        didReceive response: UNNotificationResponse,
-        withCompletionHandler completionHandler: @escaping () -> Void
-    ) {
-        let userInfo = response.notification.request.content.userInfo
-        handleNotificationUpdate(withUserInfo: userInfo)
-        completionHandler()
+        let userInfo = notification.request.content.userInfo
+        print("Will present notification with userInfo: \(userInfo)")
+        completionHandler([[.banner, .sound]])
     }
 }
 
-extension AppDelegate: MessagingDelegate {
-    func messaging(
-        _ messaging: Messaging,
-        didReceiveRegistrationToken fcmToken: String
-    ) {
-        print("Received the FCM token: \(fcmToken)")
+extension AppDelegate : MessagingDelegate {
+    func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String) {
+        print("Firebase registration token: \(fcmToken)")
+
+        let dataDict:[String: String] = ["token": fcmToken]
+        NotificationCenter.default.post(
+            name: Notification.Name("FCMToken"),
+            object: nil,
+            userInfo: dataDict
+        )
     }
 }
