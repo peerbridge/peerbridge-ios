@@ -1,23 +1,34 @@
 import SwiftUI
+import Firebase
+
 
 struct PairingView: View {
     @EnvironmentObject var auth: AuthenticationEnvironment
     
     @State var url: String? = nil
     
-    func generateUrl() {
+    func loadCode() {
         guard
             let encodedPublicKey = auth.keyPair
                 .publicKeyString
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         else { return }
-        url = "peerbridge://pair?publicKey=\(encodedPublicKey)"
+        Messaging.messaging().token { token, error in
+            if let error = error {
+                print("Messaging could not retrieve token: \(error)")
+                return
+            }
+            guard let token = token else { return }
+            url = "peerbridge://pair?token=\(token)&publicKey=\(encodedPublicKey)"
+        }
     }
     
     var body: some View {
         VStack {
             if let url = url {
                 QRCodeView(uri: url).padding()
+            } else {
+                ProgressView()
             }
             Text("Show this QR Code to another user to start chatting!")
                 .padding()
@@ -25,7 +36,7 @@ struct PairingView: View {
             Spacer()
         }
         .navigationTitle("Start Chat")
-        .onAppear(perform: generateUrl)
+        .onAppear(perform: loadCode)
     }
 }
 

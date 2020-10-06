@@ -14,11 +14,17 @@ struct ChatsView: View {
         guard
             let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
             let params = components.queryItems,
-            let taintedPublicKey = params.first(where: { $0.name == "publicKey" })?.value,
-            let publicKey = try? PublicKey(pemEncoded: taintedPublicKey)
+            let taintedToken = params.first(where: { $0.name == "token" })?.value,
+            let taintedPublicKey = params.first(where: { $0.name == "publicKey" })?.value
         else { return }
-        self.selectedPartner = publicKey
-        self.shouldShowMessages = true
+        
+        do {
+            self.selectedPartner = try PublicKey(pemEncoded: taintedPublicKey)
+            try ChatKeychain.register(token: taintedToken, forPartner: taintedPublicKey)
+            self.shouldShowMessages = true
+        } catch let error {
+            print("Error during url handling: \(error)")
+        }
     }
     
     func loadChats() {

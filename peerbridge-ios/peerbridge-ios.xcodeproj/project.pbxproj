@@ -30,6 +30,7 @@
 		BE64F4E02524C25300CFC23F /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4DF2524C25300CFC23F /* MessagesView.swift */; };
 		BE85BACF249CAFA80035FC83 /* ISO8601Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */; };
 		BE9B01EF252CBC0C008E24D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */; };
+		BE9B01FE252CCDA9008E24D5 /* ChatKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9B01FD252CCDA9008E24D5 /* ChatKeychain.swift */; };
 		BEA6274F249B5024005FFEE2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6274E249B5024005FFEE2 /* Block.swift */; };
 		BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */; };
 		BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */; };
@@ -79,6 +80,7 @@
 		BE64F4DF2524C25300CFC23F /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601Decoder.swift; sourceTree = "<group>"; };
 		BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		BE9B01FD252CCDA9008E24D5 /* ChatKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatKeychain.swift; sourceTree = "<group>"; };
 		BEA6274E249B5024005FFEE2 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAKeyPair.swift; sourceTree = "<group>"; };
@@ -146,6 +148,7 @@
 		BE119DFB2523691500041870 /* Chats */ = {
 			isa = PBXGroup;
 			children = (
+				BE9B01FD252CCDA9008E24D5 /* ChatKeychain.swift */,
 				BE119E18252382CA00041870 /* Models */,
 				BE119E002523693300041870 /* Views */,
 			);
@@ -537,6 +540,7 @@
 				BE10D36725260A1600802BF2 /* Mocks.swift in Sources */,
 				BE4E41AF249A588700841C04 /* Envelope.swift in Sources */,
 				BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */,
+				BE9B01FE252CCDA9008E24D5 /* ChatKeychain.swift in Sources */,
 				BE58CE9A249E298F00569D41 /* EncryptedSessionKeyPair.swift in Sources */,
 				BE3AF315249BC9C7008D05AA /* Endpoints.swift in Sources */,
 				BE119E04252369CB00041870 /* IdentificationView.swift in Sources */,
