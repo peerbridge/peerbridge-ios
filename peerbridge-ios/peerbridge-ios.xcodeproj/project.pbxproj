@@ -29,13 +29,13 @@
 		BE64F4D22524A2E000CFC23F /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4D12524A2E000CFC23F /* QRCodeView.swift */; };
 		BE64F4E02524C25300CFC23F /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4DF2524C25300CFC23F /* MessagesView.swift */; };
 		BE85BACF249CAFA80035FC83 /* ISO8601Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */; };
+		BE9B01EF252CBC0C008E24D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */; };
 		BEA6274F249B5024005FFEE2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6274E249B5024005FFEE2 /* Block.swift */; };
 		BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */; };
 		BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */; };
 		BEBE7CDC251DE85E001B3BF8 /* ISO8601Encoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CDB251DE85E001B3BF8 /* ISO8601Encoder.swift */; };
 		BECB086025234E53001A453A /* TransactionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB085F25234E53001A453A /* TransactionTests.swift */; };
 		BECB086A25236316001A453A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB086925236316001A453A /* Repository.swift */; };
-		BEE965E1252C7A7C00780C4C /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BEE965E0252C7A7C00780C4C /* GoogleService-Info.plist */; };
 		BEF1ABEC249A271B00BE2FBE /* Crypto.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABEB249A271B00BE2FBE /* Crypto.swift */; };
 		BEF1ABF5249A290300BE2FBE /* EncryptionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABF4249A290300BE2FBE /* EncryptionTests.swift */; };
 		BEF1ABFD249A298300BE2FBE /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Authenticator.swift */; };
@@ -78,6 +78,7 @@
 		BE64F4D12524A2E000CFC23F /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BE64F4DF2524C25300CFC23F /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601Decoder.swift; sourceTree = "<group>"; };
+		BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEA6274E249B5024005FFEE2 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAKeyPair.swift; sourceTree = "<group>"; };
@@ -85,7 +86,6 @@
 		BEC190C82527585B005A3E42 /* peerbridge-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "peerbridge-ios.entitlements"; sourceTree = "<group>"; };
 		BECB085F25234E53001A453A /* TransactionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTests.swift; sourceTree = "<group>"; };
 		BECB086925236316001A453A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
-		BEE965E0252C7A7C00780C4C /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEF1ABEB249A271B00BE2FBE /* Crypto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crypto.swift; sourceTree = "<group>"; };
 		BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "peerbridge-ios-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		BEF1ABF4249A290300BE2FBE /* EncryptionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptionTests.swift; sourceTree = "<group>"; };
@@ -192,8 +192,6 @@
 		BE24B6E9249A2540001CDE09 /* peerbridge-ios */ = {
 			isa = PBXGroup;
 			children = (
-				BEE965E0252C7A7C00780C4C /* GoogleService-Info.plist */,
-				BEC190C82527585B005A3E42 /* peerbridge-ios.entitlements */,
 				BE10D36625260A1600802BF2 /* Mocks.swift */,
 				BE119E232524466900041870 /* PeerbridgeApp.swift */,
 				BE64F4DE2524C24300CFC23F /* Messages */,
@@ -203,7 +201,9 @@
 				BE85BAC5249CA8800035FC83 /* Blockchain */,
 				BE24B6F0249A2541001CDE09 /* Assets.xcassets */,
 				BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */,
+				BEC190C82527585B005A3E42 /* peerbridge-ios.entitlements */,
 				BE24B6F8249A2541001CDE09 /* Info.plist */,
+				BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */,
 				BE24B6F2249A2541001CDE09 /* Preview Content */,
 			);
 			path = "peerbridge-ios";
@@ -237,8 +237,7 @@
 		BE64F4DE2524C24300CFC23F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
-				BE64F4DF2524C25300CFC23F /* MessagesView.swift */,
-				BE10D35B2524E8EC00802BF2 /* MessageRowView.swift */,
+				BEE9661C252C8EBD00780C4C /* Views */,
 			);
 			path = Messages;
 			sourceTree = "<group>";
@@ -307,6 +306,15 @@
 			children = (
 				BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */,
 				BE119E03252369CA00041870 /* IdentificationView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		BEE9661C252C8EBD00780C4C /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BE64F4DF2524C25300CFC23F /* MessagesView.swift */,
+				BE10D35B2524E8EC00802BF2 /* MessageRowView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -408,7 +416,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				BE24B6F7249A2541001CDE09 /* LaunchScreen.storyboard in Resources */,
-				BEE965E1252C7A7C00780C4C /* GoogleService-Info.plist in Resources */,
+				BE9B01EF252CBC0C008E24D5 /* GoogleService-Info.plist in Resources */,
 				BE24B6F4249A2541001CDE09 /* Preview Assets.xcassets in Resources */,
 				BE24B6F1249A2541001CDE09 /* Assets.xcassets in Resources */,
 			);
@@ -698,7 +706,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.peerbridge.peerbridge-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -720,7 +728,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.peerbridge.peerbridge-ios";
+				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";

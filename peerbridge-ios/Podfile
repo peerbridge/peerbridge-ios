@@ -9,6 +9,9 @@ target 'peerbridge-ios' do
   pod 'SwiftyRSA'
   pod 'SwiftLint'
   pod 'SQLite.swift', '~> 0.12.0'
+
+  pod 'Firebase/Analytics'
+  pod 'Firebase/Messaging'
 end
 
 target 'peerbridge-ios-tests' do 
