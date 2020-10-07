@@ -63,18 +63,21 @@ struct ChatsView: View {
                     label: { EmptyView() }
                 )
 
-                List(chats, id: \.partner) { chat in
-                    Button {
-                        guard
-                            let publicKey = try? PublicKey(pemEncoded: chat.partner)
-                        else { return }
-                        selectedPartner = publicKey
-                        shouldShowMessages = true
-                    } label: {
-                        ChatRowView(chat: chat)
+                ScrollView {
+                    LazyVStack {
+                        ForEach(chats, id: \.partner) { chat in
+                            Button {
+                                guard
+                                    let publicKey = try? PublicKey(pemEncoded: chat.partner)
+                                else { return }
+                                selectedPartner = publicKey
+                                shouldShowMessages = true
+                            } label: {
+                                ChatRowView(chat: chat)
+                            }
+                        }
                     }
                 }
-                .listStyle(PlainListStyle())
             }
             .navigationBarTitle("Chats")
             .navigationBarItems(
@@ -95,6 +98,9 @@ struct ChatsView: View {
         .onOpenURL(perform: handleURL)
         .onAppear(perform: loadChats)
         .onReceive(publisher, perform: { _ in fetchTransactions() })
+        .onAppear {
+            UITableView.appearance().separatorStyle = .none
+        }
     }
 }
 

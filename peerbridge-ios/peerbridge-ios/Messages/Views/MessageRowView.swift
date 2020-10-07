@@ -25,6 +25,12 @@ struct MessageRowView: View {
         }
     }
     
+    var background: some View {
+        RoundedRectangle(cornerRadius: 12)
+            .foregroundColor(isOwnMessage ? Color.blue : Color.white)
+            .shadow(color: Color.black.opacity(0.1), radius: 12, x: 0, y: 4)
+    }
+    
     var body: some View {
         HStack {
             if isOwnMessage {
@@ -51,8 +57,9 @@ struct MessageRowView: View {
                 }
             }
             .padding(8)
-            .background(isOwnMessage ? Color.green.opacity(0.6) : Color.green.opacity(0.25))
-            .cornerRadius(12)
+            .foregroundColor(isOwnMessage ? Color.white : Color.black)
+            .background(background)
+            .padding(.horizontal)
             
             if !isOwnMessage {
                 Spacer()
@@ -66,9 +73,16 @@ struct MessageRowView: View {
 #if DEBUG
 struct MessageRowView_Previews: PreviewProvider {
     static var previews: some View {
-        MessageRowView(
-            transaction: .example1
-        ).environmentObject(AuthenticationEnvironment.bob)
+        VStack {
+            MessageRowView(
+                transaction: .example1
+            ).environmentObject(AuthenticationEnvironment.bob)
+            MessageRowView(
+                transaction: .example1
+            ).environmentObject(AuthenticationEnvironment.alice)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .background(Color.black.opacity(0.04))
     }
 }
 #endif

@@ -43,11 +43,16 @@ struct ChatRowView: View {
                         .lineLimit(2)
                 }
             }
-            .padding(.leading)
             Spacer()
         }
-        .padding(.vertical)
+        .padding()
+        .background(
+            RoundedRectangle(cornerRadius: 12)
+                .foregroundColor(.white)
+                .shadow(color: Color.black.opacity(0.1), radius: 12, x: 0, y: 4)
+        )
         .onAppear(perform: self.decryptMessage)
+        .padding()
     }
 }
 
@@ -55,10 +60,17 @@ struct ChatRowView: View {
 #if DEBUG
 struct ChatRowView_Previews: PreviewProvider {
     static var previews: some View {
-        ChatRowView(chat: Chat(
-            partner: .bobPublicKeyString,
-            lastTransaction: .example1
-        )).environmentObject(AuthenticationEnvironment.alice)
+        VStack {
+            ChatRowView(chat: Chat(
+                partner: .bobPublicKeyString,
+                lastTransaction: .example1
+            )).environmentObject(AuthenticationEnvironment.alice)
+            
+            ChatRowView(chat: Chat(
+                partner: .alicePublicKeyString,
+                lastTransaction: .example1
+            )).environmentObject(AuthenticationEnvironment.alice)
+        }
     }
 }
 #endif

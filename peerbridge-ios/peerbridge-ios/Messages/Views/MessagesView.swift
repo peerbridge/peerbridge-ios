@@ -134,7 +134,7 @@ struct MessagesView: View {
                     }
                 }
             }
-            .padding(.horizontal)
+            .padding(.vertical)
             if partnerToken != nil {
                 HStack {
                     TextField("Your Message", text: $content, onCommit: {

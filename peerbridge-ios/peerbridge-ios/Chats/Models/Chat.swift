@@ -12,9 +12,11 @@ struct Chat: Codable, Hashable, Equatable {
     
     func hash(into hasher: inout Hasher) {
         hasher.combine(partner)
+        hasher.combine(lastTransaction.timestamp)
     }
     
     static func == (lhs: Chat, rhs: Chat) -> Bool {
-        return lhs.partner == rhs.partner
+        return lhs.partner == rhs.partner &&
+            lhs.lastTransaction.timestamp == rhs.lastTransaction.timestamp
     }
 }
