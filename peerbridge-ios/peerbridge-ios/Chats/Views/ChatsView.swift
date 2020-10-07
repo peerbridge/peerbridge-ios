@@ -6,6 +6,9 @@ struct ChatsView: View {
     @EnvironmentObject var auth: AuthenticationEnvironment
     @EnvironmentObject var persistence: PersistenceEnvironment
     
+    let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
+    
+    @State var partnerToken: NotificationToken? = nil
     @State var selectedPartner: PublicKey?
     @State var shouldShowMessages = false
     @State var chats: [Chat] = []
@@ -20,7 +23,7 @@ struct ChatsView: View {
         
         do {
             self.selectedPartner = try PublicKey(pemEncoded: taintedPublicKey)
-            try ChatKeychain.register(token: taintedToken, forPartner: taintedPublicKey)
+            self.partnerToken = taintedToken
             self.shouldShowMessages = true
         } catch let error {
             print("Error during url handling: \(error)")
@@ -34,7 +37,7 @@ struct ChatsView: View {
         self.chats = chats
     }
     
-    func updateTransactions() {
+    func fetchTransactions() {
         TransactionEndpoint.fetch(auth: auth) { result in
             switch result {
             case .failure(let error):
@@ -52,7 +55,10 @@ struct ChatsView: View {
         NavigationView {
             VStack {
                 NavigationLink(
-                    destination: MessagesView(selectedPartner: selectedPartner),
+                    destination: MessagesView(
+                        selectedPartner: selectedPartner,
+                        partnerToken: partnerToken
+                    ),
                     isActive: $shouldShowMessages,
                     label: { EmptyView() }
                 )
@@ -72,7 +78,7 @@ struct ChatsView: View {
             }
             .navigationBarTitle("Chats")
             .navigationBarItems(
-                leading: Button(action: updateTransactions) {
+                leading: Button(action: fetchTransactions) {
                     HStack {
                         Image(systemName: "arrow.clockwise")
                         Text("Update")
@@ -88,6 +94,7 @@ struct ChatsView: View {
         }
         .onOpenURL(perform: handleURL)
         .onAppear(perform: loadChats)
+        .onReceive(publisher, perform: { _ in fetchTransactions() })
     }
 }
 

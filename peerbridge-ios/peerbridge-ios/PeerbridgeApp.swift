@@ -1,6 +1,7 @@
 import SwiftUI
 import SwiftyRSA
-import Firebase
+
+import Firebase // FCM push notifications
 
 
 class PersistenceEnvironment: ObservableObject {
@@ -102,7 +103,21 @@ class AppDelegate: NSObject, UIApplicationDelegate {
     ) {
         print("Unable to register for remote notifications: \(error.localizedDescription)")
     }
+    
+    func application(
+        _ application: UIApplication,
+        didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data
+    ) {
+        // Refresh the fcm token after registration for remote notifications.
+        _ = Messaging.messaging().fcmToken
+    }
 }
+
+
+extension Notification.Name {
+    static let newRemoteMessage = Notification.Name("NewRemoteMessage")
+}
+
 
 extension AppDelegate : UNUserNotificationCenterDelegate {
     func userNotificationCenter(
@@ -112,6 +127,10 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             @escaping (UNNotificationPresentationOptions) -> Void
     ) {
         let userInfo = notification.request.content.userInfo
+        let notification = Notification(
+            name: .newRemoteMessage, object: nil, userInfo: userInfo
+        )
+        NotificationCenter.default.post(notification)
         print("Will present notification with userInfo: \(userInfo)")
         completionHandler([[.banner, .sound]])
     }

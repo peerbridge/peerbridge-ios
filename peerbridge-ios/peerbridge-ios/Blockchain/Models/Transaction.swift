@@ -3,9 +3,6 @@ import SQLite
 import SQLite3
 
 
-public typealias Message = String
-
-
 public struct Transaction: Codable {
     enum Error: Swift.Error {
         case wrongEncoding
@@ -36,9 +33,7 @@ public struct Transaction: Codable {
             data: envelope.encryptedMessage,
             symmetricallyWithKeyData: decryptedSessionKey
         )
-        guard
-            let message = String(data: decryptedData, encoding: .utf8)
-        else { throw Self.Error.wrongEncoding }
+        let message = try ISO8601Decoder().decode(Message.self, from: decryptedData)
         return message
     }
 }
@@ -163,7 +158,7 @@ public class TransactionRepository: Repository, ObservableObject {
         let timestamp = Expression<Date>("timestamp")
         
         let rows: AnySequence<Row> = try fetch { table in table
-            .select(distinct: [sender, receiver, timestamp.min, table[*]])
+            .select(distinct: [sender, receiver, timestamp.max, table[*]])
             .order(timestamp.asc)
             .group([sender, receiver])
         }

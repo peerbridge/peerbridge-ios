@@ -24,13 +24,15 @@
 		BE4E41B1249A599500841C04 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B0249A599500841C04 /* Transaction.swift */; };
 		BE4E41B3249A69E300841C04 /* Requests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE4E41B2249A69E300841C04 /* Requests.swift */; };
 		BE58CE9A249E298F00569D41 /* EncryptedSessionKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE58CE99249E298F00569D41 /* EncryptedSessionKeyPair.swift */; };
+		BE5C69C9252DE0F300480447 /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5C69C8252DE0F300480447 /* Message.swift */; };
+		BE5C69D2252DE72100480447 /* NotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5C69D1252DE72100480447 /* NotificationRequest.swift */; };
+		BE5C69D6252DE74400480447 /* NotificationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5C69D5252DE74400480447 /* NotificationToken.swift */; };
 		BE64F4B02524541D00CFC23F /* RepositoryTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4AF2524541D00CFC23F /* RepositoryTests.swift */; };
 		BE64F4CE252493C900CFC23F /* PairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4CD252493C900CFC23F /* PairingView.swift */; };
 		BE64F4D22524A2E000CFC23F /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4D12524A2E000CFC23F /* QRCodeView.swift */; };
 		BE64F4E02524C25300CFC23F /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4DF2524C25300CFC23F /* MessagesView.swift */; };
 		BE85BACF249CAFA80035FC83 /* ISO8601Decoder.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */; };
 		BE9B01EF252CBC0C008E24D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */; };
-		BE9B01FE252CCDA9008E24D5 /* ChatKeychain.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE9B01FD252CCDA9008E24D5 /* ChatKeychain.swift */; };
 		BEA6274F249B5024005FFEE2 /* Block.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEA6274E249B5024005FFEE2 /* Block.swift */; };
 		BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */; };
 		BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */; };
@@ -74,13 +76,15 @@
 		BE4E41B0249A599500841C04 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		BE4E41B2249A69E300841C04 /* Requests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requests.swift; sourceTree = "<group>"; };
 		BE58CE99249E298F00569D41 /* EncryptedSessionKeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EncryptedSessionKeyPair.swift; sourceTree = "<group>"; };
+		BE5C69C8252DE0F300480447 /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
+		BE5C69D1252DE72100480447 /* NotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequest.swift; sourceTree = "<group>"; };
+		BE5C69D5252DE74400480447 /* NotificationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToken.swift; sourceTree = "<group>"; };
 		BE64F4AF2524541D00CFC23F /* RepositoryTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RepositoryTests.swift; sourceTree = "<group>"; };
 		BE64F4CD252493C900CFC23F /* PairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingView.swift; sourceTree = "<group>"; };
 		BE64F4D12524A2E000CFC23F /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BE64F4DF2524C25300CFC23F /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
 		BE85BACE249CAFA80035FC83 /* ISO8601Decoder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ISO8601Decoder.swift; sourceTree = "<group>"; };
 		BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		BE9B01FD252CCDA9008E24D5 /* ChatKeychain.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatKeychain.swift; sourceTree = "<group>"; };
 		BEA6274E249B5024005FFEE2 /* Block.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Block.swift; sourceTree = "<group>"; };
 		BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		BEBE7CD3251DE762001B3BF8 /* RSAKeyPair.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RSAKeyPair.swift; sourceTree = "<group>"; };
@@ -148,7 +152,6 @@
 		BE119DFB2523691500041870 /* Chats */ = {
 			isa = PBXGroup;
 			children = (
-				BE9B01FD252CCDA9008E24D5 /* ChatKeychain.swift */,
 				BE119E18252382CA00041870 /* Models */,
 				BE119E002523693300041870 /* Views */,
 			);
@@ -220,6 +223,23 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		BE5C69C7252DE0E500480447 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				BE5C69C8252DE0F300480447 /* Message.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		BE5C69CE252DE6AC00480447 /* Notifications */ = {
+			isa = PBXGroup;
+			children = (
+				BE5C69D1252DE72100480447 /* NotificationRequest.swift */,
+				BE5C69D5252DE74400480447 /* NotificationToken.swift */,
+			);
+			path = Notifications;
+			sourceTree = "<group>";
+		};
 		BE64F4CB2524938100CFC23F /* Pairing */ = {
 			isa = PBXGroup;
 			children = (
@@ -240,6 +260,8 @@
 		BE64F4DE2524C24300CFC23F /* Messages */ = {
 			isa = PBXGroup;
 			children = (
+				BE5C69CE252DE6AC00480447 /* Notifications */,
+				BE5C69C7252DE0E500480447 /* Models */,
 				BEE9661C252C8EBD00780C4C /* Views */,
 			);
 			path = Messages;
@@ -528,6 +550,7 @@
 				BE119E242524466900041870 /* PeerbridgeApp.swift in Sources */,
 				BE119E1325237DD000041870 /* ChatRowView.swift in Sources */,
 				BEBE7CD4251DE762001B3BF8 /* RSAKeyPair.swift in Sources */,
+				BE5C69C9252DE0F300480447 /* Message.swift in Sources */,
 				BEF1ABEC249A271B00BE2FBE /* Crypto.swift in Sources */,
 				BE4E41B3249A69E300841C04 /* Requests.swift in Sources */,
 				BE64F4CE252493C900CFC23F /* PairingView.swift in Sources */,
@@ -536,11 +559,12 @@
 				BEA6274F249B5024005FFEE2 /* Block.swift in Sources */,
 				BE64F4D22524A2E000CFC23F /* QRCodeView.swift in Sources */,
 				BE119E1A252382D400041870 /* Chat.swift in Sources */,
+				BE5C69D6252DE74400480447 /* NotificationToken.swift in Sources */,
 				BECB086A25236316001A453A /* Repository.swift in Sources */,
 				BE10D36725260A1600802BF2 /* Mocks.swift in Sources */,
 				BE4E41AF249A588700841C04 /* Envelope.swift in Sources */,
 				BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */,
-				BE9B01FE252CCDA9008E24D5 /* ChatKeychain.swift in Sources */,
+				BE5C69D2252DE72100480447 /* NotificationRequest.swift in Sources */,
 				BE58CE9A249E298F00569D41 /* EncryptedSessionKeyPair.swift in Sources */,
 				BE3AF315249BC9C7008D05AA /* Endpoints.swift in Sources */,
 				BE119E04252369CB00041870 /* IdentificationView.swift in Sources */,

@@ -1,5 +1,6 @@
 import SwiftUI
 import SwiftyRSA
+import Firebase
 
 
 fileprivate extension UIApplication {
@@ -10,15 +11,20 @@ fileprivate extension UIApplication {
 
 
 struct MessagesView: View {
-    let selectedPartner: PublicKey?
-    
     @EnvironmentObject var persistence: PersistenceEnvironment
     @EnvironmentObject var auth: AuthenticationEnvironment
     
-    @State var message: String = ""
-    @State var transactions: [Transaction] = []
+    let selectedPartner: PublicKey?
     
+    let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
+    
+    @State var partnerToken: NotificationToken? = nil
+    @State var content: String = ""
+    @State var transactions: [Transaction] = []
+        
     func sendMessage() {
+        // TODO: Refactor this method
+        
         UIApplication.shared.endEditing()
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         
@@ -26,8 +32,11 @@ struct MessagesView: View {
         
         guard
             let selectedPartner = selectedPartner,
-            let messageData = message.data(using: .utf8),
             let partnerPublicKeyString = try? selectedPartner.pemString(),
+            let partnerToken = partnerToken,
+            let ownToken = Messaging.messaging().fcmToken,
+            let messageData = try? ISO8601Encoder()
+                .encode(Message(content: content, token: ownToken)),
             let encryptedMessage = try? Crypto.encrypt(
                 data: messageData,
                 symmetricallyWithKeyData: sessionKey
@@ -60,49 +69,65 @@ struct MessagesView: View {
             receiver: partnerPublicKeyString,
             data: transactionData
         )
-        
-        guard
-            let jsonData = try? ISO8601Encoder().encode(transactionRequest)
-        else { return }
-        
-        let url = URL(string: "\(Endpoints.main)/blockchain/transactions/new")!
-        var request = URLRequest(url: url)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        request.httpBody = jsonData
-        
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            guard error == nil else {
-                print(error!)
-                return
-            }
-            guard let data = data else { return }
+        transactionRequest.send { result in
+            guard let transaction = try? result.get() else { return }
+            try? persistence.transactions.insert(object: transaction)
             
-            do {
-                let transaction = try ISO8601Decoder().decode(Transaction.self, from: data)
-                try persistence.transactions.insert(object: transaction)
+            let notificationRequest = NotificationRequest(
+                to: partnerToken,
+                notification: .newMessage,
+                data: nil
+            )
+            notificationRequest.send { error in
+                if let error = error {
+                    print("Notification request send failed with error: \(error)")
+                    return
+                }
+                
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-                message = ""
-                loadTransactions()
-            } catch let error {
-                print("The database was not able to save the transaction: \(error)")
+                content = ""
+                refreshLocally()
             }
         }
-        task.resume()
     }
     
-    func loadTransactions() {
+    func refreshLocally() {
         guard
             let partnerPublicKeyString = try? selectedPartner?.pemString(),
             let transactions = try? persistence.transactions
                 .getTransactions(withPartner: partnerPublicKeyString)
         else { return }
         self.transactions = transactions
+        
+        // If there are transactions with this partner,
+        // get the most recent push notification token for him
+        for transaction in transactions.reversed() {
+            guard
+                transaction.sender == partnerPublicKeyString,
+                let message = try? transaction.decrypt(withKeyPair: auth.keyPair)
+            else { continue }
+            partnerToken = message.token
+            return
+        }
+    }
+    
+    func refreshFromRemote() {
+        TransactionEndpoint.fetch(auth: auth) { result in
+            switch result {
+            case .failure(let error):
+                UINotificationFeedbackGenerator().notificationOccurred(.error)
+                print("Update Transactions failed: \(error)")
+            case .success(let transactions):
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
+                persistence.transactions.update(transactions: transactions)
+                refreshLocally()
+            }
+        }
     }
     
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView {
+            ScrollView(showsIndicators: false) {
                 LazyVStack {
                     ForEach(transactions, id: \.index) { transaction in
                         MessageRowView(transaction: transaction)
@@ -110,30 +135,35 @@ struct MessagesView: View {
                 }
             }
             .padding(.horizontal)
-            HStack {
-                TextField("Your Message", text: $message, onCommit: {
-                    UIApplication.shared.endEditing()
-                })
-                .padding(.horizontal)
-                .padding(.vertical, 12)
-                .background(Color.black.opacity(0.05))
-                .cornerRadius(24)
-                .padding(.leading)
-                .padding(.vertical, 12)
-                Button(action: sendMessage) {
-                    Image(systemName: "paperplane.fill")
-                        .renderingMode(.template)
-                        .foregroundColor(.white)
+            if partnerToken != nil {
+                HStack {
+                    TextField("Your Message", text: $content, onCommit: {
+                        UIApplication.shared.endEditing()
+                    })
+                    .padding(.horizontal)
+                    .padding(.vertical, 12)
+                    .background(Color.black.opacity(0.05))
+                    .cornerRadius(24)
+                    .padding(.leading)
+                    .padding(.vertical, 12)
+                    Button(action: sendMessage) {
+                        Image(systemName: "paperplane.fill")
+                            .renderingMode(.template)
+                            .foregroundColor(.white)
+                    }
+                    .padding(12)
+                    .background(Color.blue)
+                    .cornerRadius(24)
+                    .padding(.trailing)
+                    .padding(.vertical)
                 }
-                .padding(12)
-                .background(Color.blue)
-                .cornerRadius(24)
-                .padding(.trailing)
-                .padding(.vertical)
             }
         }
         .navigationTitle("Messages")
-        .onAppear(perform: loadTransactions)
+        .onReceive(publisher, perform: { _ in
+            refreshFromRemote()
+        })
+        .onAppear(perform: refreshLocally)
     }
 }
 
@@ -141,7 +171,7 @@ struct MessagesView: View {
 #if DEBUG
 struct MessagesView_Previews: PreviewProvider {    
     static var previews: some View {
-        MessagesView(selectedPartner: .alicePublicKey)
+        MessagesView(selectedPartner: .alicePublicKey, partnerToken: nil)
         .environmentObject(AuthenticationEnvironment.alice)
         .environmentObject(PersistenceEnvironment.debug)
     }

@@ -9,6 +9,7 @@ struct PairingView: View {
     
     func loadCode() {
         guard
+            url == nil,
             let encodedPublicKey = auth.keyPair
                 .publicKeyString
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
@@ -43,8 +44,16 @@ struct PairingView: View {
 
 #if DEBUG
 struct PairingView_Previews: PreviewProvider {
+    static let publicKey = PEMString
+        .alicePublicKeyString
+        .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
+    
     static var previews: some View {
-        PairingView().environmentObject(AuthenticationEnvironment.alice)
+        NavigationView {
+            PairingView(
+                url: "example"
+            ).environmentObject(AuthenticationEnvironment.alice)
+        }
     }
 }
 #endif

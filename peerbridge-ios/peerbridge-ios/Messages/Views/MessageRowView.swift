@@ -8,9 +8,15 @@ struct MessageRowView: View {
         transaction.sender == auth.keyPair.publicKeyString
     }
     
+    var dateFormatter: RelativeDateTimeFormatter {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter
+    }
+    
     @EnvironmentObject var auth: AuthenticationEnvironment
     
-    @State var message: String = "Encrypted Message"
+    @State var message: Message? = nil
     
     func decryptMessage() {
         if let decryptedMessage = try? transaction
@@ -27,19 +33,25 @@ struct MessageRowView: View {
             
             VStack(alignment: isOwnMessage ? .trailing : .leading) {
                 HStack {
-                    Text(transaction.timestamp, style: .relative)
+                    Text(transaction.timestamp, formatter: dateFormatter)
                         .font(.caption2)
                     Image(systemName: "lock")
                         .resizable()
                         .frame(width: 8, height: 10)
                 }
                 .padding(.bottom, 2)
-                Text(message)
-                    .lineLimit(nil)
-                    .padding(.bottom, 2)
+                if let message = message {
+                    Text(message.content)
+                        .lineLimit(nil)
+                        .padding(.bottom, 2)
+                } else {
+                    Text("Encrypted Message")
+                        .lineLimit(nil)
+                        .padding(.bottom, 2)
+                }
             }
             .padding(8)
-            .background(isOwnMessage ? Color.blue.opacity(0.6) : Color.blue.opacity(0.25))
+            .background(isOwnMessage ? Color.green.opacity(0.6) : Color.green.opacity(0.25))
             .cornerRadius(12)
             
             if !isOwnMessage {
@@ -55,8 +67,7 @@ struct MessageRowView: View {
 struct MessageRowView_Previews: PreviewProvider {
     static var previews: some View {
         MessageRowView(
-            transaction: .example1,
-            message: "Overridden message for testing and preview purposes"
+            transaction: .example1
         ).environmentObject(AuthenticationEnvironment.bob)
     }
 }

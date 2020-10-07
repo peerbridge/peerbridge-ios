@@ -5,7 +5,13 @@ struct ChatRowView: View {
     
     @EnvironmentObject var auth: AuthenticationEnvironment
     
-    @State var message: Message = "Encrypted Message"
+    @State var message: Message? = nil
+    
+    var dateFormatter: RelativeDateTimeFormatter {
+        let formatter = RelativeDateTimeFormatter()
+        formatter.unitsStyle = .abbreviated
+        return formatter
+    }
 
     func decryptMessage() {
         if let decryptedMessage = try? chat.lastTransaction
@@ -24,12 +30,18 @@ struct ChatRowView: View {
                         .font(.headline)
                         .lineLimit(0)
                     Spacer()
-                    Text(chat.lastTransaction.timestamp, style: .relative)
+                    Text(chat.lastTransaction.timestamp, formatter: self.dateFormatter)
                         .foregroundColor(Color.black.opacity(0.7))
                 }
-                Text(self.message)
-                    .foregroundColor(Color.black.opacity(0.7))
-                    .lineLimit(2)
+                if let message = message {
+                    Text(message.content)
+                        .foregroundColor(Color.black.opacity(0.7))
+                        .lineLimit(2)
+                } else {
+                    Text("Encrypted Message")
+                        .foregroundColor(Color.black.opacity(0.7))
+                        .lineLimit(2)
+                }
             }
             .padding(.leading)
             Spacer()
@@ -46,7 +58,7 @@ struct ChatRowView_Previews: PreviewProvider {
         ChatRowView(chat: Chat(
             partner: .bobPublicKeyString,
             lastTransaction: .example1
-        ), message: "Hello World").environmentObject(AuthenticationEnvironment.alice)
+        )).environmentObject(AuthenticationEnvironment.alice)
     }
 }
 #endif
