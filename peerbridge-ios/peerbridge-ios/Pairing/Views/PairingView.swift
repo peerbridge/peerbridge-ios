@@ -11,7 +11,8 @@ struct PairingView: View {
         guard
             url == nil,
             let encodedPublicKey = auth.keyPair
-                .publicKeyString
+                .publicKey
+                .pemString
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         else { return }
         Messaging.messaging().token { token, error in

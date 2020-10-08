@@ -3,7 +3,7 @@ import SQLite
 import SQLite3
 
 
-public struct Transaction: Codable {
+public struct Transaction: Codable, Hashable, Equatable {
     enum Error: Swift.Error {
         case wrongEncoding
     }
@@ -20,14 +20,13 @@ public struct Transaction: Codable {
     
     func decrypt(withKeyPair keyPair: RSAKeyPair) throws -> Message {
         let decoder = ISO8601Decoder()
-        let keyPairPublicKeyString = try keyPair.publicKey.pemString()
         let envelope = try decoder.decode(Envelope.self, from: data)
-        let encryptedSessionKey = keyPairPublicKeyString == sender ?
+        let encryptedSessionKey = keyPair.publicKey.pemString == sender ?
             envelope.encryptedSessionKeyPair.encryptedBySenderPublicKey :
             envelope.encryptedSessionKeyPair.encryptedByReceiverPublicKey
         let decryptedSessionKey = try Crypto.decrypt(
             data: encryptedSessionKey,
-            asymmetricallyWithPrivateKey: keyPair.privateKey
+            asymmetricallyWithPrivateKey: keyPair.privateKey.key
         )
         let decryptedData = try Crypto.decrypt(
             data: envelope.encryptedMessage,
@@ -47,7 +46,7 @@ public class TransactionEndpoint {
         auth: AuthenticationEnvironment,
         completion: @escaping (Swift.Result<[Transaction], Error>) -> Void
     ) {
-        fetch(ownPublicKey: auth.keyPair.publicKeyString, completion: completion)
+        fetch(ownPublicKey: auth.keyPair.publicKey.pemString, completion: completion)
     }
     
     static func fetch(
@@ -149,7 +148,7 @@ public class TransactionRepository: Repository, ObservableObject {
     }
     
     func getChats(auth: AuthenticationEnvironment) throws -> [Chat] {
-        return try getChats(ownPublicKey: auth.keyPair.publicKeyString)
+        return try getChats(ownPublicKey: auth.keyPair.publicKey.pemString)
     }
     
     func getChats(ownPublicKey: PEMString) throws -> [Chat] {
@@ -174,9 +173,10 @@ public class TransactionRepository: Repository, ObservableObject {
         for transaction in latestUnidirectionalTransactions {
             let partner = transaction.sender == ownPublicKey ?
                 transaction.receiver : transaction.sender
-            chatsByPartner[partner] = Chat(partner: partner, lastTransaction: transaction)
+            let key = try RSAPublicKey(publicKeyString: partner)
+            chatsByPartner[partner] = Chat(partnerPublicKey: key, lastTransaction: transaction)
         }
         return chatsByPartner.values
-            .sorted { $0.lastTransaction.timestamp > $1.lastTransaction.timestamp }
+            .sorted { $0.lastTransaction!.timestamp > $1.lastTransaction!.timestamp }
     }
 }

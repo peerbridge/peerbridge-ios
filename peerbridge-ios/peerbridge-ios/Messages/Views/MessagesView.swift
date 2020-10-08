@@ -5,7 +5,10 @@ import Firebase
 
 fileprivate extension UIApplication {
     func endEditing() {
-        sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        sendAction(
+            #selector(UIResponder.resignFirstResponder),
+            to: nil, from: nil, for: nil
+        )
     }
 }
 
@@ -14,7 +17,7 @@ struct MessagesView: View {
     @EnvironmentObject var persistence: PersistenceEnvironment
     @EnvironmentObject var auth: AuthenticationEnvironment
     
-    let selectedPartner: PublicKey?
+    let chat: Chat
     
     let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
     
@@ -31,8 +34,6 @@ struct MessagesView: View {
         let sessionKey = Crypto.createRandomSymmetricKey()
         
         guard
-            let selectedPartner = selectedPartner,
-            let partnerPublicKeyString = try? selectedPartner.pemString(),
             let partnerToken = partnerToken,
             let ownToken = Messaging.messaging().fcmToken,
             let messageData = try? ISO8601Encoder()
@@ -43,11 +44,11 @@ struct MessagesView: View {
             ),
             let encryptedBySenderPublicKey = try? Crypto.encrypt(
                 data: sessionKey,
-                asymmetricallyWithPublicKey: auth.keyPair.publicKey
+                asymmetricallyWithPublicKey: auth.keyPair.publicKey.key
             ),
             let encryptedByReceiverPublicKey = try? Crypto.encrypt(
                 data: sessionKey,
-                asymmetricallyWithPublicKey: selectedPartner
+                asymmetricallyWithPublicKey: chat.partnerPublicKey.key
             )
         else { return }
         
@@ -65,8 +66,8 @@ struct MessagesView: View {
         else { return }
         
         let transactionRequest = TransactionRequest(
-            sender: auth.keyPair.publicKeyString,
-            receiver: partnerPublicKeyString,
+            sender: auth.keyPair.publicKey.pemString,
+            receiver: chat.partnerPublicKey.pemString,
             data: transactionData
         )
         transactionRequest.send { result in
@@ -93,9 +94,8 @@ struct MessagesView: View {
     
     func refreshLocally() {
         guard
-            let partnerPublicKeyString = try? selectedPartner?.pemString(),
             let transactions = try? persistence.transactions
-                .getTransactions(withPartner: partnerPublicKeyString)
+                .getTransactions(withPartner: chat.partnerPublicKey.pemString)
         else { return }
         self.transactions = transactions
         
@@ -103,7 +103,7 @@ struct MessagesView: View {
         // get the most recent push notification token for him
         for transaction in transactions.reversed() {
             guard
-                transaction.sender == partnerPublicKeyString,
+                transaction.sender == chat.partnerPublicKey.pemString,
                 let message = try? transaction.decrypt(withKeyPair: auth.keyPair)
             else { continue }
             partnerToken = message.token
@@ -127,14 +127,7 @@ struct MessagesView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            ScrollView(showsIndicators: false) {
-                LazyVStack {
-                    ForEach(transactions, id: \.index) { transaction in
-                        MessageRowView(transaction: transaction)
-                    }
-                }
-            }
-            .padding(.vertical)
+            MessageListView(transactions: $transactions)
             if partnerToken != nil {
                 HStack {
                     TextField("Your Message", text: $content, onCommit: {
@@ -152,13 +145,26 @@ struct MessagesView: View {
                             .foregroundColor(.white)
                     }
                     .padding(12)
-                    .background(Color.blue)
+                    .background(LinearGradient(
+                        gradient: Styles.blueGradient,
+                        startPoint: .topLeading,
+                        endPoint: .topTrailing
+                    ))
                     .cornerRadius(24)
                     .padding(.trailing)
                     .padding(.vertical)
                 }
             }
         }
+        .navigationBarItems(
+            trailing: NavigationLink(destination: Text("Edit Chat")) {
+                HStack {
+                    Text(chat.partnerPublicKey.shortDescription)
+                    IdentificationView(key: chat.partnerPublicKey)
+                        .frame(width: 32, height: 32)
+                }
+            }
+        )
         .navigationTitle("Messages")
         .onReceive(publisher, perform: { _ in
             refreshFromRemote()
@@ -171,9 +177,11 @@ struct MessagesView: View {
 #if DEBUG
 struct MessagesView_Previews: PreviewProvider {    
     static var previews: some View {
-        MessagesView(selectedPartner: .alicePublicKey, partnerToken: nil)
-        .environmentObject(AuthenticationEnvironment.alice)
-        .environmentObject(PersistenceEnvironment.debug)
+        NavigationView {
+            MessagesView(chat: .exampleForAlice, partnerToken: nil)
+            .environmentObject(AuthenticationEnvironment.alice)
+            .environmentObject(PersistenceEnvironment.debug)
+        }
     }
 }
 #endif

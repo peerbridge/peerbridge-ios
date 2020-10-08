@@ -9,8 +9,7 @@ struct ChatsView: View {
     let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
     
     @State var partnerToken: NotificationToken? = nil
-    @State var selectedPartner: PublicKey?
-    @State var shouldShowMessages = false
+    
     @State var chats: [Chat] = []
     
     func handleURL(url: URL) {
@@ -22,9 +21,11 @@ struct ChatsView: View {
         else { return }
         
         do {
-            self.selectedPartner = try PublicKey(pemEncoded: taintedPublicKey)
             self.partnerToken = taintedToken
-            self.shouldShowMessages = true
+            
+            let publicKey = try RSAPublicKey(publicKeyString: taintedPublicKey)
+            let newChat = Chat(partnerPublicKey: publicKey, lastTransaction: nil)
+            chats.insert(newChat, at: 0)
         } catch let error {
             print("Error during url handling: \(error)")
         }
@@ -54,25 +55,13 @@ struct ChatsView: View {
     var body: some View {
         NavigationView {
             VStack {
-                NavigationLink(
-                    destination: MessagesView(
-                        selectedPartner: selectedPartner,
-                        partnerToken: partnerToken
-                    ),
-                    isActive: $shouldShowMessages,
-                    label: { EmptyView() }
-                )
-
                 ScrollView {
                     LazyVStack {
-                        ForEach(chats, id: \.partner) { chat in
-                            Button {
-                                guard
-                                    let publicKey = try? PublicKey(pemEncoded: chat.partner)
-                                else { return }
-                                selectedPartner = publicKey
-                                shouldShowMessages = true
-                            } label: {
+                        ForEach(chats) { chat in
+                            NavigationLink(destination: MessagesView(
+                                chat: chat,
+                                partnerToken: partnerToken
+                            )) {
                                 ChatRowView(chat: chat)
                             }
                         }
@@ -98,9 +87,6 @@ struct ChatsView: View {
         .onOpenURL(perform: handleURL)
         .onAppear(perform: loadChats)
         .onReceive(publisher, perform: { _ in fetchTransactions() })
-        .onAppear {
-            UITableView.appearance().separatorStyle = .none
-        }
     }
 }
 

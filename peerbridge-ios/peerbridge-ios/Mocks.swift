@@ -87,21 +87,21 @@ extension PEMString {
     """
 }
 
-extension PublicKey {
-    static let alicePublicKey = try! PublicKey(pemEncoded: PEMString.alicePublicKeyString)
-    static let bobPublicKey = try! PublicKey(pemEncoded: PEMString.bobPublicKeyString)
+extension RSAPublicKey {
+    static let alicePublicKey = try! RSAPublicKey(publicKeyString: PEMString.alicePublicKeyString)
+    static let bobPublicKey = try! RSAPublicKey(publicKeyString: PEMString.bobPublicKeyString)
 }
 
-extension PrivateKey {
-    static let alicePrivateKey = try! PrivateKey(pemEncoded: PEMString.alicePrivateKeyString)
-    static let bobPrivateKey = try! PrivateKey(pemEncoded: PEMString.bobPrivateKeyString)
+extension RSAPrivateKey {
+    static let alicePrivateKey = try! RSAPrivateKey(privateKeyString: PEMString.alicePrivateKeyString)
+    static let bobPrivateKey = try! RSAPrivateKey(privateKeyString: PEMString.bobPrivateKeyString)
 }
 
 extension RSAKeyPair {
-    static let aliceKeyPair = try! RSAKeyPair(
+    static let aliceKeyPair = RSAKeyPair(
         privateKey: .alicePrivateKey, publicKey: .alicePublicKey
     )
-    static let bobKeyPair = try! RSAKeyPair(
+    static let bobKeyPair = RSAKeyPair(
         privateKey: .bobPrivateKey, publicKey: .bobPublicKey
     )
 }
@@ -130,8 +130,8 @@ extension Transaction {
 }
 
 extension Chat {
-    static let exampleForAlice = Chat(partner: .bobPublicKeyString, lastTransaction: .example2)
-    static let exampleForBob = Chat(partner: .alicePublicKeyString, lastTransaction: .example2)
+    static let exampleForAlice = Chat(partnerPublicKey: .alicePublicKey, lastTransaction: .example2)
+    static let exampleForBob = Chat(partnerPublicKey: .bobPublicKey, lastTransaction: .example2)
 }
 
 class MockedTransactionRepository: TransactionRepository {
@@ -151,7 +151,7 @@ class MockedTransactionRepository: TransactionRepository {
     }
     
     override func getChats(auth: AuthenticationEnvironment) throws -> [Chat] {
-        return try getChats(ownPublicKey: auth.keyPair.publicKeyString)
+        return try getChats(ownPublicKey: auth.keyPair.publicKey.pemString)
     }
     
     override func getChats(ownPublicKey: PEMString) throws -> [Chat] {
