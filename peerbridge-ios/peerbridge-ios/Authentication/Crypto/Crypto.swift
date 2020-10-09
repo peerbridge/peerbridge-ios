@@ -14,6 +14,10 @@ public extension SymmetricKey {
 
 
 public final class Crypto {
+    public enum Error: Swift.Error {
+        case sealedBoxCombinationFailed
+    }
+    
     public static func createRandomNonce() -> Data {
         var nonce = Data(count: 256)
         let result = nonce.withUnsafeMutableBytes { pointer in
@@ -32,11 +36,14 @@ public final class Crypto {
     public static func encrypt(
         data: Data,
         symmetricallyWithKeyData keyData: Data
-    ) throws -> Data? {
+    ) throws -> Data {
         let key = SymmetricKey(data: keyData)
         let nonce = AES.GCM.Nonce()
         let sealedBox = try AES.GCM.seal(data, using: key, nonce: nonce)
-        return sealedBox.combined
+        guard
+            let combined = sealedBox.combined
+        else { throw Self.Error.sealedBoxCombinationFailed }
+        return combined
     }
 
     public static func decrypt(

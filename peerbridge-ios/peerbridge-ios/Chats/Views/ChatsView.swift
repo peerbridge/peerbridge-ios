@@ -7,22 +7,17 @@ struct ChatsView: View {
     @EnvironmentObject var persistence: PersistenceEnvironment
     
     let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
-    
-    @State var partnerToken: NotificationToken? = nil
-    
+        
     @State var chats: [Chat] = []
     
     func handleURL(url: URL) {
         guard
             let components = NSURLComponents(url: url, resolvingAgainstBaseURL: true),
             let params = components.queryItems,
-            let taintedToken = params.first(where: { $0.name == "token" })?.value,
             let taintedPublicKey = params.first(where: { $0.name == "publicKey" })?.value
         else { return }
         
         do {
-            self.partnerToken = taintedToken
-            
             let publicKey = try RSAPublicKey(publicKeyString: taintedPublicKey)
             let newChat = Chat(partnerPublicKey: publicKey, lastTransaction: nil)
             chats.insert(newChat, at: 0)
@@ -58,10 +53,7 @@ struct ChatsView: View {
                 ScrollView {
                     LazyVStack {
                         ForEach(chats) { chat in
-                            NavigationLink(destination: MessagesView(
-                                chat: chat,
-                                partnerToken: partnerToken
-                            )) {
+                            NavigationLink(destination: MessagesView(chat: chat)) {
                                 ChatRowView(chat: chat)
                             }
                         }

@@ -29,14 +29,20 @@ public struct MessageRowView: View {
     public let next: Transaction?
     
     @EnvironmentObject private var auth: AuthenticationEnvironment
-    @State private var decryptedMessage: Message? = nil
+    @State private var messageDescription: String? = nil
     
-    private func decryptMessage() {
-        guard
-            let decryptedMessage = try? transaction
-                .decrypt(withKeyPair: auth.keyPair)
-        else { return }
-        self.decryptedMessage = decryptedMessage
+    func decryptMessage() {
+        guard let data = try? transaction.decrypt(withKeyPair: auth.keyPair) else {
+            messageDescription = "Encrypted Message"
+            return
+        }
+        
+        guard let message = MessageDecoder().decode(from: data) else {
+            messageDescription = "Unknown Message"
+            return
+        }
+        
+        messageDescription = message.shortDescription
     }
     
     private var isOwnMessage: Bool {
@@ -110,8 +116,10 @@ public struct MessageRowView: View {
                         .frame(width: 8, height: 10)
                 }
                 .padding(.bottom, 2)
-                Text(decryptedMessage?.content ?? "Encrypted Message")
-                    .lineLimit(nil)
+                if let description = messageDescription {
+                    Text(description)
+                        .lineLimit(nil)
+                }
             }
             .padding()
             .foregroundColor(

@@ -19,75 +19,59 @@ struct MessagesView: View {
     
     let chat: Chat
     
-    let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
+    private let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
     
-    @State var partnerToken: NotificationToken? = nil
-    @State var content: String = ""
-    @State var transactions: [Transaction] = []
-        
-    func sendMessage() {
-        // TODO: Refactor this method
-        
+    @State private var partnerToken: NotificationToken? = nil
+    @State private var ownToken: NotificationToken? = nil
+    
+    @State private var content: String = ""
+    @State private var transactions: [Transaction] = []
+    
+    private func sendTokenMessage() {
         UIApplication.shared.endEditing()
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        guard let token = Messaging.messaging().fcmToken else {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+        let message = TokenMessage(token: token)
+        send(message: message)
+    }
+    
+    private func sendContentMessage() {
+        UIApplication.shared.endEditing()
+        guard content != "" else {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+        UIImpactFeedbackGenerator(style: .medium).impactOccurred()
+        let message = ContentMessage(content: content)
+        send(message: message)
+    }
         
-        let sessionKey = Crypto.createRandomSymmetricKey()
-        
-        guard
-            let partnerToken = partnerToken,
-            let ownToken = Messaging.messaging().fcmToken,
-            let messageData = try? ISO8601Encoder()
-                .encode(Message(content: content, token: ownToken)),
-            let encryptedMessage = try? Crypto.encrypt(
-                data: messageData,
-                symmetricallyWithKeyData: sessionKey
-            ),
-            let encryptedBySenderPublicKey = try? Crypto.encrypt(
-                data: sessionKey,
-                asymmetricallyWithPublicKey: auth.keyPair.publicKey.key
-            ),
-            let encryptedByReceiverPublicKey = try? Crypto.encrypt(
-                data: sessionKey,
-                asymmetricallyWithPublicKey: chat.partnerPublicKey.key
-            )
-        else { return }
-        
-        let encryptedSessionKeyPair = EncryptedSessionKeyPair(
-            encryptedBySenderPublicKey: encryptedBySenderPublicKey,
-            encryptedByReceiverPublicKey: encryptedByReceiverPublicKey
-        )
-        let envelope = Envelope(
-            encryptedSessionKeyPair: encryptedSessionKeyPair,
-            encryptedMessage: encryptedMessage
-        )
-        
-        guard
-            let transactionData = try? ISO8601Encoder().encode(envelope)
-        else { return }
-        
-        let transactionRequest = TransactionRequest(
-            sender: auth.keyPair.publicKey.pemString,
-            receiver: chat.partnerPublicKey.pemString,
-            data: transactionData
-        )
-        transactionRequest.send { result in
+    private func send(message: TransactionMessage) {
+        message.send(
+            keyPair: auth.keyPair,
+            partnerPublicKey: chat.partnerPublicKey
+        ) { result in
             guard let transaction = try? result.get() else { return }
             try? persistence.transactions.insert(object: transaction)
             
-            let notificationRequest = NotificationRequest(
-                to: partnerToken,
-                notification: .newMessage,
-                data: nil
-            )
-            notificationRequest.send { error in
-                if let error = error {
-                    print("Notification request send failed with error: \(error)")
-                    return
+            UINotificationFeedbackGenerator().notificationOccurred(.success)
+            content = ""
+            refreshLocally()
+            
+            // Send a notification if the partner's token is known
+            if let partnerToken = partnerToken {
+                NotificationRequest(
+                    to: partnerToken,
+                    notification: .newMessage,
+                    data: nil
+                ).send { error in
+                    if let error = error {
+                        print("Notification request send failed with error: \(error)")
+                    }
                 }
-                
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
-                content = ""
-                refreshLocally()
             }
         }
     }
@@ -99,15 +83,20 @@ struct MessagesView: View {
         else { return }
         self.transactions = transactions
         
-        // If there are transactions with this partner,
-        // get the most recent push notification token for him
-        for transaction in transactions.reversed() {
+        // Load the push notification tokens
+        for transaction in transactions {
+            guard ownToken == nil || partnerToken == nil else { break }
+            
             guard
-                transaction.sender == chat.partnerPublicKey.pemString,
-                let message = try? transaction.decrypt(withKeyPair: auth.keyPair)
+                let data = try? transaction.decrypt(withKeyPair: auth.keyPair),
+                let tokenMessage = MessageDecoder().decode(from: data) as? TokenMessage
             else { continue }
-            partnerToken = message.token
-            return
+            
+            if transaction.sender == chat.partnerPublicKey.pemString {
+                partnerToken = tokenMessage.token
+            } else {
+                ownToken = tokenMessage.token
+            }
         }
     }
     
@@ -125,36 +114,104 @@ struct MessagesView: View {
         }
     }
     
+    var contentField: some View {
+        HStack {
+            TextField("Your Message", text: $content, onCommit: {
+                UIApplication.shared.endEditing()
+            })
+            .padding(.horizontal)
+            .padding(.vertical, 12)
+            .background(Color.black.opacity(0.05))
+            .cornerRadius(24)
+            .padding(.leading)
+            .padding(.vertical, 12)
+            Button(action: sendContentMessage) {
+                Image(systemName: "paperplane.fill")
+                    .renderingMode(.template)
+                    .foregroundColor(.white)
+            }
+            .padding(12)
+            .background(LinearGradient(
+                gradient: Styles.blueGradient,
+                startPoint: .topLeading,
+                endPoint: .topTrailing
+            ))
+            .cornerRadius(24)
+            .padding(.trailing)
+            .padding(.vertical)
+        }
+    }
+    
+    var sendTokenNotification: some View {
+        DisclosureGroup {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("To receive push notifications, you need to share your push notification token.").font(.caption)
+                Button(action: sendTokenMessage) {
+                    Image(systemName: "paperplane.fill")
+                        .renderingMode(.template)
+                    Text("Share Token")
+                }
+                .padding(8)
+                .background(LinearGradient(
+                    gradient: Styles.blueGradient,
+                    startPoint: .topLeading,
+                    endPoint: .topTrailing
+                ))
+                .cornerRadius(12)
+                .foregroundColor(.white)
+            }
+            .padding(4)
+        } label: {
+            HStack {
+                Text("You are not receiving push notifications.")
+            }
+            .padding(4)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(
+            color: Color.black.opacity(0.1),
+            radius: 12, x: 0, y: 4
+        )
+    }
+    
+    var noPartnerTokenNotification: some View {
+        DisclosureGroup {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Your partner needs to share his push notification token to get push notifications.")
+                    .font(.caption)
+            }
+            .padding(4)
+        } label: {
+            HStack {
+                Text("Your partner is not receiving push notifications.")
+            }
+            .padding(4)
+        }
+        .padding()
+        .background(Color.white)
+        .cornerRadius(12)
+        .shadow(
+            color: Color.black.opacity(0.1),
+            radius: 12, x: 0, y: 4
+        )
+    }
+    
     var body: some View {
         VStack(spacing: 0) {
             MessageListView(transactions: $transactions)
-            if partnerToken != nil {
-                HStack {
-                    TextField("Your Message", text: $content, onCommit: {
-                        UIApplication.shared.endEditing()
-                    })
+            if ownToken == nil {
+                sendTokenNotification
                     .padding(.horizontal)
-                    .padding(.vertical, 12)
-                    .background(Color.black.opacity(0.05))
-                    .cornerRadius(24)
-                    .padding(.leading)
-                    .padding(.vertical, 12)
-                    Button(action: sendMessage) {
-                        Image(systemName: "paperplane.fill")
-                            .renderingMode(.template)
-                            .foregroundColor(.white)
-                    }
-                    .padding(12)
-                    .background(LinearGradient(
-                        gradient: Styles.blueGradient,
-                        startPoint: .topLeading,
-                        endPoint: .topTrailing
-                    ))
-                    .cornerRadius(24)
-                    .padding(.trailing)
-                    .padding(.vertical)
-                }
+                    .padding(.top)
             }
+            if partnerToken == nil {
+                noPartnerTokenNotification
+                    .padding(.horizontal)
+                    .padding(.top)
+            }
+            contentField
         }
         .navigationBarItems(
             trailing: NavigationLink(destination: Text("Edit Chat")) {
@@ -178,7 +235,7 @@ struct MessagesView: View {
 struct MessagesView_Previews: PreviewProvider {    
     static var previews: some View {
         NavigationView {
-            MessagesView(chat: .exampleForAlice, partnerToken: nil)
+            MessagesView(chat: .exampleForAlice)
             .environmentObject(AuthenticationEnvironment.alice)
             .environmentObject(PersistenceEnvironment.debug)
         }

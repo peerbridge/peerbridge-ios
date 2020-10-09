@@ -69,7 +69,7 @@ struct AuthenticationView: View {
                 }
                 
                 Spacer()
-            }.onAppear(perform: loadKeypair)
+            }.onAppear(perform: loadKeypair) // TODO
         }
     }
 }

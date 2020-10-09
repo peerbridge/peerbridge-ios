@@ -15,14 +15,7 @@ struct PairingView: View {
                 .pemString
                 .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
         else { return }
-        Messaging.messaging().token { token, error in
-            if let error = error {
-                print("Messaging could not retrieve token: \(error)")
-                return
-            }
-            guard let token = token else { return }
-            url = "peerbridge://pair?token=\(token)&publicKey=\(encodedPublicKey)"
-        }
+        url = "peerbridge://pair?publicKey=\(encodedPublicKey)"
     }
     
     var body: some View {

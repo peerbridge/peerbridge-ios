@@ -18,7 +18,7 @@ public struct Transaction: Codable, Hashable, Equatable {
         return data.base64EncodedString()
     }
     
-    func decrypt(withKeyPair keyPair: RSAKeyPair) throws -> Message {
+    func decrypt(withKeyPair keyPair: RSAKeyPair) throws -> Data {
         let decoder = ISO8601Decoder()
         let envelope = try decoder.decode(Envelope.self, from: data)
         let encryptedSessionKey = keyPair.publicKey.pemString == sender ?
@@ -32,8 +32,7 @@ public struct Transaction: Codable, Hashable, Equatable {
             data: envelope.encryptedMessage,
             symmetricallyWithKeyData: decryptedSessionKey
         )
-        let message = try ISO8601Decoder().decode(Message.self, from: decryptedData)
-        return message
+        return decryptedData
     }
 }
 

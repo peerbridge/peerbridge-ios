@@ -5,19 +5,34 @@ struct ChatRowView: View {
     
     @EnvironmentObject var auth: AuthenticationEnvironment
     
+    @State var messageDescription: String? = nil
+    
     var dateFormatter: RelativeDateTimeFormatter {
         let formatter = RelativeDateTimeFormatter()
         formatter.unitsStyle = .abbreviated
         return formatter
     }
     
-    var lastMessageContent: String {
-        guard let lastTransaction = chat.lastTransaction else { return "New Chat" }
+    func decryptMessage() {
+        guard let lastTransaction = chat.lastTransaction else {
+            messageDescription = "New Chat"
+            return
+        }
+        
         guard
-            let message = try? lastTransaction
+            let data = try? lastTransaction
                 .decrypt(withKeyPair: auth.keyPair)
-        else { return "Encrypted Message" }
-        return message.content
+        else {
+            messageDescription = "Encrypted Message"
+            return
+        }
+        
+        guard let message = MessageDecoder().decode(from: data) else {
+            messageDescription = "Unknown Message"
+            return
+        }
+        
+        messageDescription = message.shortDescription
     }
     
     var body: some View {
@@ -35,9 +50,11 @@ struct ChatRowView: View {
                             .foregroundColor(Color.black.opacity(0.7))
                     }
                 }
-                Text(lastMessageContent)
-                    .foregroundColor(Color.black.opacity(0.7))
-                    .lineLimit(3)
+                if let description = messageDescription {
+                    Text(description)
+                        .foregroundColor(Color.black.opacity(0.7))
+                        .lineLimit(3)
+                }
             }
             .padding(.leading, 4)
             Spacer()
@@ -49,6 +66,7 @@ struct ChatRowView: View {
                 .shadow(color: Color.black.opacity(0.1), radius: 12, x: 0, y: 4)
         )
         .padding(.horizontal)
+        .onAppear(perform: decryptMessage)
     }
 }
 
