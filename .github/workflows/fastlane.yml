@@ -32,6 +32,19 @@ jobs:
         env:
           DEVELOPER_DIR: ${{ matrix.xcode }}
 
+      - name: Setup the FCM Configuration
+        run: python3 setup_fcm.py
+        env:
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          REVERSED_CLIENT_ID: ${{ secrets.REVERSED_CLIENT_ID }}
+          API_KEY: ${{ secrets.API_KEY }}
+          GCM_SENDER_ID: ${{ secrets.GCM_SENDER_ID }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+          GOOGLE_APP_ID: ${{ secrets.GOOGLE_APP_ID }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SERVER_KEY: ${{ secrets.SERVER_KEY }}
+
       - name: Build and Test
         run: |
           bundle exec fastlane scan \
