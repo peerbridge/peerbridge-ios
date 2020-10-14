@@ -5,35 +5,27 @@ name: Build, Test and Distribute App via Fastlane
 
 on:
   push:
-    branches:
-    - master
+    branches: [ master ]
+    tags: [ v* ]
 
 jobs:
   main:
     runs-on: macos-latest
-    strategy:
-      matrix:
-        scheme: ['peerbridge-ios']
-        destination: ['platform=iOS Simulator,OS=14.2,name=iPhone 11 Pro']
-        # See https://github.com/actions/virtual-environments for
-        # further information on which Xcode versions are supported
-        xcode: ['/Applications/Xcode_12.2.app/Contents/Developer']
-    steps:
-      - name: Checkout the Repository
-        uses: actions/checkout@v1
 
-      - name: Setup the FCM Configuration
-        run: python3 setup_fcm.py
+    env:
+      destination: 'platform=iOS Simulator,OS=14.2,name=iPhone 11 Pro'
+      # See https://github.com/actions/virtual-environments for
+      # further information on which Xcode versions are supported
+      xcode: '/Applications/Xcode_12.2.app'
+
+    steps:
+      - name: Checkout Project
+        uses: actions/checkout@v2
+
+      - name: Select Specified Xcode Version
+        run: sudo xcode-select -s ${{ xcode }}
         env:
-          CLIENT_ID: ${{ secrets.CLIENT_ID }}
-          REVERSED_CLIENT_ID: ${{ secrets.REVERSED_CLIENT_ID }}
-          API_KEY: ${{ secrets.API_KEY }}
-          GCM_SENDER_ID: ${{ secrets.GCM_SENDER_ID }}
-          PROJECT_ID: ${{ secrets.PROJECT_ID }}
-          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
-          GOOGLE_APP_ID: ${{ secrets.GOOGLE_APP_ID }}
-          DATABASE_URL: ${{ secrets.DATABASE_URL }}
-          SERVER_KEY: ${{ secrets.SERVER_KEY }}
+          xcode: ${{ env.xcode }}
 
       - name: Install Fastlane and Cocoapods via Rubygems
         # If there are private gems in the Gemfile, don't
@@ -45,12 +37,64 @@ jobs:
         env:
           DEVELOPER_DIR: ${{ matrix.xcode }}
 
-      - name: Build and Test via Fastlane
-        run: |
-          bundle exec fastlane scan \
-            --destination "${destination}" \
-            --scheme "${scheme}"
+      - name: Set Environment Variables from Xcode Project Settings
+        run: exec .github/scripts/set-env-from-xcodeproj.sh
+
+      - name: Render FCM Secrets to Configuration File
+        run: python3 .github/scripts/setup_fcm.py
         env:
-          destination: ${{ matrix.destination }}
-          scheme: ${{ matrix.scheme }}
-          DEVELOPER_DIR: ${{ matrix.xcode }}
+          CLIENT_ID: ${{ secrets.CLIENT_ID }}
+          REVERSED_CLIENT_ID: ${{ secrets.REVERSED_CLIENT_ID }}
+          API_KEY: ${{ secrets.API_KEY }}
+          GCM_SENDER_ID: ${{ secrets.GCM_SENDER_ID }}
+          PROJECT_ID: ${{ secrets.PROJECT_ID }}
+          STORAGE_BUCKET: ${{ secrets.STORAGE_BUCKET }}
+          GOOGLE_APP_ID: ${{ secrets.GOOGLE_APP_ID }}
+          DATABASE_URL: ${{ secrets.DATABASE_URL }}
+          SERVER_KEY: ${{ secrets.SERVER_KEY }}
+
+      - name: Build and Test App via Fastlane Scan
+        run: bundle exec fastlane scan --destination "${{ env.destination }}"
+
+      - name: Import Signing Certificate
+        env:
+          SIGNING_CERTIFICATE_P12_DATA: ${{ secrets.SIGNING_CERTIFICATE_P12_DATA }}
+          SIGNING_CERTIFICATE_PASSWORD: ${{ secrets.SIGNING_CERTIFICATE_PASSWORD }}
+        run: exec .github/scripts/import-certificate.sh
+
+      - name: Import Provisioning Profile
+        env:
+          PROVISIONING_PROFILE_DATA: ${{ secrets.PROVISIONING_PROFILE_DATA }}
+        run: exec .github/scripts/import-profile.sh
+
+      - name: Build App via Fastlane Gym
+        run: bundle exec fastlane run gym
+
+      - name: Upload Build Log to Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: build.log
+          path: ~/Library/Logs/gym/*.log
+
+      - name: Upload App to Release Assets
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            ${{ env.PRODUCT_NAME }}.ipa
+            ${{ env.PRODUCT_NAME }}.app.dSYM.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload App to AppStore Connect
+        if: startsWith(github.ref, 'refs/tags/v')
+        env:
+          APP_STORE_CONNECT_USERNAME: ${{ secrets.APP_STORE_CONNECT_USERNAME }}
+          APP_STORE_CONNECT_PASSWORD: ${{ secrets.APP_STORE_CONNECT_PASSWORD }}
+        run: |
+          xcrun altool \
+            --upload-app \
+            -t ios \
+            -f "$PRODUCT_NAME.ipa" \
+            -u "$APP_STORE_CONNECT_USERNAME" \
+            -p "$APP_STORE_CONNECT_PASSWORD"
