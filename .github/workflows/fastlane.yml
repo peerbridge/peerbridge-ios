@@ -23,9 +23,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Select Specified Xcode Version
-        run: sudo xcode-select -s ${{ xcode }}
-        env:
-          xcode: ${{ env.xcode }}
+        run: sudo xcode-select -s ${{ env.xcode }}
 
       - name: Install Fastlane and Cocoapods via Rubygems
         # If there are private gems in the Gemfile, don't
@@ -34,8 +32,6 @@ jobs:
 
       - name: Install Project Dependencies via Cocoapods
         run: bundle exec pod install
-        env:
-          DEVELOPER_DIR: ${{ matrix.xcode }}
 
       - name: Set Environment Variables from Xcode Project Settings
         run: exec .github/scripts/set-env-from-xcodeproj.sh
