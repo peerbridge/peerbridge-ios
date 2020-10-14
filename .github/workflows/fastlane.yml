@@ -22,16 +22,6 @@ jobs:
       - name: Checkout the Repository
         uses: actions/checkout@v1
 
-      - name: Install Fastlane via Rubygems
-        # If there are private gems in the Gemfile, don't
-        # forget to include the BUNDLE_GITHUB__COM env
-        run: bundle install
-
-      - name: Install Project Dependencies via Cocoapods
-        run: bundle exec pod install
-        env:
-          DEVELOPER_DIR: ${{ matrix.xcode }}
-
       - name: Setup the FCM Configuration
         run: python3 setup_fcm.py
         env:
@@ -45,7 +35,17 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SERVER_KEY: ${{ secrets.SERVER_KEY }}
 
-      - name: Build and Test
+      - name: Install Fastlane and Cocoapods via Rubygems
+        # If there are private gems in the Gemfile, don't
+        # forget to include the BUNDLE_GITHUB__COM env var
+        run: bundle install
+
+      - name: Install Project Dependencies via Cocoapods
+        run: bundle exec pod install
+        env:
+          DEVELOPER_DIR: ${{ matrix.xcode }}
+
+      - name: Build and Test via Fastlane
         run: |
           bundle exec fastlane scan \
             --destination "${destination}" \

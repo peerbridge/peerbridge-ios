@@ -22,21 +22,21 @@ FCM_PLIST_CONTENTS = f"""
 <plist version="1.0">
 <dict>
     <key>CLIENT_ID</key>
-    <string>{os.environ('CLIENT_ID')}</string>
+    <string>{os.environ['CLIENT_ID']}</string>
     <key>REVERSED_CLIENT_ID</key>
-    <string>{os.environ('REVERSED_CLIENT_ID')}</string>
+    <string>{os.environ['REVERSED_CLIENT_ID']}</string>
     <key>API_KEY</key>
-    <string>{os.environ('API_KEY')}</string>
+    <string>{os.environ['API_KEY']}</string>
     <key>GCM_SENDER_ID</key>
-    <string>{os.environ('GCM_SENDER_ID')}</string>
+    <string>{os.environ['GCM_SENDER_ID']}</string>
     <key>PLIST_VERSION</key>
     <string>1</string>
     <key>BUNDLE_ID</key>
     <string>com.peerbridge.ios</string>
     <key>PROJECT_ID</key>
-    <string>{os.environ('PROJECT_ID')}</string>
+    <string>{os.environ['PROJECT_ID']}</string>
     <key>STORAGE_BUCKET</key>
-    <string>{os.environ('STORAGE_BUCKET')}</string>
+    <string>{os.environ['STORAGE_BUCKET']}</string>
     <key>IS_ADS_ENABLED</key>
     <false/>
     <key>IS_ANALYTICS_ENABLED</key>
@@ -48,11 +48,11 @@ FCM_PLIST_CONTENTS = f"""
     <key>IS_SIGNIN_ENABLED</key>
     <false/>
     <key>GOOGLE_APP_ID</key>
-    <string>{os.environ('GOOGLE_APP_ID')}</string>
+    <string>{os.environ['GOOGLE_APP_ID']}</string>
     <key>DATABASE_URL</key>
-    <string>{os.environ('DATABASE_URL')}</string>
+    <string>{os.environ['DATABASE_URL']}</string>
     <key>SERVER_KEY</key>
-    <string>{os.environ('SERVER_KEY')}</string>
+    <string>{os.environ['SERVER_KEY']}</string>
 </dict>
 </plist>
 """
