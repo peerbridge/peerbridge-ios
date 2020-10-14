@@ -1,6 +1,5 @@
 import XCTest
 import CryptoKit
-import SQLite
 @testable import peerbridge_ios
 
 class TransactionTest: XCTestCase {
@@ -61,13 +60,5 @@ class TransactionTest: XCTestCase {
         
         let lastTimestamp = try repo.getLastTimestamp()
         XCTAssertEqual(lastTimestamp, Date(timeIntervalSince1970: 4500))
-        
-        let chats = try repo.getChats(ownPublicKey: "bob")
-        XCTAssertEqual(chats.count, 2)
-        XCTAssertEqual(
-            chats.map { $0.partner },
-            ["bob", "alice"],
-            "The most recent chat should be the first entry!"
-        )
     }
 }

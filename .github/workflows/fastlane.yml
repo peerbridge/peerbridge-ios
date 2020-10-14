@@ -1,0 +1,43 @@
+# This file defines a continuous integration workflow
+# based on Fastlane, see https://docs.fastlane.tools/
+
+name: Build, Test and Distribute App via Fastlane
+
+on:
+  push:
+    branches:
+    - master
+
+jobs:
+  main:
+    runs-on: macos-latest
+    strategy:
+      matrix:
+        scheme: ['peerbridge-ios']
+        destination: ['platform=iOS Simulator,OS=14.2,name=iPhone 11 Pro']
+        # See https://github.com/actions/virtual-environments for
+        # further information on which Xcode versions are supported
+        xcode: ['/Applications/Xcode_12.2.app/Contents/Developer']
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v1
+
+      - name: Install Fastlane via Rubygems
+        # If there are private gems in the Gemfile, don't
+        # forget to include the BUNDLE_GITHUB__COM env
+        run: bundle install
+
+      - name: Install Project Dependencies via Cocoapods
+        run: bundle exec pod install
+        env:
+          DEVELOPER_DIR: ${{ matrix.xcode }}
+
+      - name: Build and Test
+        run: |
+          bundle exec fastlane scan \
+            --destination "${destination}" \
+            --scheme "${scheme}"
+        env:
+          destination: ${{ matrix.destination }}
+          scheme: ${{ matrix.scheme }}
+          DEVELOPER_DIR: ${{ matrix.xcode }}

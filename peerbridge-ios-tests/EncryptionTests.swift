@@ -10,9 +10,8 @@ class EncryptionTest: XCTestCase {
         let encryptedData = try Crypto.encrypt(
             data: clearTextData, symmetricallyWithKeyData: keyData
         )
-        XCTAssertNotNil(encryptedData)
         let decryptedData = try Crypto.decrypt(
-            data: encryptedData!, symmetricallyWithKeyData: keyData
+            data: encryptedData, symmetricallyWithKeyData: keyData
         )
         XCTAssertEqual(decryptedData, clearTextData)
     }
@@ -24,12 +23,12 @@ class EncryptionTest: XCTestCase {
             RSAKeyPair.self, from: serializedData
         )
         XCTAssertEqual(
-            try deserializedKeyPair.privateKey.pemString(),
-            try keyPair.privateKey.pemString()
+            deserializedKeyPair.privateKey.pemString,
+            keyPair.privateKey.pemString
         )
         XCTAssertEqual(
-            try deserializedKeyPair.publicKey.pemString(),
-            try keyPair.publicKey.pemString()
+            deserializedKeyPair.publicKey.pemString,
+            keyPair.publicKey.pemString
         )        
     }
     
@@ -38,11 +37,11 @@ class EncryptionTest: XCTestCase {
         let message = "Lungo".data(using: .utf8)!
         let encryptedMessage = try Crypto.encrypt(
             data: message,
-            asymmetricallyWithPublicKey: keypair.publicKey
+            asymmetricallyWithPublicKey: keypair.publicKey.key
         )
         let decryptedMessage = try Crypto.decrypt(
             data: encryptedMessage,
-            asymmetricallyWithPrivateKey: keypair.privateKey
+            asymmetricallyWithPrivateKey: keypair.privateKey.key
         )
         XCTAssertEqual(message, decryptedMessage)
     }
