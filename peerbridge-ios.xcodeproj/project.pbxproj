@@ -765,7 +765,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
@@ -777,7 +777,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge iOS Provisioning Profile";
+				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge CI Profile";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -789,7 +789,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;

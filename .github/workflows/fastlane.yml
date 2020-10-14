@@ -63,7 +63,7 @@ jobs:
           PROVISIONING_PROFILE_DATA: ${{ secrets.PROVISIONING_PROFILE_DATA }}
         run: exec .github/scripts/import-profile.sh
 
-      - name: Build App via Fastlane Gym
+      - name: Archive App via Fastlane Gym
         run: bundle exec fastlane run gym
 
       - name: Upload Build Log to Build Artifacts
