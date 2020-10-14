@@ -27,6 +27,7 @@ struct MessageListView: View {
 }
 
 
+#if DEBUG
 struct MessageListView_Previews: PreviewProvider {
     static var previews: some View {
         MessageListView(transactions: .constant([
@@ -35,3 +36,4 @@ struct MessageListView_Previews: PreviewProvider {
             .environmentObject(AuthenticationEnvironment.alice)
     }
 }
+#endif
