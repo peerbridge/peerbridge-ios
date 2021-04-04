@@ -18,12 +18,13 @@ struct ChatRowView: View {
             messageDescription = "New Chat"
             return
         }
-        
+
+
+        // TODO: Actually decrypt message!
         guard
-            let data = try? lastTransaction
-                .decrypt(withKeyPair: auth.keyPair)
+            let data = lastTransaction.data
         else {
-            messageDescription = "Encrypted Message"
+            messageDescription = "Empty Message"
             return
         }
         
@@ -41,12 +42,12 @@ struct ChatRowView: View {
                 .frame(width: 64, height: 64)
             VStack(alignment: .leading) {
                 HStack {
-                    Text(chat.partnerPublicKey.shortDescription)
+                    Text(chat.partnerPublicKey)
                         .font(.headline)
                         .lineLimit(0)
                     Spacer()
                     if let lastTransaction = chat.lastTransaction {
-                        Text(lastTransaction.timestamp, formatter: dateFormatter)
+                        Text("\(lastTransaction.timeUnixNano)")
                             .foregroundColor(Color.black.opacity(0.7))
                     }
                 }
@@ -69,22 +70,3 @@ struct ChatRowView: View {
         .onAppear(perform: decryptMessage)
     }
 }
-
-
-#if DEBUG
-struct ChatRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            ChatRowView(chat: Chat(
-                partnerPublicKey: .alicePublicKey,
-                lastTransaction: .example1
-            )).environmentObject(AuthenticationEnvironment.alice)
-            
-            ChatRowView(chat: Chat(
-                partnerPublicKey: .bobPublicKey,
-                lastTransaction: .example1
-            )).environmentObject(AuthenticationEnvironment.alice)
-        }
-    }
-}
-#endif

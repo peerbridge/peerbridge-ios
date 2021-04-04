@@ -4,36 +4,15 @@ import SQLite3
 
 
 public struct Transaction: Codable, Hashable, Equatable {
-    enum Error: Swift.Error {
-        case wrongEncoding
-    }
-    
-    let index: String
+    let id: String
     let sender: String
     let receiver: String
-    let data: Data
-    let timestamp: Date
-    
-    var description: String {
-        return data.base64EncodedString()
-    }
-    
-    func decrypt(withKeyPair keyPair: RSAKeyPair) throws -> Data {
-        let decoder = ISO8601Decoder()
-        let envelope = try decoder.decode(Envelope.self, from: data)
-        let encryptedSessionKey = keyPair.publicKey.pemString == sender ?
-            envelope.encryptedSessionKeyPair.encryptedBySenderPublicKey :
-            envelope.encryptedSessionKeyPair.encryptedByReceiverPublicKey
-        let decryptedSessionKey = try Crypto.decrypt(
-            data: encryptedSessionKey,
-            asymmetricallyWithPrivateKey: keyPair.privateKey.key
-        )
-        let decryptedData = try Crypto.decrypt(
-            data: envelope.encryptedMessage,
-            symmetricallyWithKeyData: decryptedSessionKey
-        )
-        return decryptedData
-    }
+    let balance: UInt64
+    let timeUnixNano: Int64
+    let data: Data?
+    let fee: UInt64
+
+    var signature: String?
 }
 
 public class TransactionEndpoint {
@@ -41,28 +20,14 @@ public class TransactionEndpoint {
         case noDataReturned
     }
     
-    static func fetch(
-        auth: AuthenticationEnvironment,
-        completion: @escaping (Swift.Result<[Transaction], Error>) -> Void
+    static func getAccountTransactions(
+        ownPublicKey: String,
+        completion: @escaping (Swift.Result<GetAccountTransactionsResponse, Error>) -> Void
     ) {
-        fetch(ownPublicKey: auth.keyPair.publicKey.pemString, completion: completion)
-    }
-    
-    static func fetch(
-        ownPublicKey: PEMString,
-        completion: @escaping (Swift.Result<[Transaction], Error>) -> Void
-    ) {
-        let requestPayload = FilterTransactionsRequest(publicKey: ownPublicKey)
-        let url = URL(string: "\(Endpoints.main)/blockchain/transactions/filter")!
+        let url = URL(string: "\(Endpoints.main)/blockchain/accounts/transactions/get?account=\(ownPublicKey)")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.httpMethod = "POST"
-        do {
-            request.httpBody = try ISO8601Encoder().encode(requestPayload)
-        } catch let error {
-            completion(.failure(error))
-            return
-        }
+        request.httpMethod = "GET"
         
         let task = URLSession.shared.dataTask(with: request) { data, response, error in
             if let error = error {
@@ -74,9 +39,9 @@ public class TransactionEndpoint {
                 return
             }
             do {
-                let transactions = try ISO8601Decoder()
-                    .decode([Transaction].self, from: data)
-                completion(.success(transactions))
+                let response = try JSONDecoder()
+                    .decode(GetAccountTransactionsResponse.self, from: data)
+                completion(.success(response))
             } catch let error {
                 completion(.failure(error))
             }
@@ -115,8 +80,11 @@ public class TransactionRepository: Repository, ObservableObject {
             builder.column(Expression<String>("index"), primaryKey: true)
             builder.column(Expression<String>("sender"))
             builder.column(Expression<String>("receiver"))
+            builder.column(Expression<Int>("balance"))
+            builder.column(Expression<Int>("timeUnixNano"))
             builder.column(Expression<Data>("data"))
-            builder.column(Expression<Date>("timestamp"))
+            builder.column(Expression<Int>("fee"))
+            builder.column(Expression<String>("signature"))
         })
     }
     
@@ -127,55 +95,14 @@ public class TransactionRepository: Repository, ObservableObject {
         }
     }
     
-    func getLastTimestamp() throws -> Date {
-        let timestamp = Expression<Date>("timestamp")
-        let mostRecentTransaction = try get { table in table
-            .order(timestamp.asc)
-        }
-        return mostRecentTransaction.timestamp
-    }
-    
-    func getTransactions(withPartner partnerPublicKey: PEMString) throws -> [Transaction] {
+    func getTransactions(withPartner publicKey: String) throws -> [Transaction] {
         let sender = Expression<String>("sender")
         let receiver = Expression<String>("receiver")
-        let timestamp = Expression<Date>("timestamp")
+        let timeUnixNano = Expression<Int>("timeUnixNano")
         
         return try fetch { table in table
-            .filter(sender == partnerPublicKey || receiver == partnerPublicKey)
-            .order(timestamp)
+            .filter(sender == publicKey || receiver == publicKey)
+            .order(timeUnixNano)
         }
-    }
-    
-    func getChats(auth: AuthenticationEnvironment) throws -> [Chat] {
-        return try getChats(ownPublicKey: auth.keyPair.publicKey.pemString)
-    }
-    
-    func getChats(ownPublicKey: PEMString) throws -> [Chat] {
-        let sender = Expression<String>("sender")
-        let receiver = Expression<String>("receiver")
-        let timestamp = Expression<Date>("timestamp")
-        
-        let rows: AnySequence<Row> = try fetch { table in table
-            .select(distinct: [sender, receiver, timestamp.max, table[*]])
-            .order(timestamp.asc)
-            .group([sender, receiver])
-        }
-        let latestUnidirectionalTransactions = try rows
-            .map { row in try row.decode() as Transaction }
-        // The result of the query may contain two entries
-        // for the same chat, with swapped sender/receiver.
-        // We only need the most recent chat, and since the
-        // query is ordered by the timestamp, we can simply
-        // sequentially iterate over the transactions and
-        // mark each as the most recent encountered one.
-        var chatsByPartner = [String: Chat]()
-        for transaction in latestUnidirectionalTransactions {
-            let partner = transaction.sender == ownPublicKey ?
-                transaction.receiver : transaction.sender
-            let key = try RSAPublicKey(publicKeyString: partner)
-            chatsByPartner[partner] = Chat(partnerPublicKey: key, lastTransaction: transaction)
-        }
-        return chatsByPartner.values
-            .sorted { $0.lastTransaction!.timestamp > $1.lastTransaction!.timestamp }
     }
 }

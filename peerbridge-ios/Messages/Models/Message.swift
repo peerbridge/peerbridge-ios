@@ -13,40 +13,35 @@ public protocol TransactionMessage: Codable {
 
 extension TransactionMessage {
     func send(
-        keyPair: RSAKeyPair,
-        partnerPublicKey: RSAPublicKey,
-        completion: @escaping (Result<Transaction, Error>) -> Void
+        keyPair: Authenticator.KeyPair,
+        partnerPublicKey: String,
+        completion: @escaping (Result<CreateTransactionResponse, Error>) -> Void
     ) {
-        let sessionKey = Crypto.createRandomSymmetricKey()
-        
         do {
-            let messageData = try ISO8601Encoder().encode(self)
-            let encryptedMessage = try Crypto.encrypt(
-                data: messageData,
-                symmetricallyWithKeyData: sessionKey
+            let messageData = try JSONEncoder().encode(self)
+
+            var keyData = Data(count: 32)
+            let result = keyData.withUnsafeMutableBytes {
+                (mutableBytes: UnsafeMutablePointer<UInt8>) -> Int32 in
+                SecRandomCopyBytes(kSecRandomDefault, 32, mutableBytes)
+            }
+
+            if result != errSecSuccess {
+                fatalError("Random SHA256 could not be generated!")
+            }
+
+            let transaction = Transaction(
+                id: String(byteArray: keyData),
+                sender: keyPair.publicKey,
+                receiver: partnerPublicKey,
+                balance: 0, // TODO: Support money transfer
+                timeUnixNano: Int64(Date().timeIntervalSince1970 * 1_000_000),
+                data: messageData, // TODO: encrypt message
+                fee: 0, // TODO: use recommended fee from server
+                signature: nil // TODO: sign
             )
-            let encryptedBySenderPublicKey = try Crypto.encrypt(
-                data: sessionKey,
-                asymmetricallyWithPublicKey: keyPair.publicKey.key
-            )
-            let encryptedByReceiverPublicKey = try Crypto.encrypt(
-                data: sessionKey,
-                asymmetricallyWithPublicKey: partnerPublicKey.key
-            )
-            let encryptedSessionKeyPair = EncryptedSessionKeyPair(
-                encryptedBySenderPublicKey: encryptedBySenderPublicKey,
-                encryptedByReceiverPublicKey: encryptedByReceiverPublicKey
-            )
-            let envelope = Envelope(
-                encryptedSessionKeyPair: encryptedSessionKeyPair,
-                encryptedMessage: encryptedMessage
-            )
-            let transactionData = try ISO8601Encoder().encode(envelope)
-            TransactionRequest(
-                sender: keyPair.publicKey.pemString,
-                receiver: partnerPublicKey.pemString,
-                data: transactionData
-            ).send(completion: completion)
+
+            CreateTransactionRequest(transaction: transaction).send(completion: completion)
         } catch let error {
             completion(.failure(error))
             return

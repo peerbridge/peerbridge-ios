@@ -32,7 +32,8 @@ public struct MessageRowView: View {
     @State private var messageDescription: String? = nil
     
     func decryptMessage() {
-        guard let data = try? transaction.decrypt(withKeyPair: auth.keyPair) else {
+        // TODO: actually decrypt message
+        guard let data = transaction.data else {
             messageDescription = "Encrypted Message"
             return
         }
@@ -46,7 +47,7 @@ public struct MessageRowView: View {
     }
     
     private var isOwnMessage: Bool {
-        transaction.sender == auth.keyPair.publicKey.pemString
+        transaction.sender == auth.keyPair.publicKey
     }
     
     private var followsMessageGroup: Bool {
@@ -109,7 +110,7 @@ public struct MessageRowView: View {
             
             VStack(alignment: isOwnMessage ? .trailing : .leading) {
                 HStack {
-                    Text(transaction.timestamp, style: .relative)
+                    Text("\(transaction.timeUnixNano)")
                         .font(.caption2)
                     Image(systemName: "lock")
                         .resizable()
@@ -140,25 +141,3 @@ public struct MessageRowView: View {
         .onAppear(perform: decryptMessage)
     }
 }
-
-
-#if DEBUG
-struct MessageRowView_Previews: PreviewProvider {
-    static var previews: some View {
-        VStack {
-            MessageRowView(
-                transaction: .example1,
-                previous: nil,
-                next: .example2
-            ).environmentObject(AuthenticationEnvironment.bob)
-            MessageRowView(
-                transaction: .example2,
-                previous: .example1,
-                next: nil
-            ).environmentObject(AuthenticationEnvironment.bob)
-        }
-        .frame(maxWidth: .infinity, maxHeight: .infinity)
-        .background(Color.black.opacity(0.04))
-    }
-}
-#endif

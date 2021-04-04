@@ -25,15 +25,3 @@ struct MessageListView: View {
         }
     }
 }
-
-
-#if DEBUG
-struct MessageListView_Previews: PreviewProvider {
-    static var previews: some View {
-        MessageListView(transactions: .constant([
-            .example1, .example1, .example1, .example2
-        ]))
-            .environmentObject(AuthenticationEnvironment.alice)
-    }
-}
-#endif

@@ -5,9 +5,9 @@ import SwiftyRSA
 
 
 class AuthenticationEnvironment: ObservableObject {
-    let keyPair: RSAKeyPair
+    let keyPair: Authenticator.KeyPair
     
-    init(keyPair: RSAKeyPair) {
+    init(keyPair: Authenticator.KeyPair) {
         self.keyPair = keyPair
     }
 }
@@ -32,7 +32,7 @@ struct AuthenticationView: View {
     
     func newKeypair() {
         do {
-            let keyPair = try Crypto.createRandomAsymmetricKeyPair()
+            let keyPair = Authenticator.newKeyPair()
             try Authenticator.register(newKeyPair: keyPair)
             auth = .init(keyPair: keyPair)
         } catch let error {

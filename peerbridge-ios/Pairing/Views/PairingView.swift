@@ -9,13 +9,9 @@ struct PairingView: View {
     
     func loadCode() {
         guard
-            url == nil,
-            let encodedPublicKey = auth.keyPair
-                .publicKey
-                .pemString
-                .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)
+            url == nil
         else { return }
-        url = "peerbridge://pair?publicKey=\(encodedPublicKey)"
+        url = "peerbridge://pair?publicKey=\(auth.keyPair.publicKey)"
     }
     
     var body: some View {
@@ -34,20 +30,3 @@ struct PairingView: View {
         .onAppear(perform: loadCode)
     }
 }
-
-
-#if DEBUG
-struct PairingView_Previews: PreviewProvider {
-    static let publicKey = PEMString
-        .alicePublicKeyString
-        .addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed)!
-    
-    static var previews: some View {
-        NavigationView {
-            PairingView(
-                url: "example"
-            ).environmentObject(AuthenticationEnvironment.alice)
-        }
-    }
-}
-#endif

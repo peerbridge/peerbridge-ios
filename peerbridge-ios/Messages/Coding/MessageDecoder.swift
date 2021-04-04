@@ -3,10 +3,10 @@ import Foundation
 
 
 public class MessageDecoder {
-    private let decoder: ISO8601Decoder
+    private let decoder: JSONDecoder
     
     public init() {
-        self.decoder = ISO8601Decoder()
+        self.decoder = JSONDecoder()
     }
     
     public func decode(from data: Data) -> TransactionMessage? {

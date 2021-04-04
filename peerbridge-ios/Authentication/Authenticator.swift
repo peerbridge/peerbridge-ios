@@ -1,9 +1,14 @@
 import Foundation
 import LocalAuthentication
-import SwiftyRSA
+import secp256k1_implementation
 
 
 public final class Authenticator {
+    public struct KeyPair: Codable {
+        let publicKey: String
+        let privateKey: String
+    }
+
     public enum Error: Swift.Error {
         case noKeyPair
         case decodingFailed
@@ -23,16 +28,21 @@ public final class Authenticator {
             }
         }
     }
-    
-    public static func loadKeyPair() throws -> RSAKeyPair {
-        let publicKeyString = try loadPublicKey()
-        let privateKeyString = try loadPrivateKey(for: publicKeyString)
-        let publicKey = try RSAPublicKey(publicKeyString: publicKeyString)
-        let privateKey = try RSAPrivateKey(privateKeyString: privateKeyString)
-        return RSAKeyPair(privateKey: privateKey, publicKey: publicKey)
+
+    public static func newKeyPair() -> KeyPair {
+        let key = secp256k1.Signing.PrivateKey()
+        let privateKey = String(byteArray: key.rawRepresentation)
+        let publicKey = String(byteArray: key.publicKey.rawRepresentation)
+        return .init(publicKey: publicKey, privateKey: privateKey)
     }
     
-    public static func loadPublicKey() throws -> PEMString {
+    public static func loadKeyPair() throws -> KeyPair {
+        let publicKey = try loadPublicKey()
+        let privateKey = try loadPrivateKey(for: publicKey)
+        return KeyPair(publicKey: publicKey, privateKey: privateKey)
+    }
+    
+    public static func loadPublicKey() throws -> String {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: "com.peerbridge.keys.publickey",
@@ -55,14 +65,14 @@ public final class Authenticator {
         return pemString
     }
     
-    public static func loadPrivateKey(for publicKey: PEMString) throws -> PEMString {
+    public static func loadPrivateKey(for publicKey: String) throws -> String {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: publicKey,
             kSecAttrService: "com.peerbridge.keys.privatekey",
             kSecMatchLimit: kSecMatchLimitOne,
             kSecReturnAttributes: true,
-            kSecUseOperationPrompt: "Access your private key from the keychain",
+            kSecUseOperationPrompt: "Access your secp256k1 private key from the keychain",
             kSecReturnData: true
         ]
         
@@ -79,12 +89,12 @@ public final class Authenticator {
         return pemString
     }
     
-    public static func register(newKeyPair keyPair: RSAKeyPair) throws {
-        try register(publicKey: keyPair.publicKey.pemString)
-        try register(privateKey: keyPair.privateKey.pemString, forPublicKey: keyPair.publicKey.pemString)
+    public static func register(newKeyPair keyPair: KeyPair) throws {
+        try register(publicKey: keyPair.publicKey)
+        try register(privateKey: keyPair.privateKey, forPublicKey: keyPair.publicKey)
     }
         
-    private static func register(publicKey: PEMString) throws {
+    private static func register(publicKey: String) throws {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrService: "com.peerbridge.keys.publickey",
@@ -102,7 +112,7 @@ public final class Authenticator {
         guard status == errSecSuccess else { throw Self.Error.keychainFailed(status) }
     }
     
-    private static func register(privateKey: PEMString, forPublicKey publicKey: PEMString) throws {
+    private static func register(privateKey: String, forPublicKey publicKey: String) throws {
         let access = SecAccessControlCreateWithFlags(
             nil, // Use the default allocator
             kSecAttrAccessibleWhenPasscodeSetThisDeviceOnly,

@@ -1,24 +1,18 @@
 import Foundation
 
-public struct FilterTransactionsRequest: Codable {
-    let publicKey: PEMString
-}
-
-public struct TransactionRequest: Codable {
-    let sender: String
-    let receiver: String
-    let data: Data
+public struct CreateTransactionRequest: Codable {
+    let transaction: Transaction
     
-    func send(completion: @escaping (Result<Transaction, Error>) -> Void) {
+    func send(completion: @escaping (Result<CreateTransactionResponse, Error>) -> Void) {
         var jsonData: Data
         do {
-            jsonData = try ISO8601Encoder().encode(self)
+            jsonData = try JSONEncoder().encode(self)
         } catch let error {
             completion(.failure(error))
             return
         }
         
-        let url = URL(string: "\(Endpoints.main)/blockchain/transactions/new")!
+        let url = URL(string: "\(Endpoints.main)/blockchain/transaction/create")!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "POST"
@@ -32,8 +26,8 @@ public struct TransactionRequest: Codable {
             guard let data = data else { return }
             
             do {
-                let transaction = try ISO8601Decoder().decode(Transaction.self, from: data)
-                completion(.success(transaction))
+                let response = try JSONDecoder().decode(CreateTransactionResponse.self, from: data)
+                completion(.success(response))
             } catch let error {
                 completion(.failure(error))
                 return

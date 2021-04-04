@@ -54,7 +54,11 @@ struct MessagesView: View {
             keyPair: auth.keyPair,
             partnerPublicKey: chat.partnerPublicKey
         ) { result in
-            guard let transaction = try? result.get() else { return }
+            guard
+                let response = try? result.get(),
+                let transaction = response.transaction
+            else { return }
+            
             try? persistence.transactions.insert(object: transaction)
             
             UINotificationFeedbackGenerator().notificationOccurred(.success)
@@ -79,7 +83,7 @@ struct MessagesView: View {
     func refreshLocally() {
         guard
             let transactions = try? persistence.transactions
-                .getTransactions(withPartner: chat.partnerPublicKey.pemString)
+                .getTransactions(withPartner: chat.partnerPublicKey)
         else { return }
         self.transactions = transactions
         
@@ -88,11 +92,12 @@ struct MessagesView: View {
             guard ownToken == nil || partnerToken == nil else { break }
             
             guard
-                let data = try? transaction.decrypt(withKeyPair: auth.keyPair),
+                // TODO: Decrypt transaction data
+                let data = try? transaction.data,
                 let tokenMessage = MessageDecoder().decode(from: data) as? TokenMessage
             else { continue }
             
-            if transaction.sender == chat.partnerPublicKey.pemString {
+            if transaction.sender == chat.partnerPublicKey {
                 partnerToken = tokenMessage.token
             } else {
                 ownToken = tokenMessage.token
@@ -101,14 +106,17 @@ struct MessagesView: View {
     }
     
     func refreshFromRemote() {
-        TransactionEndpoint.fetch(auth: auth) { result in
+        TransactionEndpoint.getAccountTransactions(
+            ownPublicKey: auth.keyPair.publicKey
+        ) { result in
             switch result {
             case .failure(let error):
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
                 print("Update Transactions failed: \(error)")
-            case .success(let transactions):
+            case .success(let response):
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-                persistence.transactions.update(transactions: transactions)
+                guard let txns = response.transactions else { return }
+                persistence.transactions.update(transactions: txns)
                 refreshLocally()
             }
         }
@@ -216,7 +224,7 @@ struct MessagesView: View {
         .navigationBarItems(
             trailing: NavigationLink(destination: Text("Edit Chat")) {
                 HStack {
-                    Text(chat.partnerPublicKey.shortDescription)
+                    Text(chat.partnerPublicKey)
                     IdentificationView(key: chat.partnerPublicKey)
                         .frame(width: 32, height: 32)
                 }
@@ -229,16 +237,3 @@ struct MessagesView: View {
         .onAppear(perform: refreshLocally)
     }
 }
-
-
-#if DEBUG
-struct MessagesView_Previews: PreviewProvider {    
-    static var previews: some View {
-        NavigationView {
-            MessagesView(chat: .exampleForAlice)
-            .environmentObject(AuthenticationEnvironment.alice)
-            .environmentObject(PersistenceEnvironment.debug)
-        }
-    }
-}
-#endif

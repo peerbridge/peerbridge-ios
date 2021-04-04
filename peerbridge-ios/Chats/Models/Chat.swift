@@ -3,10 +3,10 @@ import SwiftyRSA
 
 
 struct Chat: Codable, Hashable, Equatable, Identifiable {
-    let partnerPublicKey: RSAPublicKey
+    let partnerPublicKey: String
     let lastTransaction: Transaction?
     
     var id: String {
-        partnerPublicKey.pemString
+        partnerPublicKey
     }
 }

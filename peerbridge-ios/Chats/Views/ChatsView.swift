@@ -16,32 +16,27 @@ struct ChatsView: View {
             let params = components.queryItems,
             let taintedPublicKey = params.first(where: { $0.name == "publicKey" })?.value
         else { return }
-        
-        do {
-            let publicKey = try RSAPublicKey(publicKeyString: taintedPublicKey)
-            let newChat = Chat(partnerPublicKey: publicKey, lastTransaction: nil)
-            chats.insert(newChat, at: 0)
-        } catch let error {
-            print("Error during url handling: \(error)")
-        }
+
+        // TODO: Handle publicKey
     }
     
     func loadChats() {
-        guard
-            let chats = try? persistence.transactions.getChats(auth: auth)
-        else { return }
-        self.chats = chats
+        // TODO: Load chats
     }
     
     func fetchTransactions() {
-        TransactionEndpoint.fetch(auth: auth) { result in
+        TransactionEndpoint.getAccountTransactions(
+            ownPublicKey: auth.keyPair.publicKey
+        ) { result in
             switch result {
             case .failure(let error):
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
                 print("Update Transactions failed: \(error)")
-            case .success(let transactions):
+            case .success(let response):
                 UINotificationFeedbackGenerator().notificationOccurred(.success)
-                persistence.transactions.update(transactions: transactions)
+                guard let txns = response.transactions else { return }
+                persistence.transactions.update(transactions: txns)
+                
                 loadChats()
             }
         }
@@ -81,14 +76,3 @@ struct ChatsView: View {
         .onReceive(publisher, perform: { _ in fetchTransactions() })
     }
 }
-
-
-#if DEBUG
-struct ChatsView_Previews: PreviewProvider {
-    static var previews: some View {
-        ChatsView()
-            .environmentObject(AuthenticationEnvironment.alice)
-            .environmentObject(PersistenceEnvironment.debug)
-    }
-}
-#endif

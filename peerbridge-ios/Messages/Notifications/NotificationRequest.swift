@@ -47,7 +47,7 @@ struct NotificationRequest: Codable {
         var jsonData: Data
         do {
             serverKey = try NotificationRequest.getServerKey()
-            jsonData = try ISO8601Encoder().encode(self)
+            jsonData = try JSONEncoder().encode(self)
         } catch let error {
             completion(error)
             return
