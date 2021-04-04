@@ -727,6 +727,7 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
@@ -735,6 +736,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge CI Profile";
@@ -751,6 +753,7 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
@@ -759,6 +762,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge CI Profile";
