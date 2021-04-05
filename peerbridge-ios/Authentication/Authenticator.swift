@@ -45,7 +45,7 @@ public final class Authenticator {
     public static func loadPublicKey() throws -> String {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService: "com.peerbridge.keys.publickey",
+            kSecAttrService: "com.peerbridge.keys.secp256k1.publickey",
             kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
             kSecReturnData: true,
             kSecReturnAttributes: true,
@@ -69,7 +69,7 @@ public final class Authenticator {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: publicKey,
-            kSecAttrService: "com.peerbridge.keys.privatekey",
+            kSecAttrService: "com.peerbridge.keys.secp256k1.privatekey",
             kSecMatchLimit: kSecMatchLimitOne,
             kSecReturnAttributes: true,
             kSecUseOperationPrompt: "Access your secp256k1 private key from the keychain",
@@ -97,7 +97,7 @@ public final class Authenticator {
     private static func register(publicKey: String) throws {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
-            kSecAttrService: "com.peerbridge.keys.publickey",
+            kSecAttrService: "com.peerbridge.keys.secp256k1.publickey",
             kSecAttrAccessible: kSecAttrAccessibleAfterFirstUnlockThisDeviceOnly,
             kSecValueData: publicKey.data(using: String.Encoding.utf8)!
         ]
@@ -130,7 +130,7 @@ public final class Authenticator {
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: publicKey,
-            kSecAttrService: "com.peerbridge.keys.privatekey",
+            kSecAttrService: "com.peerbridge.keys.secp256k1.privatekey",
             kSecAttrAccessControl: access as Any,
             kSecUseAuthenticationContext: context,
             kSecValueData: privateKey.data(using: String.Encoding.utf8)!

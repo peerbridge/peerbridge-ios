@@ -9,4 +9,9 @@ struct Chat: Codable, Hashable, Equatable, Identifiable {
     var id: String {
         partnerPublicKey
     }
+
+    var shortHex: String {
+        let index = partnerPublicKey.index(partnerPublicKey.startIndex, offsetBy: 6)
+        return String(partnerPublicKey[..<index])
+    }
 }

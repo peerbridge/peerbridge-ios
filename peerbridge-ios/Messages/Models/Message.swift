@@ -1,5 +1,6 @@
 
 import Foundation
+import secp256k1_implementation
 
 
 public protocol TransactionMessage: Codable {
@@ -18,10 +19,8 @@ extension TransactionMessage {
         completion: @escaping (Result<CreateTransactionResponse, Error>) -> Void
     ) {
         do {
-            let messageData = try JSONEncoder().encode(self)
-
-            var keyData = Data(count: 32)
-            let result = keyData.withUnsafeMutableBytes {
+            var idData = Data(count: 32)
+            let result = idData.withUnsafeMutableBytes {
                 (mutableBytes: UnsafeMutablePointer<UInt8>) -> Int32 in
                 SecRandomCopyBytes(kSecRandomDefault, 32, mutableBytes)
             }
@@ -30,16 +29,18 @@ extension TransactionMessage {
                 fatalError("Random SHA256 could not be generated!")
             }
 
-            let transaction = Transaction(
-                id: String(byteArray: keyData),
+            var transaction = Transaction(
+                id: String(byteArray: idData),
                 sender: keyPair.publicKey,
                 receiver: partnerPublicKey,
                 balance: 0, // TODO: Support money transfer
-                timeUnixNano: Int64(Date().timeIntervalSince1970 * 1_000_000),
-                data: messageData, // TODO: encrypt message
+                timeUnixNano: Int(Date().timeIntervalSince1970 * 1_000_000),
+                data: try JSONEncoder().encode(self), // TODO: encrypt message
                 fee: 0, // TODO: use recommended fee from server
-                signature: nil // TODO: sign
+                signature: nil
             )
+
+            try transaction.sign(privateKey: keyPair.privateKey)
 
             CreateTransactionRequest(transaction: transaction).send(completion: completion)
         } catch let error {

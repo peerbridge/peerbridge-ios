@@ -17,11 +17,30 @@ struct ChatsView: View {
             let taintedPublicKey = params.first(where: { $0.name == "publicKey" })?.value
         else { return }
 
-        // TODO: Handle publicKey
+        chats.append(.init(partnerPublicKey: taintedPublicKey, lastTransaction: nil))
     }
     
     func loadChats() {
-        // TODO: Load chats
+        // TODO: Group transactions by conversation partner
+        guard let transactions = try? persistence.transactions.all() else { return }
+        var txnsByPartner = [String: Transaction]()
+
+        for t in transactions {
+            let partner = auth.keyPair.publicKey == t.receiver ? t.sender : t.receiver
+            if let existingT = txnsByPartner[partner] {
+                if existingT.timeUnixNano < t.timeUnixNano {
+                    txnsByPartner[partner] = t
+                }
+            } else {
+                txnsByPartner[partner] = t
+            }
+        }
+
+        var newChats = [Chat]()
+        for (p, t) in txnsByPartner {
+            newChats.append(.init(partnerPublicKey: p, lastTransaction: t))
+        }
+        chats = newChats
     }
     
     func fetchTransactions() {
@@ -47,7 +66,7 @@ struct ChatsView: View {
             VStack {
                 ScrollView {
                     LazyVStack {
-                        ForEach(chats) { chat in
+                        ForEach(chats, id: \.self) { chat in
                             NavigationLink(destination: MessagesView(chat: chat)) {
                                 ChatRowView(chat: chat)
                             }

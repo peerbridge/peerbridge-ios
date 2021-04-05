@@ -23,8 +23,13 @@ public struct CreateTransactionRequest: Codable {
                 completion(.failure(error))
                 return
             }
-            guard let data = data else { return }
-            
+            guard
+                let data = data,
+                let response = response as? HTTPURLResponse
+            else { return }
+
+            print(response.statusCode)
+
             do {
                 let response = try JSONDecoder().decode(CreateTransactionResponse.self, from: data)
                 completion(.success(response))

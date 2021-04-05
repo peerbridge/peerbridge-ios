@@ -93,7 +93,7 @@ struct MessagesView: View {
             
             guard
                 // TODO: Decrypt transaction data
-                let data = try? transaction.data,
+                let data = transaction.data,
                 let tokenMessage = MessageDecoder().decode(from: data) as? TokenMessage
             else { continue }
             
@@ -224,7 +224,7 @@ struct MessagesView: View {
         .navigationBarItems(
             trailing: NavigationLink(destination: Text("Edit Chat")) {
                 HStack {
-                    Text(chat.partnerPublicKey)
+                    Text(chat.shortHex)
                     IdentificationView(key: chat.partnerPublicKey)
                         .frame(width: 32, height: 32)
                 }

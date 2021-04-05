@@ -1,18 +1,40 @@
 import Foundation
 import SQLite
 import SQLite3
+import secp256k1_implementation
 
 
 public struct Transaction: Codable, Hashable, Equatable {
     let id: String
     let sender: String
     let receiver: String
-    let balance: UInt64
-    let timeUnixNano: Int64
+    let balance: Int
+    let timeUnixNano: Int
     let data: Data?
-    let fee: UInt64
+    let fee: Int
 
     var signature: String?
+
+    var time: Date {
+        Date(timeIntervalSince1970: Double(timeUnixNano / 1_000_000))
+    }
+
+    mutating func sign(privateKey: String) throws {
+        var dataStr = ""
+        if let data = data {
+            dataStr = String(byteArray: data)
+        }
+
+        let signatureInputStr = "id:\(id)|sender:\(sender)|receiver:\(receiver)|balance:\(balance)|timeUnixNano:\(timeUnixNano)|data:\(dataStr)|fee:\(fee)"
+        let signatureInput = signatureInputStr.data(using: .utf8)!
+
+        let keyBytes = try privateKey.byteArray()
+        let key = try secp256k1.Signing.PrivateKey(rawRepresentation: keyBytes)
+        let signature = try key.signature(for: signatureInput)
+        let signatureString = String(byteArray: try signature.compactRepresentation())
+
+        self.signature = signatureString
+    }
 }
 
 public class TransactionEndpoint {
@@ -24,7 +46,8 @@ public class TransactionEndpoint {
         ownPublicKey: String,
         completion: @escaping (Swift.Result<GetAccountTransactionsResponse, Error>) -> Void
     ) {
-        let url = URL(string: "\(Endpoints.main)/blockchain/accounts/transactions/get?account=\(ownPublicKey)")!
+        let urlString = "\(Endpoints.main)/blockchain/accounts/transactions/get?account=\(ownPublicKey)"
+        let url = URL(string: urlString)!
         var request = URLRequest(url: url)
         request.setValue("application/json", forHTTPHeaderField: "Content-Type")
         request.httpMethod = "GET"
@@ -77,7 +100,7 @@ public class TransactionRepository: Repository, ObservableObject {
         self.table = Table("transactions")
         
         try connection.run(table.create(ifNotExists: true) { builder in
-            builder.column(Expression<String>("index"), primaryKey: true)
+            builder.column(Expression<String>("id"), primaryKey: true)
             builder.column(Expression<String>("sender"))
             builder.column(Expression<String>("receiver"))
             builder.column(Expression<Int>("balance"))
@@ -91,7 +114,11 @@ public class TransactionRepository: Repository, ObservableObject {
     func update(transactions: [Transaction]) {
         for transaction in transactions {
             // TODO: handle errors (excluding duplicate insertion)
-            try? insert(object: transaction)
+            do {
+                try insert(object: transaction)
+            } catch {
+                print(error)
+            }
         }
     }
     

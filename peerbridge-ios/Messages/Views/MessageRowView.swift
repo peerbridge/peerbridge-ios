@@ -110,7 +110,7 @@ public struct MessageRowView: View {
             
             VStack(alignment: isOwnMessage ? .trailing : .leading) {
                 HStack {
-                    Text("\(transaction.timeUnixNano)")
+                    Text(transaction.time, style: .relative)
                         .font(.caption2)
                     Image(systemName: "lock")
                         .resizable()

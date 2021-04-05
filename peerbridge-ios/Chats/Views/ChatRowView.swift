@@ -42,12 +42,12 @@ struct ChatRowView: View {
                 .frame(width: 64, height: 64)
             VStack(alignment: .leading) {
                 HStack {
-                    Text(chat.partnerPublicKey)
+                    Text(chat.shortHex)
                         .font(.headline)
                         .lineLimit(0)
                     Spacer()
                     if let lastTransaction = chat.lastTransaction {
-                        Text("\(lastTransaction.timeUnixNano)")
+                        Text(lastTransaction.time, style: .relative)
                             .foregroundColor(Color.black.opacity(0.7))
                     }
                 }
