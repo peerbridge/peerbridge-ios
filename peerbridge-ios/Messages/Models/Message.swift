@@ -34,7 +34,7 @@ extension TransactionMessage {
                 sender: keyPair.publicKey,
                 receiver: partnerPublicKey,
                 balance: 0, // TODO: Support money transfer
-                timeUnixNano: Int(Date().timeIntervalSince1970 * 1_000_000),
+                timeUnixNano: Int(Date().timeIntervalSince1970 * 1_000_000_000),
                 data: try JSONEncoder().encode(self), // TODO: encrypt message
                 fee: 0, // TODO: use recommended fee from server
                 signature: nil

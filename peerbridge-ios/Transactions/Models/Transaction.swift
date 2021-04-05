@@ -16,7 +16,7 @@ public struct Transaction: Codable, Hashable, Equatable {
     var signature: String?
 
     var time: Date {
-        Date(timeIntervalSince1970: Double(timeUnixNano / 1_000_000))
+        Date(timeIntervalSince1970: Double(timeUnixNano / 1_000_000_000))
     }
 
     mutating func sign(privateKey: String) throws {
