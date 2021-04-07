@@ -101,43 +101,49 @@ public struct MessageRowView: View {
             }
         }
     }
+
+    private var url: URL {
+        URL(string: "\(Endpoints.main)/dashboard/transaction?id=\(transaction.id)")!
+    }
     
     public var body: some View {
-        HStack {
-            if isOwnMessage {
-                Spacer()
-            }
-            
-            VStack(alignment: isOwnMessage ? .trailing : .leading) {
-                HStack {
-                    Text(transaction.time, style: .relative)
-                        .font(.caption2)
-                    Image(systemName: "lock")
-                        .resizable()
-                        .frame(width: 8, height: 10)
+        Link(destination: url) {
+            HStack {
+                if isOwnMessage {
+                    Spacer()
                 }
-                .padding(.bottom, 2)
-                if let description = messageDescription {
-                    Text(description)
-                        .lineLimit(nil)
+
+                VStack(alignment: isOwnMessage ? .trailing : .leading) {
+                    HStack {
+                        Text(transaction.time, style: .relative)
+                            .font(.caption2)
+                        Image(systemName: "lock")
+                            .resizable()
+                            .frame(width: 8, height: 10)
+                    }
+                    .padding(.bottom, 2)
+                    if let description = messageDescription {
+                        Text(description)
+                            .lineLimit(nil)
+                    }
+                }
+                .padding()
+                .foregroundColor(
+                    isOwnMessage ? Color.white : Color.black
+                )
+                .background(background)
+                .cornerRadius(12, corners: roundedCorners)
+                .shadow(
+                    color: Color.black.opacity(0.1),
+                    radius: 12, x: 0, y: 4
+                )
+                .padding(.horizontal)
+
+                if !isOwnMessage {
+                    Spacer()
                 }
             }
-            .padding()
-            .foregroundColor(
-                isOwnMessage ? Color.white : Color.black
-            )
-            .background(background)
-            .cornerRadius(12, corners: roundedCorners)
-            .shadow(
-                color: Color.black.opacity(0.1),
-                radius: 12, x: 0, y: 4
-            )
-            .padding(.horizontal)
-            
-            if !isOwnMessage {
-                Spacer()
-            }
+            .onAppear(perform: decryptMessage)
         }
-        .onAppear(perform: decryptMessage)
     }
 }

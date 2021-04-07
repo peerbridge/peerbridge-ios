@@ -205,6 +205,10 @@ struct MessagesView: View {
             radius: 12, x: 0, y: 4
         )
     }
+
+    private var url: URL {
+        URL(string: "\(Endpoints.main)/dashboard/account?id=\(chat.partnerPublicKey)")!
+    }
     
     var body: some View {
         VStack(spacing: 0) {
@@ -222,7 +226,7 @@ struct MessagesView: View {
             contentField
         }
         .navigationBarItems(
-            trailing: NavigationLink(destination: Text("Edit Chat")) {
+            trailing: Link(destination: url) {
                 HStack {
                     Text(chat.shortHex)
                     IdentificationView(key: chat.partnerPublicKey)
