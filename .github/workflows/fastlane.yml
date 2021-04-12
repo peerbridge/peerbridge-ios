@@ -5,21 +5,24 @@ name: Build, Test and Distribute App via Fastlane
 
 on:
   push:
-    tags: [ v* ]
+    branches: 
+      - master
 
 jobs:
   main:
     runs-on: macos-latest
 
     env:
-      destination: 'platform=iOS Simulator,OS=14.2,name=iPhone 11 Pro'
+      destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 12 Pro'
       # See https://github.com/actions/virtual-environments for
       # further information on which Xcode versions are supported
-      xcode: '/Applications/Xcode_12.2.app'
+      xcode: '/Applications/Xcode_12.4.app'
 
     steps:
       - name: Checkout Project
         uses: actions/checkout@v2
+        with:
+          submodules: true
 
       - name: Select Specified Xcode Version
         run: sudo xcode-select -s ${{ env.xcode }}
@@ -47,9 +50,6 @@ jobs:
           GOOGLE_APP_ID: ${{ secrets.GOOGLE_APP_ID }}
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SERVER_KEY: ${{ secrets.SERVER_KEY }}
-
-      - name: Build and Test App via Fastlane Scan
-        run: bundle exec fastlane scan --destination "${{ env.destination }}"
 
       - name: Import Signing Certificate
         env:
