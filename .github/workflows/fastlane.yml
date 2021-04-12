@@ -51,9 +51,6 @@ jobs:
           DATABASE_URL: ${{ secrets.DATABASE_URL }}
           SERVER_KEY: ${{ secrets.SERVER_KEY }}
 
-      - name: Build and Test App via Fastlane Scan
-        run: bundle exec fastlane scan --destination "${{ env.destination }}"
-
       - name: Import Signing Certificate
         env:
           SIGNING_CERTIFICATE_P12_DATA: ${{ secrets.SIGNING_CERTIFICATE_P12_DATA }}
