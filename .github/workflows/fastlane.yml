@@ -5,17 +5,18 @@ name: Build, Test and Distribute App via Fastlane
 
 on:
   push:
-    tags: [ v* ]
+    branches: 
+      - master
 
 jobs:
   main:
     runs-on: macos-latest
 
     env:
-      destination: 'platform=iOS Simulator,OS=14.2,name=iPhone 11 Pro'
+      destination: 'platform=iOS Simulator,OS=14.4,name=iPhone 12 Pro'
       # See https://github.com/actions/virtual-environments for
       # further information on which Xcode versions are supported
-      xcode: '/Applications/Xcode_12.2.app'
+      xcode: '/Applications/Xcode_12.4.app'
 
     steps:
       - name: Checkout Project
