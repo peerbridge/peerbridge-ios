@@ -29,6 +29,7 @@ public struct CreateTransactionRequest: Codable {
             else { return }
 
             print(response.statusCode)
+            print(String(data: data, encoding: .utf8))
 
             do {
                 let response = try JSONDecoder().decode(CreateTransactionResponse.self, from: data)

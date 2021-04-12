@@ -3,12 +3,11 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
 		68F02BDF3F166BADC3BBF9BA /* Pods_peerbridge_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */; };
-		86886632EE7E2554524C356C /* Pods_peerbridge_ios_tests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805CCD9CD754B25F65F15C87 /* Pods_peerbridge_ios_tests.framework */; };
 		BE10D35C2524E8EC00802BF2 /* MessageRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE10D35B2524E8EC00802BF2 /* MessageRowView.swift */; };
 		BE119DFD2523692F00041870 /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119DFC2523692F00041870 /* ChatsView.swift */; };
 		BE119E04252369CB00041870 /* IdentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119E03252369CA00041870 /* IdentificationView.swift */; };
@@ -29,6 +28,7 @@
 		BE5C69C9252DE0F300480447 /* ContentMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5C69C8252DE0F300480447 /* ContentMessage.swift */; };
 		BE5C69D2252DE72100480447 /* NotificationRequest.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5C69D1252DE72100480447 /* NotificationRequest.swift */; };
 		BE5C69D6252DE74400480447 /* NotificationToken.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE5C69D5252DE74400480447 /* NotificationToken.swift */; };
+		BE6027F426240840006ACCB5 /* secp256k1.c in Sources */ = {isa = PBXBuildFile; fileRef = BE6027A426240840006ACCB5 /* secp256k1.c */; settings = {COMPILER_FLAGS = "-DCOMMON_COMPILE_FLAGS -DENABLE_MODULE_RECOVERY -DENABLE_MODULE_ECDH -DUSE_FIELD_INV_BUILTIN -DUSE_NUM_NONE -DUSE_SCALAR_INV_BUILTIN -DECMULT_WINDOW_SIZE=15 -DECMULT_GEN_PREC_BITS=4"; }; };
 		BE64F4CE252493C900CFC23F /* PairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4CD252493C900CFC23F /* PairingView.swift */; };
 		BE64F4D22524A2E000CFC23F /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4D12524A2E000CFC23F /* QRCodeView.swift */; };
 		BE64F4E02524C25300CFC23F /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4DF2524C25300CFC23F /* MessagesView.swift */; };
@@ -36,21 +36,23 @@
 		BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */; };
 		BECB086A25236316001A453A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB086925236316001A453A /* Repository.swift */; };
 		BEE6C2B2261A149D006F517A /* Responses.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEE6C2B1261A149D006F517A /* Responses.swift */; };
-		BEE6C2C8261A21D3006F517A /* secp256k1 in Frameworks */ = {isa = PBXBuildFile; productRef = BEE6C2C7261A21D3006F517A /* secp256k1 */; };
 		BEF1ABFD249A298300BE2FBE /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1ABFC249A298300BE2FBE /* Authenticator.swift */; };
 		BEF1DCE9252F59EA00D5830C /* MessageListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1DCE8252F59EA00D5830C /* MessageListView.swift */; };
 		BEF1DCED252F5F7D00D5830C /* Styles.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEF1DCEC252F5F7D00D5830C /* Styles.swift */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXContainerItemProxy section */
-		BEF1ABF7249A290300BE2FBE /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = BE24B6DF249A2540001CDE09 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = BE24B6E6249A2540001CDE09;
-			remoteInfo = "peerbridge-ios";
+/* Begin PBXCopyFilesBuildPhase section */
+		BE5EA87E2623490D00B006C0 /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
 		};
-/* End PBXContainerItemProxy section */
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		155C023E112FF3BC61369D17 /* Pods-peerbridge-ios-tests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios-tests.debug.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios-tests/Pods-peerbridge-ios-tests.debug.xcconfig"; sourceTree = "<group>"; };
@@ -79,6 +81,109 @@
 		BE5C69C8252DE0F300480447 /* ContentMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentMessage.swift; sourceTree = "<group>"; };
 		BE5C69D1252DE72100480447 /* NotificationRequest.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationRequest.swift; sourceTree = "<group>"; };
 		BE5C69D5252DE74400480447 /* NotificationToken.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationToken.swift; sourceTree = "<group>"; };
+		BE60276626240840006ACCB5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		BE60276926240840006ACCB5 /* bitcoin_secp.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = bitcoin_secp.m4; sourceTree = "<group>"; };
+		BE60276A26240840006ACCB5 /* ax_prog_cc_for_build.m4 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = ax_prog_cc_for_build.m4; sourceTree = "<group>"; };
+		BE60276B26240840006ACCB5 /* configure.ac */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = configure.ac; sourceTree = "<group>"; };
+		BE60276D26240840006ACCB5 /* linux-debian.Dockerfile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "linux-debian.Dockerfile"; sourceTree = "<group>"; };
+		BE60276E26240840006ACCB5 /* cirrus.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = cirrus.sh; sourceTree = "<group>"; };
+		BE60277026240840006ACCB5 /* secp256k1_ecdh.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_ecdh.h; sourceTree = "<group>"; };
+		BE60277126240840006ACCB5 /* secp256k1_schnorrsig.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_schnorrsig.h; sourceTree = "<group>"; };
+		BE60277226240840006ACCB5 /* secp256k1_recovery.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_recovery.h; sourceTree = "<group>"; };
+		BE60277326240840006ACCB5 /* secp256k1_extrakeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_extrakeys.h; sourceTree = "<group>"; };
+		BE60277426240840006ACCB5 /* secp256k1_preallocated.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1_preallocated.h; sourceTree = "<group>"; };
+		BE60277526240840006ACCB5 /* secp256k1.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = secp256k1.h; sourceTree = "<group>"; };
+		BE60277726240840006ACCB5 /* lax_der_parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lax_der_parsing.h; sourceTree = "<group>"; };
+		BE60277826240840006ACCB5 /* lax_der_privatekey_parsing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lax_der_privatekey_parsing.c; sourceTree = "<group>"; };
+		BE60277926240840006ACCB5 /* lax_der_parsing.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = lax_der_parsing.c; sourceTree = "<group>"; };
+		BE60277A26240840006ACCB5 /* lax_der_privatekey_parsing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = lax_der_privatekey_parsing.h; sourceTree = "<group>"; };
+		BE60277B26240840006ACCB5 /* libsecp256k1.pc.in */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = libsecp256k1.pc.in; sourceTree = "<group>"; };
+		BE60277C26240840006ACCB5 /* Makefile.am */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am; sourceTree = "<group>"; };
+		BE60277D26240840006ACCB5 /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		BE60277E26240840006ACCB5 /* COPYING */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = COPYING; sourceTree = "<group>"; };
+		BE60277F26240840006ACCB5 /* .gitignore */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		BE60278026240840006ACCB5 /* .cirrus.yml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.yaml; path = .cirrus.yml; sourceTree = "<group>"; };
+		BE60278226240840006ACCB5 /* safegcd_implementation.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = safegcd_implementation.md; sourceTree = "<group>"; };
+		BE60278426240840006ACCB5 /* secp256k1_params.sage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = secp256k1_params.sage; sourceTree = "<group>"; };
+		BE60278526240840006ACCB5 /* prove_group_implementations.sage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = prove_group_implementations.sage; sourceTree = "<group>"; };
+		BE60278626240840006ACCB5 /* gen_split_lambda_constants.sage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gen_split_lambda_constants.sage; sourceTree = "<group>"; };
+		BE60278726240840006ACCB5 /* weierstrass_prover.sage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = weierstrass_prover.sage; sourceTree = "<group>"; };
+		BE60278826240840006ACCB5 /* group_prover.sage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = group_prover.sage; sourceTree = "<group>"; };
+		BE60278926240840006ACCB5 /* gen_exhaustive_groups.sage */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = gen_exhaustive_groups.sage; sourceTree = "<group>"; };
+		BE60278A26240840006ACCB5 /* SECURITY.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = SECURITY.md; sourceTree = "<group>"; };
+		BE60278B26240840006ACCB5 /* autogen.sh */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.sh; path = autogen.sh; sourceTree = "<group>"; };
+		BE60278D26240840006ACCB5 /* scalar_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_impl.h; sourceTree = "<group>"; };
+		BE60278E26240840006ACCB5 /* field_10x26_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_10x26_impl.h; sourceTree = "<group>"; };
+		BE60278F26240840006ACCB5 /* testrand_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testrand_impl.h; sourceTree = "<group>"; };
+		BE60279026240840006ACCB5 /* modinv32_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modinv32_impl.h; sourceTree = "<group>"; };
+		BE60279226240840006ACCB5 /* field_10x26_arm.s */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.asm; path = field_10x26_arm.s; sourceTree = "<group>"; };
+		BE60279326240840006ACCB5 /* scratch.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch.h; sourceTree = "<group>"; };
+		BE60279426240840006ACCB5 /* ecmult_gen_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult_gen_impl.h; sourceTree = "<group>"; };
+		BE60279526240840006ACCB5 /* selftest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = selftest.h; sourceTree = "<group>"; };
+		BE60279626240840006ACCB5 /* field_10x26.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_10x26.h; sourceTree = "<group>"; };
+		BE60279726240840006ACCB5 /* modinv32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modinv32.h; sourceTree = "<group>"; };
+		BE60279826240840006ACCB5 /* scalar_8x32_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_8x32_impl.h; sourceTree = "<group>"; };
+		BE60279926240840006ACCB5 /* field_5x52.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_5x52.h; sourceTree = "<group>"; };
+		BE60279A26240840006ACCB5 /* bench_recover.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_recover.c; sourceTree = "<group>"; };
+		BE60279B26240840006ACCB5 /* field.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field.h; sourceTree = "<group>"; };
+		BE60279C26240840006ACCB5 /* bench.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bench.h; sourceTree = "<group>"; };
+		BE60279D26240840006ACCB5 /* field_5x52_asm_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_5x52_asm_impl.h; sourceTree = "<group>"; };
+		BE60279E26240840006ACCB5 /* valgrind_ctime_test.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = valgrind_ctime_test.c; sourceTree = "<group>"; };
+		BE60279F26240840006ACCB5 /* field_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_impl.h; sourceTree = "<group>"; };
+		BE6027A026240840006ACCB5 /* scalar_4x64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_4x64.h; sourceTree = "<group>"; };
+		BE6027A126240840006ACCB5 /* basic-config.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "basic-config.h"; sourceTree = "<group>"; };
+		BE6027A226240840006ACCB5 /* field_5x52_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_5x52_impl.h; sourceTree = "<group>"; };
+		BE6027A326240840006ACCB5 /* ecmult_const_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult_const_impl.h; sourceTree = "<group>"; };
+		BE6027A426240840006ACCB5 /* secp256k1.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; name = secp256k1.c; path = "peerbridge-ios/secp256k1/src/secp256k1.c"; sourceTree = SOURCE_ROOT; };
+		BE6027A526240840006ACCB5 /* ecdsa.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecdsa.h; sourceTree = "<group>"; };
+		BE6027A626240840006ACCB5 /* tests_exhaustive.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tests_exhaustive.c; sourceTree = "<group>"; };
+		BE6027A726240840006ACCB5 /* scalar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar.h; sourceTree = "<group>"; };
+		BE6027A826240840006ACCB5 /* ecdsa_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecdsa_impl.h; sourceTree = "<group>"; };
+		BE6027A926240840006ACCB5 /* modinv64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modinv64.h; sourceTree = "<group>"; };
+		BE6027AA26240840006ACCB5 /* ecmult_gen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult_gen.h; sourceTree = "<group>"; };
+		BE6027AB26240840006ACCB5 /* scalar_low_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_low_impl.h; sourceTree = "<group>"; };
+		BE6027AC26240840006ACCB5 /* hash_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hash_impl.h; sourceTree = "<group>"; };
+		BE6027AD26240840006ACCB5 /* ecmult.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult.h; sourceTree = "<group>"; };
+		BE6027AE26240840006ACCB5 /* scratch_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scratch_impl.h; sourceTree = "<group>"; };
+		BE6027AF26240840006ACCB5 /* bench_sign.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_sign.c; sourceTree = "<group>"; };
+		BE6027B026240840006ACCB5 /* ecmult_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult_impl.h; sourceTree = "<group>"; };
+		BE6027B126240840006ACCB5 /* group.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = group.h; sourceTree = "<group>"; };
+		BE6027B226240840006ACCB5 /* bench_verify.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_verify.c; sourceTree = "<group>"; };
+		BE6027B326240840006ACCB5 /* tests.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = tests.c; sourceTree = "<group>"; };
+		BE6027B426240840006ACCB5 /* gen_context.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = gen_context.c; sourceTree = "<group>"; };
+		BE6027B526240840006ACCB5 /* util.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = util.h; sourceTree = "<group>"; };
+		BE6027B626240840006ACCB5 /* assumptions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = assumptions.h; sourceTree = "<group>"; };
+		BE6027B726240840006ACCB5 /* field_5x52_int128_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = field_5x52_int128_impl.h; sourceTree = "<group>"; };
+		BE6027B826240840006ACCB5 /* modinv64_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = modinv64_impl.h; sourceTree = "<group>"; };
+		BE6027B926240840006ACCB5 /* scalar_4x64_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_4x64_impl.h; sourceTree = "<group>"; };
+		BE6027BA26240840006ACCB5 /* bench_schnorrsig.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_schnorrsig.c; sourceTree = "<group>"; };
+		BE6027BB26240840006ACCB5 /* bench_ecdh.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_ecdh.c; sourceTree = "<group>"; };
+		BE6027BC26240840006ACCB5 /* group_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = group_impl.h; sourceTree = "<group>"; };
+		BE6027BD26240840006ACCB5 /* ecmult_const.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ecmult_const.h; sourceTree = "<group>"; };
+		BE6027BE26240840006ACCB5 /* bench_internal.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_internal.c; sourceTree = "<group>"; };
+		BE6027C126240840006ACCB5 /* Makefile.am.include */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am.include; sourceTree = "<group>"; };
+		BE6027C226240840006ACCB5 /* tests_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_impl.h; sourceTree = "<group>"; };
+		BE6027C326240840006ACCB5 /* tests_exhaustive_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_exhaustive_impl.h; sourceTree = "<group>"; };
+		BE6027C426240840006ACCB5 /* main_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main_impl.h; sourceTree = "<group>"; };
+		BE6027C626240840006ACCB5 /* Makefile.am.include */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am.include; sourceTree = "<group>"; };
+		BE6027C726240840006ACCB5 /* tests_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_impl.h; sourceTree = "<group>"; };
+		BE6027C826240840006ACCB5 /* main_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main_impl.h; sourceTree = "<group>"; };
+		BE6027CA26240840006ACCB5 /* Makefile.am.include */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am.include; sourceTree = "<group>"; };
+		BE6027CB26240840006ACCB5 /* tests_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_impl.h; sourceTree = "<group>"; };
+		BE6027CC26240840006ACCB5 /* tests_exhaustive_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_exhaustive_impl.h; sourceTree = "<group>"; };
+		BE6027CD26240840006ACCB5 /* main_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main_impl.h; sourceTree = "<group>"; };
+		BE6027CF26240840006ACCB5 /* Makefile.am.include */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.am.include; sourceTree = "<group>"; };
+		BE6027D026240840006ACCB5 /* tests_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_impl.h; sourceTree = "<group>"; };
+		BE6027D126240840006ACCB5 /* tests_exhaustive_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tests_exhaustive_impl.h; sourceTree = "<group>"; };
+		BE6027D226240840006ACCB5 /* main_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = main_impl.h; sourceTree = "<group>"; };
+		BE6027D326240840006ACCB5 /* hash.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = hash.h; sourceTree = "<group>"; };
+		BE6027D426240840006ACCB5 /* eckey_impl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eckey_impl.h; sourceTree = "<group>"; };
+		BE6027D526240840006ACCB5 /* bench_ecmult.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = bench_ecmult.c; sourceTree = "<group>"; };
+		BE6027D626240840006ACCB5 /* testrand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = testrand.h; sourceTree = "<group>"; };
+		BE6027D726240840006ACCB5 /* scalar_8x32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_8x32.h; sourceTree = "<group>"; };
+		BE6027D826240840006ACCB5 /* scalar_low.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = scalar_low.h; sourceTree = "<group>"; };
+		BE6027D926240840006ACCB5 /* eckey.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = eckey.h; sourceTree = "<group>"; };
+		BE602802262408C1006ACCB5 /* Bridging.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Bridging.h; sourceTree = "<group>"; };
 		BE64F4CD252493C900CFC23F /* PairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingView.swift; sourceTree = "<group>"; };
 		BE64F4D12524A2E000CFC23F /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BE64F4DF2524C25300CFC23F /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
@@ -87,8 +192,6 @@
 		BEC190C82527585B005A3E42 /* peerbridge-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "peerbridge-ios.entitlements"; sourceTree = "<group>"; };
 		BECB086925236316001A453A /* Repository.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Repository.swift; sourceTree = "<group>"; };
 		BEE6C2B1261A149D006F517A /* Responses.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Responses.swift; sourceTree = "<group>"; };
-		BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "peerbridge-ios-tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		BEF1ABF6249A290300BE2FBE /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		BEF1ABFC249A298300BE2FBE /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
 		BEF1DCE8252F59EA00D5830C /* MessageListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageListView.swift; sourceTree = "<group>"; };
 		BEF1DCEC252F5F7D00D5830C /* Styles.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Styles.swift; sourceTree = "<group>"; };
@@ -102,15 +205,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				68F02BDF3F166BADC3BBF9BA /* Pods_peerbridge_ios.framework in Frameworks */,
-				BEE6C2C8261A21D3006F517A /* secp256k1 in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BEF1ABEF249A290300BE2FBE /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				86886632EE7E2554524C356C /* Pods_peerbridge_ios_tests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -176,7 +270,6 @@
 			isa = PBXGroup;
 			children = (
 				BE24B6E9249A2540001CDE09 /* peerbridge-ios */,
-				BEF1ABF3249A290300BE2FBE /* peerbridge-ios-tests */,
 				BE24B6E8249A2540001CDE09 /* Products */,
 				8AFF78EACD0F9E68AC75E6F9 /* Pods */,
 				3915AC145EE76DDB42510EB1 /* Frameworks */,
@@ -187,7 +280,6 @@
 			isa = PBXGroup;
 			children = (
 				BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */,
-				BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -195,6 +287,8 @@
 		BE24B6E9249A2540001CDE09 /* peerbridge-ios */ = {
 			isa = PBXGroup;
 			children = (
+				BE602802262408C1006ACCB5 /* Bridging.h */,
+				BE60276426240840006ACCB5 /* secp256k1 */,
 				BEF1DCEC252F5F7D00D5830C /* Styles.swift */,
 				BE119E232524466900041870 /* PeerbridgeApp.swift */,
 				BE316C2A2530810C0015DD44 /* AppDelegate.swift */,
@@ -246,6 +340,235 @@
 				BE5C69D5252DE74400480447 /* NotificationToken.swift */,
 			);
 			path = Notifications;
+			sourceTree = "<group>";
+		};
+		BE60276426240840006ACCB5 /* secp256k1 */ = {
+			isa = PBXGroup;
+			children = (
+				BE60276526240840006ACCB5 /* obj */,
+				BE60276726240840006ACCB5 /* build-aux */,
+				BE60276B26240840006ACCB5 /* configure.ac */,
+				BE60276C26240840006ACCB5 /* ci */,
+				BE60276F26240840006ACCB5 /* include */,
+				BE60277626240840006ACCB5 /* contrib */,
+				BE60277B26240840006ACCB5 /* libsecp256k1.pc.in */,
+				BE60277C26240840006ACCB5 /* Makefile.am */,
+				BE60277D26240840006ACCB5 /* README.md */,
+				BE60277E26240840006ACCB5 /* COPYING */,
+				BE60277F26240840006ACCB5 /* .gitignore */,
+				BE60278026240840006ACCB5 /* .cirrus.yml */,
+				BE60278126240840006ACCB5 /* doc */,
+				BE60278326240840006ACCB5 /* sage */,
+				BE60278A26240840006ACCB5 /* SECURITY.md */,
+				BE60278B26240840006ACCB5 /* autogen.sh */,
+				BE60278C26240840006ACCB5 /* src */,
+			);
+			path = secp256k1;
+			sourceTree = "<group>";
+		};
+		BE60276526240840006ACCB5 /* obj */ = {
+			isa = PBXGroup;
+			children = (
+				BE60276626240840006ACCB5 /* .gitignore */,
+			);
+			path = obj;
+			sourceTree = "<group>";
+		};
+		BE60276726240840006ACCB5 /* build-aux */ = {
+			isa = PBXGroup;
+			children = (
+				BE60276826240840006ACCB5 /* m4 */,
+			);
+			path = "build-aux";
+			sourceTree = "<group>";
+		};
+		BE60276826240840006ACCB5 /* m4 */ = {
+			isa = PBXGroup;
+			children = (
+				BE60276926240840006ACCB5 /* bitcoin_secp.m4 */,
+				BE60276A26240840006ACCB5 /* ax_prog_cc_for_build.m4 */,
+			);
+			path = m4;
+			sourceTree = "<group>";
+		};
+		BE60276C26240840006ACCB5 /* ci */ = {
+			isa = PBXGroup;
+			children = (
+				BE60276D26240840006ACCB5 /* linux-debian.Dockerfile */,
+				BE60276E26240840006ACCB5 /* cirrus.sh */,
+			);
+			path = ci;
+			sourceTree = "<group>";
+		};
+		BE60276F26240840006ACCB5 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				BE60277026240840006ACCB5 /* secp256k1_ecdh.h */,
+				BE60277126240840006ACCB5 /* secp256k1_schnorrsig.h */,
+				BE60277226240840006ACCB5 /* secp256k1_recovery.h */,
+				BE60277326240840006ACCB5 /* secp256k1_extrakeys.h */,
+				BE60277426240840006ACCB5 /* secp256k1_preallocated.h */,
+				BE60277526240840006ACCB5 /* secp256k1.h */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		BE60277626240840006ACCB5 /* contrib */ = {
+			isa = PBXGroup;
+			children = (
+				BE60277726240840006ACCB5 /* lax_der_parsing.h */,
+				BE60277826240840006ACCB5 /* lax_der_privatekey_parsing.c */,
+				BE60277926240840006ACCB5 /* lax_der_parsing.c */,
+				BE60277A26240840006ACCB5 /* lax_der_privatekey_parsing.h */,
+			);
+			path = contrib;
+			sourceTree = "<group>";
+		};
+		BE60278126240840006ACCB5 /* doc */ = {
+			isa = PBXGroup;
+			children = (
+				BE60278226240840006ACCB5 /* safegcd_implementation.md */,
+			);
+			path = doc;
+			sourceTree = "<group>";
+		};
+		BE60278326240840006ACCB5 /* sage */ = {
+			isa = PBXGroup;
+			children = (
+				BE60278426240840006ACCB5 /* secp256k1_params.sage */,
+				BE60278526240840006ACCB5 /* prove_group_implementations.sage */,
+				BE60278626240840006ACCB5 /* gen_split_lambda_constants.sage */,
+				BE60278726240840006ACCB5 /* weierstrass_prover.sage */,
+				BE60278826240840006ACCB5 /* group_prover.sage */,
+				BE60278926240840006ACCB5 /* gen_exhaustive_groups.sage */,
+			);
+			path = sage;
+			sourceTree = "<group>";
+		};
+		BE60278C26240840006ACCB5 /* src */ = {
+			isa = PBXGroup;
+			children = (
+				BE60278D26240840006ACCB5 /* scalar_impl.h */,
+				BE60278E26240840006ACCB5 /* field_10x26_impl.h */,
+				BE60278F26240840006ACCB5 /* testrand_impl.h */,
+				BE60279026240840006ACCB5 /* modinv32_impl.h */,
+				BE60279126240840006ACCB5 /* asm */,
+				BE60279326240840006ACCB5 /* scratch.h */,
+				BE60279426240840006ACCB5 /* ecmult_gen_impl.h */,
+				BE60279526240840006ACCB5 /* selftest.h */,
+				BE60279626240840006ACCB5 /* field_10x26.h */,
+				BE60279726240840006ACCB5 /* modinv32.h */,
+				BE60279826240840006ACCB5 /* scalar_8x32_impl.h */,
+				BE60279926240840006ACCB5 /* field_5x52.h */,
+				BE60279A26240840006ACCB5 /* bench_recover.c */,
+				BE60279B26240840006ACCB5 /* field.h */,
+				BE60279C26240840006ACCB5 /* bench.h */,
+				BE60279D26240840006ACCB5 /* field_5x52_asm_impl.h */,
+				BE60279E26240840006ACCB5 /* valgrind_ctime_test.c */,
+				BE60279F26240840006ACCB5 /* field_impl.h */,
+				BE6027A026240840006ACCB5 /* scalar_4x64.h */,
+				BE6027A126240840006ACCB5 /* basic-config.h */,
+				BE6027A226240840006ACCB5 /* field_5x52_impl.h */,
+				BE6027A326240840006ACCB5 /* ecmult_const_impl.h */,
+				BE6027A426240840006ACCB5 /* secp256k1.c */,
+				BE6027A526240840006ACCB5 /* ecdsa.h */,
+				BE6027A626240840006ACCB5 /* tests_exhaustive.c */,
+				BE6027A726240840006ACCB5 /* scalar.h */,
+				BE6027A826240840006ACCB5 /* ecdsa_impl.h */,
+				BE6027A926240840006ACCB5 /* modinv64.h */,
+				BE6027AA26240840006ACCB5 /* ecmult_gen.h */,
+				BE6027AB26240840006ACCB5 /* scalar_low_impl.h */,
+				BE6027AC26240840006ACCB5 /* hash_impl.h */,
+				BE6027AD26240840006ACCB5 /* ecmult.h */,
+				BE6027AE26240840006ACCB5 /* scratch_impl.h */,
+				BE6027AF26240840006ACCB5 /* bench_sign.c */,
+				BE6027B026240840006ACCB5 /* ecmult_impl.h */,
+				BE6027B126240840006ACCB5 /* group.h */,
+				BE6027B226240840006ACCB5 /* bench_verify.c */,
+				BE6027B326240840006ACCB5 /* tests.c */,
+				BE6027B426240840006ACCB5 /* gen_context.c */,
+				BE6027B526240840006ACCB5 /* util.h */,
+				BE6027B626240840006ACCB5 /* assumptions.h */,
+				BE6027B726240840006ACCB5 /* field_5x52_int128_impl.h */,
+				BE6027B826240840006ACCB5 /* modinv64_impl.h */,
+				BE6027B926240840006ACCB5 /* scalar_4x64_impl.h */,
+				BE6027BA26240840006ACCB5 /* bench_schnorrsig.c */,
+				BE6027BB26240840006ACCB5 /* bench_ecdh.c */,
+				BE6027BC26240840006ACCB5 /* group_impl.h */,
+				BE6027BD26240840006ACCB5 /* ecmult_const.h */,
+				BE6027BE26240840006ACCB5 /* bench_internal.c */,
+				BE6027BF26240840006ACCB5 /* modules */,
+				BE6027D326240840006ACCB5 /* hash.h */,
+				BE6027D426240840006ACCB5 /* eckey_impl.h */,
+				BE6027D526240840006ACCB5 /* bench_ecmult.c */,
+				BE6027D626240840006ACCB5 /* testrand.h */,
+				BE6027D726240840006ACCB5 /* scalar_8x32.h */,
+				BE6027D826240840006ACCB5 /* scalar_low.h */,
+				BE6027D926240840006ACCB5 /* eckey.h */,
+			);
+			path = src;
+			sourceTree = "<group>";
+		};
+		BE60279126240840006ACCB5 /* asm */ = {
+			isa = PBXGroup;
+			children = (
+				BE60279226240840006ACCB5 /* field_10x26_arm.s */,
+			);
+			path = asm;
+			sourceTree = "<group>";
+		};
+		BE6027BF26240840006ACCB5 /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				BE6027C026240840006ACCB5 /* recovery */,
+				BE6027C526240840006ACCB5 /* ecdh */,
+				BE6027C926240840006ACCB5 /* extrakeys */,
+				BE6027CE26240840006ACCB5 /* schnorrsig */,
+			);
+			path = modules;
+			sourceTree = "<group>";
+		};
+		BE6027C026240840006ACCB5 /* recovery */ = {
+			isa = PBXGroup;
+			children = (
+				BE6027C126240840006ACCB5 /* Makefile.am.include */,
+				BE6027C226240840006ACCB5 /* tests_impl.h */,
+				BE6027C326240840006ACCB5 /* tests_exhaustive_impl.h */,
+				BE6027C426240840006ACCB5 /* main_impl.h */,
+			);
+			path = recovery;
+			sourceTree = "<group>";
+		};
+		BE6027C526240840006ACCB5 /* ecdh */ = {
+			isa = PBXGroup;
+			children = (
+				BE6027C626240840006ACCB5 /* Makefile.am.include */,
+				BE6027C726240840006ACCB5 /* tests_impl.h */,
+				BE6027C826240840006ACCB5 /* main_impl.h */,
+			);
+			path = ecdh;
+			sourceTree = "<group>";
+		};
+		BE6027C926240840006ACCB5 /* extrakeys */ = {
+			isa = PBXGroup;
+			children = (
+				BE6027CA26240840006ACCB5 /* Makefile.am.include */,
+				BE6027CB26240840006ACCB5 /* tests_impl.h */,
+				BE6027CC26240840006ACCB5 /* tests_exhaustive_impl.h */,
+				BE6027CD26240840006ACCB5 /* main_impl.h */,
+			);
+			path = extrakeys;
+			sourceTree = "<group>";
+		};
+		BE6027CE26240840006ACCB5 /* schnorrsig */ = {
+			isa = PBXGroup;
+			children = (
+				BE6027CF26240840006ACCB5 /* Makefile.am.include */,
+				BE6027D026240840006ACCB5 /* tests_impl.h */,
+				BE6027D126240840006ACCB5 /* tests_exhaustive_impl.h */,
+				BE6027D226240840006ACCB5 /* main_impl.h */,
+			);
+			path = schnorrsig;
 			sourceTree = "<group>";
 		};
 		BE64F4CB2524938100CFC23F /* Pairing */ = {
@@ -332,14 +655,6 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
-		BEF1ABF3249A290300BE2FBE /* peerbridge-ios-tests */ = {
-			isa = PBXGroup;
-			children = (
-				BEF1ABF6249A290300BE2FBE /* Info.plist */,
-			);
-			path = "peerbridge-ios-tests";
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -352,6 +667,7 @@
 				BE24B6E4249A2540001CDE09 /* Frameworks */,
 				BE24B6E5249A2540001CDE09 /* Resources */,
 				27310BDC5410B884A62B348A /* [CP] Embed Pods Frameworks */,
+				BE5EA87E2623490D00B006C0 /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -359,31 +675,10 @@
 			);
 			name = "peerbridge-ios";
 			packageProductDependencies = (
-				BEE6C2C7261A21D3006F517A /* secp256k1 */,
 			);
 			productName = "peerbridge-ios";
 			productReference = BE24B6E7249A2540001CDE09 /* peerbridge-ios.app */;
 			productType = "com.apple.product-type.application";
-		};
-		BEF1ABF1249A290300BE2FBE /* peerbridge-ios-tests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = BEF1ABF9249A290300BE2FBE /* Build configuration list for PBXNativeTarget "peerbridge-ios-tests" */;
-			buildPhases = (
-				C62855FFC03643C81DA60C34 /* [CP] Check Pods Manifest.lock */,
-				BEF1ABEE249A290300BE2FBE /* Sources */,
-				BEF1ABEF249A290300BE2FBE /* Frameworks */,
-				BEF1ABF0249A290300BE2FBE /* Resources */,
-				368F05B07532CD48AE72756A /* [CP] Embed Pods Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				BEF1ABF8249A290300BE2FBE /* PBXTargetDependency */,
-			);
-			name = "peerbridge-ios-tests";
-			productName = "peerbridge-ios-tests";
-			productReference = BEF1ABF2249A290300BE2FBE /* peerbridge-ios-tests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
 		};
 /* End PBXNativeTarget section */
 
@@ -398,10 +693,6 @@
 					BE24B6E6249A2540001CDE09 = {
 						CreatedOnToolsVersion = 11.4;
 					};
-					BEF1ABF1249A290300BE2FBE = {
-						CreatedOnToolsVersion = 11.4;
-						TestTargetID = BE24B6E6249A2540001CDE09;
-					};
 				};
 			};
 			buildConfigurationList = BE24B6E2249A2540001CDE09 /* Build configuration list for PBXProject "peerbridge-ios" */;
@@ -414,14 +705,12 @@
 			);
 			mainGroup = BE24B6DE249A2540001CDE09;
 			packageReferences = (
-				BEE6C2C6261A21D3006F517A /* XCRemoteSwiftPackageReference "secp256k1.swift" */,
 			);
 			productRefGroup = BE24B6E8249A2540001CDE09 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
 				BE24B6E6249A2540001CDE09 /* peerbridge-ios */,
-				BEF1ABF1249A290300BE2FBE /* peerbridge-ios-tests */,
 			);
 		};
 /* End PBXProject section */
@@ -435,13 +724,6 @@
 				BE9B01EF252CBC0C008E24D5 /* GoogleService-Info.plist in Resources */,
 				BE24B6F4249A2541001CDE09 /* Preview Assets.xcassets in Resources */,
 				BE24B6F1249A2541001CDE09 /* Assets.xcassets in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		BEF1ABF0249A290300BE2FBE /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -463,23 +745,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		368F05B07532CD48AE72756A /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios-tests/Pods-peerbridge-ios-tests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios-tests/Pods-peerbridge-ios-tests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-peerbridge-ios-tests/Pods-peerbridge-ios-tests-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 		A26B94B15C7582949CDB4081 /* [CP] Check Pods Manifest.lock */ = {
@@ -504,28 +769,6 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C62855FFC03643C81DA60C34 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-peerbridge-ios-tests-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -533,6 +776,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				BE6027F426240840006ACCB5 /* secp256k1.c in Sources */,
 				BE4E41B1249A599500841C04 /* Transaction.swift in Sources */,
 				BE316C31253081A80015DD44 /* Environment.swift in Sources */,
 				BE119DFD2523692F00041870 /* ChatsView.swift in Sources */,
@@ -562,22 +806,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		BEF1ABEE249A290300BE2FBE /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXTargetDependency section */
-		BEF1ABF8249A290300BE2FBE /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = BE24B6E6249A2540001CDE09 /* peerbridge-ios */;
-			targetProxy = BEF1ABF7249A290300BE2FBE /* PBXContainerItemProxy */;
-		};
-/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		BE24B6F5249A2541001CDE09 /* LaunchScreen.storyboard */ = {
@@ -649,6 +878,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/secp256k1";
 			};
 			name = Debug;
 		};
@@ -703,6 +933,7 @@
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)/secp256k1";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -715,21 +946,44 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstanceID/FirebaseInstanceID.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging/FirebaseMessaging.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Protobuf/Protobuf.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift/SQLite.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyRSA/SwiftyRSA.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+				);
 				INFOPLIST_FILE = "peerbridge-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
+				SWIFT_OBJC_BRIDGING_HEADER = "peerbridge-ios/Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
+				USER_HEADER_SEARCH_PATHS = "peerbridge-ios/secp256k1";
+				USE_HEADERMAP = YES;
 			};
 			name = Debug;
 		};
@@ -741,63 +995,44 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 6;
+				CURRENT_PROJECT_VERSION = 7;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCoreDiagnostics/FirebaseCoreDiagnostics.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstallations/FirebaseInstallations.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseInstanceID/FirebaseInstanceID.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseMessaging/FirebaseMessaging.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleDataTransport/GoogleDataTransport.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/GoogleUtilities/GoogleUtilities.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/PromisesObjC/FBLPromises.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/Protobuf/Protobuf.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SQLite.swift/SQLite.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/SwiftyRSA/SwiftyRSA.framework/Headers\"",
+					"\"${PODS_CONFIGURATION_BUILD_DIR}/nanopb/nanopb.framework/Headers\"",
+					"\"${PODS_ROOT}/Headers/Public\"",
+					"\"${PODS_ROOT}/Headers/Public/Firebase\"",
+					"$(inherited)",
+					"${PODS_ROOT}/Firebase/CoreOnly/Sources",
+					"\"${PODS_TARGET_SRCROOT}/Sources/FBLPromises/include\"",
+				);
 				INFOPLIST_FILE = "peerbridge-ios/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.1;
+				MARKETING_VERSION = 1.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge CI Profile";
+				SWIFT_OBJC_BRIDGING_HEADER = "peerbridge-ios/Bridging.h";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		BEF1ABFA249A290300BE2FBE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = 155C023E112FF3BC61369D17 /* Pods-peerbridge-ios-tests.debug.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S36925NV4E;
-				INFOPLIST_FILE = "peerbridge-ios-tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.peerbridge.peerbridge-ios-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/peerbridge-ios.app/peerbridge-ios";
-			};
-			name = Debug;
-		};
-		BEF1ABFB249A290300BE2FBE /* Release */ = {
-			isa = XCBuildConfiguration;
-			baseConfigurationReference = AC3A0DB6789F59835E753D00 /* Pods-peerbridge-ios-tests.release.xcconfig */;
-			buildSettings = {
-				BUNDLE_LOADER = "$(TEST_HOST)";
-				CODE_SIGN_STYLE = Automatic;
-				DEVELOPMENT_TEAM = S36925NV4E;
-				INFOPLIST_FILE = "peerbridge-ios-tests/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
-				PRODUCT_BUNDLE_IDENTIFIER = "com.peerbridge.peerbridge-ios-tests";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/peerbridge-ios.app/peerbridge-ios";
+				USER_HEADER_SEARCH_PATHS = "peerbridge-ios/secp256k1";
+				USE_HEADERMAP = YES;
 			};
 			name = Release;
 		};
@@ -822,35 +1057,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		BEF1ABF9249A290300BE2FBE /* Build configuration list for PBXNativeTarget "peerbridge-ios-tests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				BEF1ABFA249A290300BE2FBE /* Debug */,
-				BEF1ABFB249A290300BE2FBE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		BEE6C2C6261A21D3006F517A /* XCRemoteSwiftPackageReference "secp256k1.swift" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/GigaBitcoin/secp256k1.swift.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 0.3.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		BEE6C2C7261A21D3006F517A /* secp256k1 */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = BEE6C2C6261A21D3006F517A /* XCRemoteSwiftPackageReference "secp256k1.swift" */;
-			productName = secp256k1;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = BE24B6DF249A2540001CDE09 /* Project object */;
 }

@@ -1,7 +1,6 @@
 
 import Foundation
-import secp256k1_implementation
-
+import CryptoKit
 
 public protocol TransactionMessage: Codable {
     /// Messages must denote a type identifier string to avoid decoding ambiguity
@@ -10,7 +9,6 @@ public protocol TransactionMessage: Codable {
     /// Messages must give a short description for the chat view preview
     var shortDescription: String { get }
 }
-
 
 extension TransactionMessage {
     func send(
@@ -29,18 +27,21 @@ extension TransactionMessage {
                 fatalError("Random SHA256 could not be generated!")
             }
 
+            let data = try JSONEncoder().encode(self)
+            let encryptedData = try keyPair.encrypt(data: data, partner: partnerPublicKey)
+
             var transaction = Transaction(
-                id: String(byteArray: idData),
+                id: idData.hexString,
                 sender: keyPair.publicKey,
                 receiver: partnerPublicKey,
                 balance: 0, // TODO: Support money transfer
                 timeUnixNano: Int(Date().timeIntervalSince1970 * 1_000_000_000),
-                data: try JSONEncoder().encode(self), // TODO: encrypt message
+                data: encryptedData,
                 fee: 0, // TODO: use recommended fee from server
                 signature: nil
             )
 
-            try transaction.sign(privateKey: keyPair.privateKey)
+            try keyPair.sign(t: &transaction)
 
             CreateTransactionRequest(transaction: transaction).send(completion: completion)
         } catch let error {

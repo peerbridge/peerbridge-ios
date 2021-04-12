@@ -1,8 +1,6 @@
 import Foundation
 import SQLite
 import SQLite3
-import secp256k1_implementation
-
 
 public struct Transaction: Codable, Hashable, Equatable {
     let id: String
@@ -17,23 +15,6 @@ public struct Transaction: Codable, Hashable, Equatable {
 
     var time: Date {
         Date(timeIntervalSince1970: Double(timeUnixNano / 1_000_000_000))
-    }
-
-    mutating func sign(privateKey: String) throws {
-        var dataStr = ""
-        if let data = data {
-            dataStr = String(byteArray: data)
-        }
-
-        let signatureInputStr = "id:\(id)|sender:\(sender)|receiver:\(receiver)|balance:\(balance)|timeUnixNano:\(timeUnixNano)|data:\(dataStr)|fee:\(fee)"
-        let signatureInput = signatureInputStr.data(using: .utf8)!
-
-        let keyBytes = try privateKey.byteArray()
-        let key = try secp256k1.Signing.PrivateKey(rawRepresentation: keyBytes)
-        let signature = try key.signature(for: signatureInput)
-        let signatureString = String(byteArray: try signature.compactRepresentation())
-
-        self.signature = signatureString
     }
 }
 

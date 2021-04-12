@@ -34,11 +34,19 @@ public struct MessageRowView: View {
     func decryptMessage() {
         // TODO: actually decrypt message
         guard let data = transaction.data else {
-            messageDescription = "Encrypted Message"
+            messageDescription = "No data in this message"
+            return
+        }
+
+        guard let decryptedData = try? auth.keyPair.decrypt(
+            data: data, partner: transaction.sender == auth.keyPair.publicKey ?
+                transaction.receiver : transaction.sender
+        ) else {
+            messageDescription = "Encrypted message"
             return
         }
         
-        guard let message = MessageDecoder().decode(from: data) else {
+        guard let message = MessageDecoder().decode(from: decryptedData) else {
             messageDescription = "Unknown Message"
             return
         }

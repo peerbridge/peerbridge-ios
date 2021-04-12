@@ -10,16 +10,6 @@ target 'peerbridge-ios' do
   pod 'Firebase/Messaging'
 end
 
-target 'peerbridge-ios-tests' do
-  use_frameworks!
-
-  pod 'SwiftyRSA'
-  pod 'SwiftLint'
-  pod 'SQLite.swift', '~> 0.12.0'
-  pod 'Firebase/Analytics'
-  pod 'Firebase/Messaging'
-end
-
 
 # NOTE: Since Xcode 12, we need to manually raise the deployment
 # target of any pods that are below the minimum supported iOS 9.0,
