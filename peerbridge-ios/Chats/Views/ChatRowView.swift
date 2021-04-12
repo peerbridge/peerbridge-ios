@@ -20,15 +20,26 @@ struct ChatRowView: View {
         }
 
 
-        // TODO: Actually decrypt message!
         guard
             let data = lastTransaction.data
         else {
-            messageDescription = "Empty Message"
+            if lastTransaction.balance > 0 {
+                messageDescription = "Cryptocurrency Transfer"
+            } else {
+                messageDescription = "Empty Message"
+            }
+            return
+        }
+
+        guard let decryptedData = try? auth.keyPair.decrypt(
+            data: data, partner: lastTransaction.sender == auth.keyPair.publicKey ?
+                lastTransaction.receiver : lastTransaction.sender
+        ) else {
+            messageDescription = "Encrypted message"
             return
         }
         
-        guard let message = MessageDecoder().decode(from: data) else {
+        guard let message = MessageDecoder().decode(from: decryptedData) else {
             messageDescription = "Unknown Message"
             return
         }

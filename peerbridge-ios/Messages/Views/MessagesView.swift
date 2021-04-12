@@ -26,6 +26,13 @@ struct MessagesView: View {
     
     @State private var content: String = ""
     @State private var transactions: [Transaction] = []
+
+    @State private var dataToSend: MessageData?
+
+    private struct MessageData: Identifiable {
+        let id = UUID()
+        let data: Data
+    }
     
     private func sendTokenMessage() {
         UIApplication.shared.endEditing()
@@ -35,7 +42,13 @@ struct MessagesView: View {
             return
         }
         let message = TokenMessage(token: token)
-        send(message: message)
+        guard let data = try? JSONEncoder().encode(message) else {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+        withAnimation {
+            dataToSend = .init(data: data)
+        }
     }
     
     private func sendContentMessage() {
@@ -46,37 +59,12 @@ struct MessagesView: View {
         }
         UIImpactFeedbackGenerator(style: .medium).impactOccurred()
         let message = ContentMessage(content: content)
-        send(message: message)
-    }
-        
-    private func send(message: TransactionMessage) {
-        message.send(
-            keyPair: auth.keyPair,
-            partnerPublicKey: chat.partnerPublicKey
-        ) { result in
-            guard
-                let response = try? result.get(),
-                let transaction = response.transaction
-            else { return }
-            
-            try? persistence.transactions.insert(object: transaction)
-            
-            UINotificationFeedbackGenerator().notificationOccurred(.success)
-            content = ""
-            refreshLocally()
-            
-            // Send a notification if the partner's token is known
-            if let partnerToken = partnerToken {
-                NotificationRequest(
-                    to: partnerToken,
-                    notification: .newMessage,
-                    data: nil
-                ).send { error in
-                    if let error = error {
-                        print("Notification request send failed with error: \(error)")
-                    }
-                }
-            }
+        guard let data = try? JSONEncoder().encode(message) else {
+            UINotificationFeedbackGenerator().notificationOccurred(.error)
+            return
+        }
+        withAnimation {
+            dataToSend = .init(data: data)
         }
     }
     
@@ -92,9 +80,12 @@ struct MessagesView: View {
             guard ownToken == nil || partnerToken == nil else { break }
             
             guard
-                // TODO: Decrypt transaction data
                 let data = transaction.data,
-                let tokenMessage = MessageDecoder().decode(from: data) as? TokenMessage
+                let decrypted = try? auth.keyPair.decrypt(
+                    data: data, partner: transaction.sender == auth.keyPair.publicKey ?
+                        transaction.receiver : transaction.sender
+                ),
+                let tokenMessage = MessageDecoder().decode(from: decrypted) as? TokenMessage
             else { continue }
             
             if transaction.sender == chat.partnerPublicKey {
@@ -211,19 +202,41 @@ struct MessagesView: View {
     }
     
     var body: some View {
-        VStack(spacing: 0) {
-            MessageListView(transactions: $transactions)
-            if ownToken == nil {
-                sendTokenNotification
-                    .padding(.horizontal)
-                    .padding(.top)
+        ZStack {
+            VStack(spacing: 0) {
+                MessageListView(transactions: $transactions)
+                if ownToken == nil {
+                    sendTokenNotification
+                        .padding(.horizontal)
+                        .padding(.top)
+                }
+                if partnerToken == nil {
+                    noPartnerTokenNotification
+                        .padding(.horizontal)
+                        .padding(.top)
+                }
+                contentField
             }
-            if partnerToken == nil {
-                noPartnerTokenNotification
-                    .padding(.horizontal)
-                    .padding(.top)
+            if let d = dataToSend {
+                BlurView(style: .light).frame(maxWidth: .infinity, maxHeight: .infinity)
+                TransactionCreationView(data: d.data, receiver: chat.partnerPublicKey) { transaction in
+                    dataToSend = nil
+                    try? persistence.transactions.insert(object: transaction)
+                    refreshLocally()
+                    // Send a notification if the partner's token is known
+                    if let partnerToken = partnerToken {
+                        NotificationRequest(
+                            to: partnerToken,
+                            notification: .newMessage,
+                            data: nil
+                        ).send { error in
+                            if let error = error {
+                                print("Notification request send failed with error: \(error)")
+                            }
+                        }
+                    }
+                }
             }
-            contentField
         }
         .navigationBarItems(
             trailing: Link(destination: url) {

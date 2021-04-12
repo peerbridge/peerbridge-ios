@@ -2,7 +2,7 @@
 import Foundation
 
 
-struct TokenMessage: TransactionMessage {
+struct TokenMessage: Message {
     let typeIdentifier: String
     let token: NotificationToken
     

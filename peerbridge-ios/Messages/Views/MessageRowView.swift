@@ -32,9 +32,12 @@ public struct MessageRowView: View {
     @State private var messageDescription: String? = nil
     
     func decryptMessage() {
-        // TODO: actually decrypt message
         guard let data = transaction.data else {
-            messageDescription = "No data in this message"
+            if transaction.balance > 0 {
+                messageDescription = "Cryptocurrency Transfer"
+            } else {
+                messageDescription = "Empty Message"
+            }
             return
         }
 
@@ -133,6 +136,10 @@ public struct MessageRowView: View {
                     if let description = messageDescription {
                         Text(description)
                             .lineLimit(nil)
+                    }
+                    if transaction.balance > 0 {
+                        Text("Sent \(transaction.balance) 🪙")
+                            .padding(.top, 2)
                     }
                 }
                 .padding()

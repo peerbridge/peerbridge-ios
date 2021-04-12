@@ -12,6 +12,7 @@ struct PairingView: View {
             url == nil
         else { return }
         url = "peerbridge://pair?publicKey=\(auth.keyPair.publicKey)"
+        print("Our public key: \(auth.keyPair.publicKey)")
     }
     
     var body: some View {

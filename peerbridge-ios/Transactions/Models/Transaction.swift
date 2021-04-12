@@ -86,7 +86,7 @@ public class TransactionRepository: Repository, ObservableObject {
             builder.column(Expression<String>("receiver"))
             builder.column(Expression<Int>("balance"))
             builder.column(Expression<Int>("timeUnixNano"))
-            builder.column(Expression<Data>("data"))
+            builder.column(Expression<Data?>("data"))
             builder.column(Expression<Int>("fee"))
             builder.column(Expression<String>("signature"))
         })

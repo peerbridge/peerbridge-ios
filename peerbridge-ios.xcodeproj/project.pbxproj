@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		68F02BDF3F166BADC3BBF9BA /* Pods_peerbridge_ios.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E09144D9EEA82A9C48652C8D /* Pods_peerbridge_ios.framework */; };
+		BE08C5EA2624343E00827791 /* TransactionCreationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE08C5E92624343E00827791 /* TransactionCreationView.swift */; };
 		BE10D35C2524E8EC00802BF2 /* MessageRowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE10D35B2524E8EC00802BF2 /* MessageRowView.swift */; };
 		BE119DFD2523692F00041870 /* ChatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119DFC2523692F00041870 /* ChatsView.swift */; };
 		BE119E04252369CB00041870 /* IdentificationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE119E03252369CA00041870 /* IdentificationView.swift */; };
@@ -59,6 +60,7 @@
 		42DDF24887B44FB8EAB17C1E /* Pods-peerbridge-ios.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios.release.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios/Pods-peerbridge-ios.release.xcconfig"; sourceTree = "<group>"; };
 		805CCD9CD754B25F65F15C87 /* Pods_peerbridge_ios_tests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_peerbridge_ios_tests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		AC3A0DB6789F59835E753D00 /* Pods-peerbridge-ios-tests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-peerbridge-ios-tests.release.xcconfig"; path = "Target Support Files/Pods-peerbridge-ios-tests/Pods-peerbridge-ios-tests.release.xcconfig"; sourceTree = "<group>"; };
+		BE08C5E92624343E00827791 /* TransactionCreationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionCreationView.swift; sourceTree = "<group>"; };
 		BE10D35B2524E8EC00802BF2 /* MessageRowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageRowView.swift; sourceTree = "<group>"; };
 		BE119DFC2523692F00041870 /* ChatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatsView.swift; sourceTree = "<group>"; };
 		BE119E03252369CA00041870 /* IdentificationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentificationView.swift; sourceTree = "<group>"; };
@@ -229,6 +231,14 @@
 				AC3A0DB6789F59835E753D00 /* Pods-peerbridge-ios-tests.release.xcconfig */,
 			);
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		BE08C5E82624342700827791 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				BE08C5E92624343E00827791 /* TransactionCreationView.swift */,
+			);
+			path = Views;
 			sourceTree = "<group>";
 		};
 		BE119DFA2523690500041870 /* Persistence */ = {
@@ -602,6 +612,7 @@
 		BE85BAC5249CA8800035FC83 /* Transactions */ = {
 			isa = PBXGroup;
 			children = (
+				BE08C5E82624342700827791 /* Views */,
 				BE119DFA2523690500041870 /* Persistence */,
 				BEBE7CCF251DE72E001B3BF8 /* Networking */,
 				BEBE7CCD251DE708001B3BF8 /* Models */,
@@ -798,6 +809,7 @@
 				BE119E1A252382D400041870 /* Chat.swift in Sources */,
 				BE5C69D6252DE74400480447 /* NotificationToken.swift in Sources */,
 				BECB086A25236316001A453A /* Repository.swift in Sources */,
+				BE08C5EA2624343E00827791 /* TransactionCreationView.swift in Sources */,
 				BE316C2B2530810C0015DD44 /* AppDelegate.swift in Sources */,
 				BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */,
 				BE5C69D2252DE72100480447 /* NotificationRequest.swift in Sources */,
@@ -946,7 +958,7 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
@@ -975,7 +987,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -995,7 +1007,7 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 7;
+				CURRENT_PROJECT_VERSION = 8;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
@@ -1024,7 +1036,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.5;
+				MARKETING_VERSION = 1.6;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge CI Profile";

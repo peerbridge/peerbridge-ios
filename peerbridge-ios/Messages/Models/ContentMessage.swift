@@ -2,7 +2,7 @@
 import Foundation
 
 
-struct ContentMessage: TransactionMessage {
+struct ContentMessage: Message {
     let typeIdentifier: String
     let content: String
     
