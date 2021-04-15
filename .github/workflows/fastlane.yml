@@ -5,8 +5,8 @@ name: Build, Test and Distribute App via Fastlane
 
 on:
   push:
-    branches: 
-      - master
+    tags:
+      - v*
 
 jobs:
   main:
