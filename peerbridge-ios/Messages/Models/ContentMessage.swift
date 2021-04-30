@@ -3,11 +3,11 @@ import Foundation
 
 
 struct ContentMessage: Message {
-    let typeIdentifier: String
+    let type: String
     let content: String
     
     init(content: String) {
-        self.typeIdentifier = "content"
+        self.type = "content"
         self.content = content
     }
     
