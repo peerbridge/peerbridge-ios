@@ -3,11 +3,11 @@ import Foundation
 
 
 struct TokenMessage: Message {
-    let typeIdentifier: String
+    let type: String
     let token: NotificationToken
     
     init(token: NotificationToken) {
-        self.typeIdentifier = "token"
+        self.type = "token"
         self.token = token
     }
     
