@@ -251,6 +251,7 @@ struct TransactionCreationView: View {
     }
 }
 
+#if DEBUG
 struct TransactionCreationView_Previews: PreviewProvider {
     static var previews: some View {
         TransactionCreationView(
@@ -259,3 +260,4 @@ struct TransactionCreationView_Previews: PreviewProvider {
         ){ _ in }.environmentObject(AuthenticationEnvironment.random())
     }
 }
+#endif
