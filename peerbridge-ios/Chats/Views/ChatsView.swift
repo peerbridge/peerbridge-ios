@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftyRSA
 
 
 struct ChatsView: View {
@@ -9,6 +8,9 @@ struct ChatsView: View {
     let publisher = NotificationCenter.default.publisher(for: .newRemoteMessage)
         
     @State var chats: [Chat] = []
+
+    @State var isFetchingTransactions = false
+    @AppStorage("last-txn-fetch") var lastTransactionFetch = Date()
     
     func handleURL(url: URL) {
         guard
@@ -44,18 +46,20 @@ struct ChatsView: View {
     }
     
     func fetchTransactions() {
+        isFetchingTransactions = true
         TransactionEndpoint.getAccountTransactions(
             ownPublicKey: auth.keyPair.publicKey
         ) { result in
+            isFetchingTransactions = false
             switch result {
             case .failure(let error):
                 UINotificationFeedbackGenerator().notificationOccurred(.error)
                 print("Update Transactions failed: \(error)")
             case .success(let response):
-                UINotificationFeedbackGenerator().notificationOccurred(.success)
                 guard let txns = response.transactions else { return }
                 persistence.transactions.update(transactions: txns)
-                
+                lastTransactionFetch = Date()
+                UINotificationFeedbackGenerator().notificationOccurred(.success)
                 loadChats()
             }
         }
@@ -63,7 +67,10 @@ struct ChatsView: View {
     
     var body: some View {
         NavigationView {
-            VStack {
+            VStack(alignment: .leading) {
+                Text("Last updated \(lastTransactionFetch, style: .relative) ago")
+                    .foregroundColor(.gray)
+                    .padding(.horizontal)
                 ScrollView {
                     LazyVStack {
                         ForEach(chats, id: \.self) { chat in
@@ -78,7 +85,11 @@ struct ChatsView: View {
             .navigationBarItems(
                 leading: Button(action: fetchTransactions) {
                     HStack {
-                        Image(systemName: "arrow.clockwise")
+                        if isFetchingTransactions {
+                            ProgressView()
+                        } else {
+                            Image(systemName: "arrow.clockwise")
+                        }
                         Text("Update")
                     }
                 },

@@ -163,9 +163,8 @@ public final class Authenticator {
         var publicKeyBytes = [UInt8](repeating: 0, count: 33)
 
         var privateKeyData = Data(count: 32)
-        let result = privateKeyData.withUnsafeMutableBytes {
-            (mutableBytes: UnsafeMutablePointer<UInt8>) -> Int32 in
-            SecRandomCopyBytes(kSecRandomDefault, 32, mutableBytes)
+        let result = privateKeyData.withUnsafeMutableBytes { pointer in
+            SecRandomCopyBytes(kSecRandomDefault, 32, pointer.baseAddress!)
         }
         guard result == errSecSuccess else {
             fatalError()
@@ -173,11 +172,14 @@ public final class Authenticator {
         let privateKeyBytes = [UInt8](privateKeyData)
 
         // Verify the context and keys are setup correctly
-        guard secp256k1_context_randomize(context, privateKeyBytes) == 1,
+        guard
+            secp256k1_context_randomize(context, privateKeyBytes) == 1,
             secp256k1_ec_pubkey_create(context, &cPubkey, privateKeyBytes) == 1,
-            secp256k1_ec_pubkey_serialize(context, &publicKeyBytes, &pubkeyLen, &cPubkey, UInt32(SECP256K1_EC_COMPRESSED)) == 1 else {
-            fatalError()
-        }
+            secp256k1_ec_pubkey_serialize(
+                context, &publicKeyBytes, &pubkeyLen,
+                &cPubkey, UInt32(SECP256K1_EC_COMPRESSED)
+            ) == 1
+        else { fatalError() }
 
         return .init(pub: publicKeyBytes, priv: privateKeyBytes)
     }
@@ -212,13 +214,16 @@ public final class Authenticator {
     }
     
     public static func loadPrivateKey(for publicKey: String) throws -> String {
+        let context = LAContext()
+        context.localizedReason = "Access your secp256k1 private key from the keychain"
+
         let query: [CFString: Any] = [
             kSecClass: kSecClassGenericPassword,
             kSecAttrAccount: publicKey,
             kSecAttrService: "com.peerbridge.keys.secp256k1.privkey",
             kSecMatchLimit: kSecMatchLimitOne,
             kSecReturnAttributes: true,
-            kSecUseOperationPrompt: "Access your secp256k1 private key from the keychain",
+            kSecUseAuthenticationContext: context,
             kSecReturnData: true
         ]
         

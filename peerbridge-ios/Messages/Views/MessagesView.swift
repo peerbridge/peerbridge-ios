@@ -1,5 +1,4 @@
 import SwiftUI
-import SwiftyRSA
 import Firebase
 
 
@@ -167,7 +166,7 @@ struct MessagesView: View {
             .padding(4)
         }
         .padding()
-        .background(Color.white)
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(12)
         .shadow(
             color: Color.black.opacity(0.1),
@@ -189,7 +188,7 @@ struct MessagesView: View {
             .padding(4)
         }
         .padding()
-        .background(Color.white)
+        .background(Color(UIColor.systemBackground))
         .cornerRadius(12)
         .shadow(
             color: Color.black.opacity(0.1),
@@ -221,6 +220,8 @@ struct MessagesView: View {
                 BlurView(style: .light).frame(maxWidth: .infinity, maxHeight: .infinity)
                 TransactionCreationView(data: d.data, receiver: chat.partnerPublicKey) { transaction in
                     dataToSend = nil
+                    guard let transaction = transaction else { return }
+                    content = ""
                     try? persistence.transactions.insert(object: transaction)
                     refreshLocally()
                     // Send a notification if the partner's token is known
@@ -247,7 +248,7 @@ struct MessagesView: View {
                 }
             }
         )
-        .navigationTitle("Messages")
+        .navigationBarTitle("Messages", displayMode: .inline)
         .onReceive(publisher, perform: { _ in
             refreshFromRemote()
         })

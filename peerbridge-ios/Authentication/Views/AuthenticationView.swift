@@ -1,7 +1,6 @@
 import Foundation
 import LocalAuthentication
 import SwiftUI
-import SwiftyRSA
 
 
 class AuthenticationEnvironment: ObservableObject {
@@ -11,6 +10,16 @@ class AuthenticationEnvironment: ObservableObject {
         self.keyPair = keyPair
     }
 }
+
+
+#if DEBUG
+extension AuthenticationEnvironment {
+    /// Generate a random new auth environment for debugging.
+    static func random() -> AuthenticationEnvironment {
+        .init(keyPair: Authenticator.newKeyPair())
+    }
+}
+#endif
 
 
 struct AuthenticationView: View {

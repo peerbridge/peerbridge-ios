@@ -35,7 +35,7 @@ private struct CardView<Content>: View where Content: View {
             if let blurEffect = blurEffect {
                 BlurView(style: blurEffect)
             } else {
-                Color.white
+                Color(UIColor.systemBackground)
             }
         }
     }
@@ -66,7 +66,7 @@ private class NumbersOnly: ObservableObject {
 struct TransactionCreationView: View {
     let data: Data
     let receiver: String
-    let onCreate: (Transaction) -> Void
+    let onCreate: (Transaction?) -> Void
 
     @EnvironmentObject var auth: AuthenticationEnvironment
 
@@ -122,9 +122,8 @@ struct TransactionCreationView: View {
         state = .creating
 
         var idData = Data(count: 32)
-        let result = idData.withUnsafeMutableBytes {
-            (mutableBytes: UnsafeMutablePointer<UInt8>) -> Int32 in
-            SecRandomCopyBytes(kSecRandomDefault, 32, mutableBytes)
+        let result = idData.withUnsafeMutableBytes { pointer in
+            SecRandomCopyBytes(kSecRandomDefault, 32, pointer.baseAddress!)
         }
 
         guard result == errSecSuccess else { return }
@@ -157,6 +156,10 @@ struct TransactionCreationView: View {
         } catch { print(error) }
     }
 
+    func cancelTransaction() {
+        onCreate(nil)
+    }
+
     var inputCard: some View {
         CardView {
             VStack(alignment: .leading) {
@@ -184,6 +187,17 @@ struct TransactionCreationView: View {
                     .foregroundColor(.white)
                     .padding()
                     .background(Color.blue)
+                    .cornerRadius(12)
+                }
+                Button(action: cancelTransaction) {
+                    HStack {
+                        Spacer()
+                        Text("Cancel")
+                        Spacer()
+                    }
+                    .foregroundColor(.white)
+                    .padding()
+                    .background(Color.gray)
                     .cornerRadius(12)
                 }
             }
@@ -242,9 +256,6 @@ struct TransactionCreationView_Previews: PreviewProvider {
         TransactionCreationView(
             data: Data(),
             receiver: "0372689db204d56d9bb7122497eef4732cce308b73f3923fc076aed3c2dfa4ad04"
-        ){_ in}.environmentObject(AuthenticationEnvironment(keyPair: .init(
-            pub: "0372689db204d56d9bb7122497eef4732cce308b73f3923fc076aed3c2dfa4ad04",
-            priv: "eba4f82788edb8e464920293ff06605484bef87561880e44b6e4902f27e6d6ca"
-        )))
+        ){ _ in }.environmentObject(AuthenticationEnvironment.random())
     }
 }

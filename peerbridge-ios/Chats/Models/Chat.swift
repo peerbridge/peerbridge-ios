@@ -1,5 +1,4 @@
 import Foundation
-import SwiftyRSA 
 
 
 struct Chat: Codable, Hashable, Equatable, Identifiable {

@@ -12,16 +12,22 @@ struct MessageListView: View {
     
     var body: some View {
         ScrollView {
-            LazyVStack {
-                ForEach(0 ..< transactions.count, id: \.self) { i in
-                    MessageRowView(
-                        transaction: transactions[i],
-                        previous: transactions[optional: i - 1],
-                        next: transactions[optional: i + 1]
-                    )
+            ScrollViewReader { scrollViewReader in
+                LazyVStack {
+                    ForEach(0 ..< transactions.endIndex, id: \.self) { i in
+                        MessageRowView(
+                            transaction: transactions[i],
+                            previous: transactions[optional: i - 1],
+                            next: transactions[optional: i + 1]
+                        )
+                        .tag(i)
+                    }
                 }
+                .onChange(of: transactions, perform: { value in
+                    scrollViewReader.scrollTo(transactions.endIndex - 1, anchor: .bottom)
+                })
+                .padding(.vertical)
             }
-            .padding(.vertical)
         }
     }
 }

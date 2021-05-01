@@ -59,12 +59,12 @@ struct ChatRowView: View {
                     Spacer()
                     if let lastTransaction = chat.lastTransaction {
                         Text(lastTransaction.time, style: .relative)
-                            .foregroundColor(Color.black.opacity(0.7))
+                            .foregroundColor(Color("Foreground").opacity(0.7))
                     }
                 }
                 if let description = messageDescription {
                     Text(description)
-                        .foregroundColor(Color.black.opacity(0.7))
+                        .foregroundColor(Color("Foreground").opacity(0.7))
                         .lineLimit(3)
                 }
             }
@@ -74,7 +74,7 @@ struct ChatRowView: View {
         .padding()
         .background(
             RoundedRectangle(cornerRadius: 12)
-                .foregroundColor(.white)
+                .foregroundColor(Color("Background"))
                 .shadow(color: Color.black.opacity(0.1), radius: 12, x: 0, y: 4)
         )
         .padding(.horizontal)

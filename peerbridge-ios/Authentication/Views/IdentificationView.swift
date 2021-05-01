@@ -1,12 +1,34 @@
 import SwiftUI
 import CryptoKit
 
+fileprivate func randomColor(seed: String) -> UIColor {
+    var total: Int = 0
+    for u in seed.unicodeScalars {
+        total += Int(UInt32(u))
+    }
+
+    srand48(total * 200)
+    let r = CGFloat(drand48())
+
+    srand48(total)
+    let g = CGFloat(drand48())
+
+    srand48(total / 200)
+    let b = CGFloat(drand48())
+
+    return UIColor(red: r, green: g, blue: b, alpha: 1)
+}
 
 struct IdentificationView: View {
     let key: String
+    let color: Color
     
     @State var grid: [[Double]] = []
-    @State var color: Color = .blue
+
+    init(key: String) {
+        self.key = key
+        self.color = Color(randomColor(seed: key))
+    }
     
     func generateGrid() {
         guard
@@ -42,7 +64,7 @@ struct IdentificationView_Previews: PreviewProvider {
     static var previews: some View {
         VStack {
             Spacer()
-            IdentificationView(key: "0372689db204d56d9bb7122497eef4732cce308b73f3923fc076aed3c2dfa4ad04")
+            IdentificationView(key: AuthenticationEnvironment.random().keyPair.publicKey)
                 .frame(width: 100, height: 100)
             Spacer()
             IdentificationView(key: "03f1f2fbd80b49b8ffc8194ac0a0e0b7cf0c7e21bca2482c5fba7adf67db41dec5")

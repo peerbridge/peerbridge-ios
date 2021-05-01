@@ -108,7 +108,7 @@ public struct MessageRowView: View {
                     endPoint: .topTrailing
                 )
             } else {
-                Color.white
+                Color("Background")
             }
         }
     }
@@ -126,12 +126,19 @@ public struct MessageRowView: View {
 
                 VStack(alignment: isOwnMessage ? .trailing : .leading) {
                     HStack {
+                        if isOwnMessage {
+                            Spacer()
+                        }
                         Text(transaction.time, style: .relative)
                             .font(.caption2)
                         Image(systemName: "lock")
                             .resizable()
                             .frame(width: 8, height: 10)
+                        if !isOwnMessage {
+                            Spacer()
+                        }
                     }
+                    .frame(width: 128)
                     .padding(.bottom, 2)
                     if let description = messageDescription {
                         Text(description)
@@ -143,10 +150,8 @@ public struct MessageRowView: View {
                     }
                 }
                 .padding()
-                .foregroundColor(
-                    isOwnMessage ? Color.white : Color.black
-                )
                 .background(background)
+                .foregroundColor(isOwnMessage ? Color.white : Color("Foreground"))
                 .cornerRadius(12, corners: roundedCorners)
                 .shadow(
                     color: Color.black.opacity(0.1),

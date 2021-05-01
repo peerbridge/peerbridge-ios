@@ -33,6 +33,7 @@
 		BE64F4CE252493C900CFC23F /* PairingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4CD252493C900CFC23F /* PairingView.swift */; };
 		BE64F4D22524A2E000CFC23F /* QRCodeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4D12524A2E000CFC23F /* QRCodeView.swift */; };
 		BE64F4E02524C25300CFC23F /* MessagesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE64F4DF2524C25300CFC23F /* MessagesView.swift */; };
+		BE879459263D87E20011A806 /* Date+RawRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE879458263D87E20011A806 /* Date+RawRepresentable.swift */; };
 		BE9B01EF252CBC0C008E24D5 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */; };
 		BEBE7CC1251DE40B001B3BF8 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */; };
 		BECB086A25236316001A453A /* Repository.swift in Sources */ = {isa = PBXBuildFile; fileRef = BECB086925236316001A453A /* Repository.swift */; };
@@ -189,6 +190,7 @@
 		BE64F4CD252493C900CFC23F /* PairingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PairingView.swift; sourceTree = "<group>"; };
 		BE64F4D12524A2E000CFC23F /* QRCodeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QRCodeView.swift; sourceTree = "<group>"; };
 		BE64F4DF2524C25300CFC23F /* MessagesView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessagesView.swift; sourceTree = "<group>"; };
+		BE879458263D87E20011A806 /* Date+RawRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+RawRepresentable.swift"; sourceTree = "<group>"; };
 		BE9B01EE252CBC0C008E24D5 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BEBE7CC0251DE40B001B3BF8 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
 		BEC190C82527585B005A3E42 /* peerbridge-ios.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "peerbridge-ios.entitlements"; sourceTree = "<group>"; };
@@ -302,6 +304,7 @@
 				BEF1DCEC252F5F7D00D5830C /* Styles.swift */,
 				BE119E232524466900041870 /* PeerbridgeApp.swift */,
 				BE316C2A2530810C0015DD44 /* AppDelegate.swift */,
+				BE879456263D87CB0011A806 /* Common */,
 				BE64F4DE2524C24300CFC23F /* Messages */,
 				BE64F4CB2524938100CFC23F /* Pairing */,
 				BE119DFB2523691500041870 /* Chats */,
@@ -620,6 +623,22 @@
 			path = Transactions;
 			sourceTree = "<group>";
 		};
+		BE879456263D87CB0011A806 /* Common */ = {
+			isa = PBXGroup;
+			children = (
+				BE879457263D87D40011A806 /* Extensions */,
+			);
+			path = Common;
+			sourceTree = "<group>";
+		};
+		BE879457263D87D40011A806 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				BE879458263D87E20011A806 /* Date+RawRepresentable.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		BEBE7CC4251DE45E001B3BF8 /* Authentication */ = {
 			isa = PBXGroup;
 			children = (
@@ -794,6 +813,7 @@
 				BE10D35C2524E8EC00802BF2 /* MessageRowView.swift in Sources */,
 				BEE6C2B2261A149D006F517A /* Responses.swift in Sources */,
 				BEF1DCE9252F59EA00D5830C /* MessageListView.swift in Sources */,
+				BE879459263D87E20011A806 /* Date+RawRepresentable.swift in Sources */,
 				BE316C35253082420015DD44 /* Message.swift in Sources */,
 				BE316C25253080630015DD44 /* TokenMessage.swift in Sources */,
 				BE119E242524466900041870 /* PeerbridgeApp.swift in Sources */,
@@ -958,10 +978,12 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
@@ -987,7 +1009,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1007,10 +1029,12 @@
 				CODE_SIGN_ENTITLEMENTS = "peerbridge-ios/peerbridge-ios.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Distribution: Philipp Matthes (S36925NV4E)";
 				CODE_SIGN_STYLE = Manual;
-				CURRENT_PROJECT_VERSION = 11;
+				CURRENT_PROJECT_VERSION = 12;
 				DEVELOPMENT_ASSET_PATHS = "\"peerbridge-ios/Preview Content\"";
 				DEVELOPMENT_TEAM = S36925NV4E;
 				ENABLE_PREVIEWS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = NO;
+				GCC_WARN_UNUSED_FUNCTION = NO;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
 					"\"${PODS_CONFIGURATION_BUILD_DIR}/FirebaseCore/FirebaseCore.framework/Headers\"",
@@ -1036,7 +1060,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.peerbridge.ios;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "Peerbridge CI Profile";

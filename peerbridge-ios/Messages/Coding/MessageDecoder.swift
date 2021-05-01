@@ -3,11 +3,7 @@ import Foundation
 
 
 public class MessageDecoder {
-    private let decoder: JSONDecoder
-    
-    public init() {
-        self.decoder = JSONDecoder()
-    }
+    private let decoder = JSONDecoder()
     
     public func decode(from data: Data) -> Message? {
         if let content = try? decoder.decode(ContentMessage.self, from: data) {
